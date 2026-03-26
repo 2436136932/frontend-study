@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>兄弟选择器</title>
+    <style>
+        h2+p {
+            color: red;
+        }
+        h3~p {
+            color: blue;
+        }
+        .brother+li {
+            color: pink;
+        }
+    </style>
+</head>
+<body>
+    <h1>兄弟选择器</h1>
+    <div>
+        <h2>我是h2标题</h2>
+        <p>兄弟啊，想你了</p>
+        <p>兄弟啊，想你了</p>
+        <p>兄弟啊，想你了</p>
+        <h3>我是h3标题</h3>
+        <p>兄弟啊，想你了</p>
+        <p>兄弟啊，想你了</p>
+        <p>兄弟啊，想你了</p>
+    </div>
+    <ul>
+        <li>我是ul的第一个li</li>
+        <li>我是ul的第二个li</li>
+        <li class="brother">我是ul的第三个li</li>
+        <li>我是ul的第四个li</li>
+        <li>我是ul的第五个li</li>
+    </ul>
+</body>
+</html>

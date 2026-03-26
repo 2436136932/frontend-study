@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结构伪类选择器</title>
+    <style>
+        .ul1 li:first-child{
+            color: red;
+        }
+        .ul1 li:last-child{
+            color: blue;
+        }
+        .ul1 li:nth-child(3n){
+            color: green;
+        }
+        .ul1 li:nth-child(n+8){
+            background-color: rgba(187, 255, 0, 0.3);
+        }
+        /* 奇数 */
+        .ul2 li:nth-child(odd){
+            color: rgba(255, 0, 0, 0.5);
+        }
+        /* 偶数 */
+        .ul2 li:nth-child(even){
+            color: rgba(0, 140, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <ul class="ul1">
+        <li>这是第1个li</li>
+        <li>这是第2个li</li>
+        <li>这是第3个li</li>
+        <li>这是第4个li</li>
+        <li>这是第5个li</li>
+        <li>这是第6个li</li>
+        <li>这是第7个li</li>
+        <li>这是第8个li</li>
+        <li>这是第9个li</li>
+        <li>这是第10个li</li>
+    </ul>
+    <ul class="ul2">
+        <li>这是第1个li</li>
+        <li>这是第2个li</li>
+        <li>这是第3个li</li>
+        <li>这是第4个li</li>
+        <li>这是第5个li</li>
+        <li>这是第6个li</li>
+        <li>这是第7个li</li>
+        <li>这是第8个li</li>
+        <li>这是第9个li</li>
+        <li>这是第10个li</li>
+    </ul>
+</body>
+</html>

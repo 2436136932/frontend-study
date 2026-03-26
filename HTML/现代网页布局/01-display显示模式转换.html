@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>01-display显示模式转换</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ul,
+        ol,
+        li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+        .box1 {
+            width: 234px;
+            height: 460px;
+            background-color: rgb(167, 164, 164);
+            margin: 100px auto;
+            padding: 20px 0;
+            font-size: 16px;
+            /* border-radius: 10px; */
+        }
+        .box1 a {
+            display: block;
+            height: 42px;
+            line-height: 42px;
+            padding-left: 20px;
+            transition: all 0.3s;
+            color: #fff;
+        }
+        .box1 a:hover {
+            background-color: rgb(255, 153, 0);
+        }
+
+        .list {
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+            margin: 0 auto;
+        }
+        .list a {
+            display: inline-block;
+            border-radius: 5px;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 10px;
+            margin: 2px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ccc;
+        }
+
+        .box2 {
+            font-size: 0px;
+            width: fit-content;
+            margin: 0 auto;
+        }
+        .box2 li {
+            display: inline-block;
+            width: 200px;
+            height: 300px;
+            background-color: pink;
+            font-size: 14px;
+            border-radius: 10px;
+            margin: 2px;
+            
+            transition: all 0.3s;
+        }
+        .box2 li:hover {
+            background-color: rgb(255, 153, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="box1">
+        <ul>
+            <li><a href="">手机</a></li>
+            <li><a href="">平板</a></li>
+            <li><a href="">笔记本</a></li>
+            <li><a href="">台式机</a></li>
+            <li><a href="">智能音箱</a></li>
+        </ul>
+    </div>
+    <div class="box2">
+        <ul>
+            <li>第一个元素</li>
+            <li>第二个元素</li>
+            <li>第三个元素</li>
+            <li>第四个元素</li>
+        </ul>
+    </div>
+    <div class="list">
+        <a href="">手机</a>
+        <a href="">平板</a>
+        <a href="">笔记本</a>
+        <a href="">台式机</a>
+        <a href="">智能音箱</a>
+    </div>
+</body>
+</html>

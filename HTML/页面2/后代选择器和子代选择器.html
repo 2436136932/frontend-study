@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后代选择器和子代选择器</title>
+    <style>
+        /* 后代选择器 */
+        div ul li a {
+            color: pink;
+            font-size: 50px;
+        }
+        .active a {
+            color: red;
+        }
+        div > .son { 
+            color: skyblue;
+        }
+    </style>
+</head>
+<body>
+<!-- 后代选择器 -->
+<div>
+    <ul>
+        <li><a href="#">第一个后代</a></li>
+        <li><a href="#">第二个后代</a></li>
+        <li><a href="#">第三个后代</a></li>
+    </ul>
+</div>
+<div>
+    <ol>
+        <li class="active"><a href="#">文本1</a></li>
+        <li><a href="#">文本2</a></li>
+        <li><a href="#">文本3</a></li>
+    </ol>
+</div>
+
+<!-- 子代选择器 -->
+<div>
+    <p>
+        <span>我是孙子</span>
+    </p>
+    <span class="son">我是儿子</span>
+</div>
+
+
+    
+</body>
+</html>

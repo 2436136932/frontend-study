@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改主轴方向自己写flex</title>
+    <link rel="stylesheet" href="./iconfont/sanlian/iconfont.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ul,
+        ol{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color: #333;
+        }
+        .sanlian a{
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* border: 1px solid #000; */
+            font-size: 18px;
+        }
+        .sanlian {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* .sanlian a:hover{
+            color: skyblue;
+        } */
+        .iconfont{
+            font-size: 36px;
+            color: #919090;
+        }
+       
+        
+    </style>
+</head>
+<body>
+    <div class="sanlian">
+        <a href="../综合案例/登高.html" target="_self">
+            <i class="iconfont icon-dianzan_kuai"></i>
+            <span>点赞</span>
+        </a>
+        <a href="#">
+            <i class="iconfont icon-toubix"></i>
+            <span>投币</span>
+        </a>
+        <a href="#">
+            <i class="iconfont icon-shoucang"></i>
+            <span>收藏</span>
+        </a>
+        <a href="#">
+            <i class="iconfont icon-fenxiang"></i>
+            <span>分享</span>
+        </a>
+    </div>
+</body>
+</html>

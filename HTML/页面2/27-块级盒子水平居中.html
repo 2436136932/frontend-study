@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>块级盒子水平居中</title>
+  <style>
+    [class^="box"] {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+    }
+
+    .box1 {
+      /* margin: 0 auto; B站 */
+      /* margin: auto; 京东 */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .box2 {
+      background-color: skyblue;
+      margin-left: auto;
+      text-align: center;
+    }
+
+    .box3 {
+      margin-right: auto;
+    }
+
+    /* span {
+      margin: auto;
+    } */
+    p {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1">
+    <p>margin: 0 auto;</p>
+    <p>margin: auto;</p>
+    <p>margin-left: auto;<br>
+      margin-right: auto;</p>
+  </div>
+  <div class="box2">margin-left: auto;</div>
+  <div class="box3">margin-right: auto;</div>
+  <p><span>123</span></p>
+</body>
+
+</html>

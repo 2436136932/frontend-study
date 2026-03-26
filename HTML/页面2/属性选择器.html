@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>属性选择器</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        /* 属性选择器 */
+        /* 选择包含属性选择器 */ 
+        a[class] {
+            color: red;
+        }
+        /* 选择属性值等于 完全等于 */
+        a[class="font3"] {
+            color: blue;
+        }
+        /* 选择属性值以**开头 */
+        a[class^="font"] {
+            color: pink;
+        }
+        /* 选择属性值以**结尾 */
+        a[class$="56"] {
+            color: orange;
+        }
+        /* 选择属性值包含**  */
+        a[class*="t5"] {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <a href="">属性选择器1</a><br>
+    <a href="" class="font2">属性选择器2</a><br>
+    <a href="" class="font3">属性选择器3</a><br>
+    <a href="" class="font4">属性选择器4</a><br>
+    <a href="" class="1234font56">属性选择器5</a><br>
+    <a href="" class="t5">属性选择器6</a><br>
+</body>
+</html>

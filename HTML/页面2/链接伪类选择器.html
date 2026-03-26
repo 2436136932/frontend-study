@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接伪类选择器</title>
+    <style>
+        /* 未访问链接默认样式 */
+        a:link{
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+        /* 已访问链接默认样式 */
+        a:visited{
+            color: rgb(255, 0, 0);
+            text-decoration: none;
+        }
+        /* 鼠标悬停链接默认样式 */
+        a:hover{
+            color: rgb(255, 255, 0);
+            text-decoration: underline;
+        }
+        /* 鼠标点击链接默认样式 */
+        a:active{
+            color: rgb(255, 0, 255);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="box1" id="box1">
+            <a href="../综合案例/登高.html" target="_self">链接</a>
+        </div>
+        <div class="box2">
+            <a href="https://www.baidu.com" target="_blank">跳转百度</a>
+        </div>
+        <div class="box3">
+            <a href="https://www.taobao.com" target="_blank">跳转淘宝</a>
+        </div>
+    </div>
+</body>
+</html>

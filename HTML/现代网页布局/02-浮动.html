@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浮动</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* box-sizing: border-box; */
+        }
+        ul,
+        ol,
+        li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+        .box {
+            width: 640px;
+            height: 420px;
+            margin: 100px auto;
+            border: 1px solid red;
+            /* border-radius: 10px; */
+        }
+        .box li {
+            float: left;
+            width: 200px;
+            height: 200px;
+            margin: 0 20px 20px 0;
+        }
+        .box li:nth-child(3n) {
+            margin-right: 0;
+        }
+        .box li:nth-child(2n) {
+            background-color: #ccc;
+        }
+        .box li:nth-child(2n-1) {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <ul>
+            <li>第一个盒子</li>
+            <li>第二个盒子</li>
+            <li>第三个盒子</li>
+            <li>第四个盒子</li>
+            <li>第五个盒子</li>
+            <li>第六个盒子</li>
+        </ul>
+    </div>
+</body>
+</html>

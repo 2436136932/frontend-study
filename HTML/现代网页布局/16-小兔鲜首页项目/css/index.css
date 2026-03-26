@@ -1,0 +1,264 @@
+.entry {
+    height: 500px;
+    background-color: #f5f5f5;
+}
+.entry .w {
+    position: relative;
+    height: 100%;
+    /* background: url(../uploads/banner1.png) no-repeat; */
+   }
+.category {
+    position: absolute;
+    z-index: 900;
+    width: 250px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.42);
+}
+.category li {
+    display: flex;
+    justify-content: space-between;/* 两端对齐 */
+    align-items: center;/* 垂直居中 */
+    padding: 0 12px 0 29px;
+    height: 50px;
+    transition: all 0.3s;
+}
+.category li:hover {
+    background-color: #5eb69c;
+}
+.category li a {
+    color: #fff;
+    font-size: 14px;
+    padding-right: 5px;
+}
+.category li a:nth-child(1) {
+    color: #fff;
+    font-size: 18px;
+    padding-right: 14px;
+}
+.category li i {
+    color: #fff;
+    font-size: 20px;
+}
+.banner {
+    position: relative;
+}
+.banner .circle {
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    right: 20px; 
+    gap: 15px;
+}
+.banner .circle li {
+    width: 14px;
+    height: 14px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%; 
+    transition: all 0.3s;
+}
+.banner .circle li:hover {
+    box-shadow: 0 0 0 5px #ccc;
+    background-color: #fff;
+}
+.banner .prev,
+.banner .next {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    margin-top: -20px;
+    /* transform: translateY(-50%); */
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    padding: 5px 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.banner .prev {
+    left: 250px;
+}
+.banner .next {
+    right: 0px;
+}
+
+
+
+/* 新鲜好物模块 */
+/* box-hd */
+.box-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px 0 30px;
+}
+.box-hd h2 {
+    font-size: 30px;
+    font-weight: 400;
+    color: #333;
+}
+.box-hd h2 small {
+    font-size: 16px;
+    font-weight: 400;
+    color: #a1a1a1;
+    padding: 35px;
+}
+
+/* box-bd */
+.box-bd ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.box-bd ul li {
+    width: 304px;
+    height: 404px;
+    background-color: #eef9f4;
+    text-align: center;
+}
+.box-bd ul li img {
+    width: 304px;
+    height: 304px;
+}
+.box-bd ul li h3 {
+    font-size: 20px;
+    margin: 18px 0 25px;
+    padding: 0 25px;
+    /*单行文字溢出省略号*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fresh .box-bd ul li p {
+    font-size: 22px;
+    text-align: center;
+    color: #aa2113;
+}
+.box-bd ul li small {
+    font-size: 16px;
+}
+
+/* 人气推荐模块 */
+.recommend .box-bd ul li {
+    background-color: #fff;
+}
+.recommend {
+    margin-bottom: 60px;
+}
+.recommend .box-bd ul li p {
+    font-size: 16px;
+    text-align: center;
+    color: #a1a1a1;
+}
+/* 热门品牌模块 */
+.hot {
+    margin-bottom: 40px;
+}
+.hot .box-bd ul li img {
+    width: 244px;
+    height: 306px;
+}
+.hot .box-bd ul li {
+    flex: 1;
+    width: 244px;
+    height: 306px;
+    background-color: #fff;
+}
+
+/* 服饰模块 */
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 102px;
+    margin-top: 10px;
+    /* background-color: pink; */
+}
+.head .header-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.head .header-right ul {
+    display: flex;
+    gap: 20px;
+}
+.head .header-right .more {
+    font-size: 16px;
+    margin-left: 65px;
+    color: #a1a1a1;
+}
+.head .header-right ul li a {
+    padding: 3px 8px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+.head .header-right ul li a:hover {
+    background-color: #00BE9A;
+    color: #fff;
+}
+.body {
+    display: flex;
+    justify-content: space-between;
+}
+.body .body-left {
+    width: 248px;
+    height: 610px;
+}
+.body .body-right {
+    width: 968px;
+    height: 610px;
+    /* background-color: pink; */
+}
+.body .body-right ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.body .body-right ul li {
+    width: 242px;
+    height: 305px;
+    /* background-color: skyblue; */
+    padding: 10px 21px 0;
+   }
+.body .body-right ul li a {
+    display: block;
+    line-height: 19px;
+}
+.body .body-right .title {
+    font-size: 16px;
+}
+.body .body-right .price {
+    font-size: 22px;
+    margin-top: 12px;
+    color: #AF2F22;
+}
+.body .body-right .small {
+    font-size: 16px;
+}
+
+/* 最新专题模块 */
+.news {
+    margin: 40px 0 60px;
+}
+.news ul {
+    display: flex;
+    gap: 12px;
+}
+.news ul li {
+    flex: 1;
+    height: 355px;
+}
+.news .con {
+    height: 67px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    font-size: 14px;
+    color: #666666;
+}
+.news .con .like {
+    margin-right: 20px;
+}

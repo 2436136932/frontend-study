@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单</title>
+    <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <h1>表单</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#列表标签-无序列表">列表标签-无序列表</a></li>
+            <li><a href="#列表标签-有序列表">列表标签-有序列表</a></li>
+            <li><a href="#列表标签-描述列表">列表标签-描述列表</a></li>
+        </ul>
+    </nav>
+    <main>
+        <aside>
+            <h3>表单元素</h3>
+            <ul>
+                <li><a href="#文本输入框">文本输入框</a></li>
+                <li><a href="#密码输入框">密码输入框</a></li>
+                <li><a href="#单选框">单选框</a></li>
+                <li><a href="#复选框">复选框</a></li>
+                <li><a href="#下拉列表框">下拉列表框</a></li>
+                <li><a href="#文本域">文本域</a></li>
+                <li><a href="#登录按钮">登录按钮</a></li>
+                <li><a href="#重置按钮">重置按钮</a></li>
+            </ul>
+        </aside>
+        <article>
+            <section>
+                <h2 id="列表标签-无序列表">列表标签-无序列表</h2>
+                <ul>
+                    <li>列表项1</li>
+                    <li>列表项2</li>    
+                    <li>列表项3</li>
+                </ul>
+            </section>
+            <section>
+                <h2 id="列表标签-有序列表">列表标签-有序列表</h2>
+                <ol>
+                    <li>列表项1</li>
+                    <li>列表项2</li>    
+                    <li>列表项3</li>
+                </ol>
+            </section>
+            <section>
+                <h2 id="列表标签-描述列表">列表标签-描述列表</h2>
+                <dl>
+                    <dt>定义项1</dt>
+                    <dd>定义描述1</dd>
+                    <dt>定义项2</dt>
+                    <dd>定义描述2</dd>
+                    <dt>定义项3</dt>
+                    <dd>定义描述3</dd>
+                </dl>
+            </section>
+            <section>
+                <table border="1">
+                    <caption>表单元素</caption>
+                    <tr>
+                        <th>姓名</th>
+                        <th>年龄</th>
+                    </tr>
+                    <tr>
+                        <td>张三</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>李四</td>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <td>王五</td>
+                        <td>22</td>
+                    </tr>
+                </table>
+            </section>
+            <section>
+                <form action="">
+                <input type="text" placeholder="请输入姓名" name="username" autocomplete="off" required id="username"><br>
+                <input type="password" placeholder="请输入密码" name="password" autocomplete="off" required><br>
+                单选框：
+                <!-- label标签使用1：for   id 属性一致 -->
+                <input type="radio" name="gender" value="male" id="male" checked>
+                <label for="male">男</label>
+                <input type="radio" name="gender" value="female" id="female">
+                <label for="female">女</label><br>
+                复选框：
+                <!-- label标签使用2：label嵌套input标签 -->
+                <label>
+                    <input type="checkbox" name="hobby" value="reading">阅读
+                </label>
+                <label>
+                    <input type="checkbox" name="hobby" value="sports">运动
+                </label>
+                <label>
+                    <input type="checkbox" name="hobby" value="music">音乐
+                </label>
+                <label>
+                    <input type="checkbox" name="hobby" value="game">游戏
+                </label>
+                <label>
+                    <input type="checkbox" name="hobby" value="travel">旅游
+                </label><br>
+                头像上传：
+                <input type="file" name="avatar" accept=".png,.jpg,.jpeg,.gif,.bmp,.svg"><br>
+                下拉列表框选择城市:
+                <select name="city" id="">
+                    <option value="beijing">北京</option>
+                    <option value="hefei" selected>合肥</option>
+                    <option value="guangzhou">广州</option>
+                    <option value="shenzhen">深圳</option>
+                    <option value="chongqing">重庆</option>
+                </select><br>
+                文本域：
+                <textarea name="message" id="message" cols="30" rows="10" placeholder="请输入留言"></textarea><br>
+                <button type="submit" disabled>登录</button><br>
+                <button type="reset">重置</button>
+                </form>
+            </section>
+    </article>
+    </main>
+    
+</body>
+</html>

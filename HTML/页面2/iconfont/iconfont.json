@@ -1,0 +1,184 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "42905918",
+      "name": "更多萌宠",
+      "font_class": "gengduomengchong",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "42905919",
+      "name": "仓鼠",
+      "font_class": "cangshu",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "42905920",
+      "name": "柴犬",
+      "font_class": "chaiquan",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "42905921",
+      "name": "布偶猫",
+      "font_class": "buoumao",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "42905922",
+      "name": "更多犬种",
+      "font_class": "gengduoquanzhong",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "42905923",
+      "name": "藏獒",
+      "font_class": "cangao",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "42905924",
+      "name": "边牧",
+      "font_class": "bianmu",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "42905925",
+      "name": "法斗",
+      "font_class": "fadou",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "42905926",
+      "name": "哈士奇",
+      "font_class": "hashiqi",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "42905927",
+      "name": "荷兰猪",
+      "font_class": "helanzhu",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "42905928",
+      "name": "可达鸭",
+      "font_class": "kedaya",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "42905929",
+      "name": "橘猫",
+      "font_class": "jumao",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "42905930",
+      "name": "更多猫宠",
+      "font_class": "gengduomaochong",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "42905931",
+      "name": "蓝猫",
+      "font_class": "lanmao",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "42905932",
+      "name": "奶牛猫",
+      "font_class": "nainiumao",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "42905933",
+      "name": "柯基",
+      "font_class": "keji",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "42905934",
+      "name": "田园犬",
+      "font_class": "tianyuanquan",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "42905935",
+      "name": "腊肠犬",
+      "font_class": "lachangquan",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "42905936",
+      "name": "金毛",
+      "font_class": "jinmao",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "42905937",
+      "name": "羊",
+      "font_class": "yang",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "43415539",
+      "name": "白猫",
+      "font_class": "baimao",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "43415566",
+      "name": "三花猫",
+      "font_class": "sanhuamao",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "43415613",
+      "name": "黑猫",
+      "font_class": "heimao",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "43415640",
+      "name": "暹罗猫",
+      "font_class": "xianluomao",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "43415649",
+      "name": "无毛猫",
+      "font_class": "wumaomao",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    }
+  ]
+}

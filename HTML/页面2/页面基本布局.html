@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面基本布局</title>
+    <style>
+        * {
+            /* 清除所有元素内外边距 */
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            height: 80px;
+            background-color: aqua;
+        }
+        .nav {
+            height: 50px;
+            width: 1000px;
+            background-color: rgb(255, 196, 0);
+        }
+        .main {
+            height: 500px;
+            width: 1000px;
+            background-color: gray;
+        }
+        .footer {
+            height: 80px;
+            background-color: pink;
+        }
+        /* 让块级盒子在浏览器中居中 */
+        .center {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="header"></header>
+    <nav class="nav center"></nav>
+    <main class="main center"></main>
+    <footer class="footer"></footer>
+</body>
+</html>

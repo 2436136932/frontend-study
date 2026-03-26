@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格隔行变色</title>
+    <style>
+        .table {
+            /* 表格边框和单元格边框合并 */
+            border-collapse: collapse;
+            /* 表格边框：1像素 实线 白色 */
+            border: 1px solid #f1f1f1;
+            width: 400px;
+            /* 文字居中 */
+            text-align: center;
+            /*块级元素居中 */
+            margin: 0 auto;
+        }
+        .table th {
+            color: #f1f1f1;
+        }
+        .table th,
+        .table td {
+            height: 40px;
+        }
+        /* 偶数行背景色变深 */
+        .table tr:nth-child(even) {
+            background-color: #e0e0e0;
+        }
+        /* 第一行背景色变深 */  
+        .table tr:first-child {
+            background-color: #8fbcf1;
+        }
+        .table tr:nth-child(even):hover {
+            background-color: #f1f1f1;
+        } 
+    </style>
+</head>
+<body>
+    <table title="无畏契约" class="table">
+        <tr>
+            <th>特工</th>
+            <th>招牌技能</th>
+            <th>性别</th>
+        </tr>
+        <tr>
+            <td>不死鸟</td>
+            <td>来吧走起</td>
+            <td>男</td>
+        </tr>
+        <tr>
+            <td>幽影</td>
+            <td>我们谈谈</td>
+            <td>男</td>
+        </tr>
+        <tr>
+            <td>魏玲玲</td>
+            <td>你的使命还没结束</td>
+            <td>女</td>
+        </tr>
+        <tr>
+            <td>奇乐</td>
+            <td>倒计时开始</td>
+            <td>女</td>
+        </tr>
+        <tr>
+            <td>雷兹</td>
+            <td>一起狂欢</td>
+            <td>女</td>
+        </tr>
+    </table>
+    
+</body>
+</html>
