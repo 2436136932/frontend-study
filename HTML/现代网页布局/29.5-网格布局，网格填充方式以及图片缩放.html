@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网格布局，网格填充方式以及图片缩放</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        } 
+        .box {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            margin: 100px auto;
+            max-width: 1760px;
+            min-width: 1000px;
+            height: 900px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .item {
+            background-color: pink;
+        }
+        .item img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            /* object-fit: contain; */
+            object-fit: cover;
+            object-position: center;
+        }
+        .item:first-child {
+            grid-row: 1/3;
+        }
+        .item:nth-child(3) {
+            grid-row: 2/3;
+            grid-column: 2/4;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="item"><img src="./img/tree1.jpg" alt=""></div>
+        <div class="item"><img src="./img/tree2.jpg" alt=""></div>
+        <div class="item"><img src="./img/tree3.jpg" alt=""></div>
+        <div class="item"><img src="./img/tree4.jpg" alt=""></div>
+    </div>
+</body>
+</html>
