@@ -115,6 +115,11 @@
     height: 404px;
     background-color: #eef9f4;
     text-align: center;
+    transition: all 0.5s;
+}
+.box-bd ul li:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 10px #ccc;
 }
 .box-bd ul li img {
     width: 304px;
