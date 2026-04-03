@@ -28,13 +28,19 @@ html{
         background-color: #333;
      }
 .shortcut ul {
-  display: flex;
+    display: flex;
     height: 52px;
     justify-content: end;
     align-items: center;
 }
+
 .shortcut ul li a{
     color: #fff;
+}
+
+.shortcut .phone:hover i {
+    transform: rotate(360deg);
+    transform-origin: center center;
 }
 .shortcut .line {
     margin: 0 15px;
@@ -49,7 +55,9 @@ html{
     color: #5eb69c;
 }
 .shortcut li a i {
+    display: inline-block;
     margin-right: 4px;
+    transition: all 0.5s;
 }
 
 /*  1.2header部分 */
