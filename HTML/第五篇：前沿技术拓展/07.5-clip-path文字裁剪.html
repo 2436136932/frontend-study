@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clip-path文字裁剪</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #222222;
+    }
+
+    h1 {
+      color: #292929;
+      font-size: 100px;
+      text-align: center;
+      line-height: 100px;
+      margin-top: 300px;
+    }
+    h1::after {
+        content:'俞伟杰❤️束雅晴';
+        position: absolute;
+        top: 300px;
+        left: 327px;
+        background: linear-gradient(to right, #ff69b3, #fe0000, #ffa401, #ffff01, #ace2e9, #40e1d2, #410898, #9400d4);
+        /** 字体透明颜色 */
+        color: transparent;
+        /** 以文字范围裁剪背景图片 */
+        background-clip: text;
+        /** 裁剪 clip path */
+        clip-path: circle(15% at 0% 50%);
+        /** 动画 */
+        animation: move 8s linear infinite;
+    }
+    @keyframes move {
+        0% {
+            clip-path: circle(15% at 0% 50%);
+        }
+        50% {
+            clip-path: circle(15% at 100% 50%);
+        }
+        100% {
+            clip-path: circle(15% at 0% 50%);
+        }
+    }
+
+
+    </style>
+</head>
+
+<body>
+
+  <h1>俞伟杰❤️束雅晴</h1>
+
+</body>
+
+</html>

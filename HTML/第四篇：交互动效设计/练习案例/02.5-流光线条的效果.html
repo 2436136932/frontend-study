@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>流光边框效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+        background-color: #0c0c0c;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin: 100px auto;
+        padding: 20px;
+        gap: 40px;
+        border: 1px solid white;
+    }
+    .box {
+      position: relative;
+      min-width: 300px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid pink;
+      border-radius: 10px;
+      z-index: 1;
+    }
+
+    /* 作业1：单边流光 */
+    .box-1 {
+      border: 1px solid #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+    .box-1::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #03e9f4);
+      animation: animate1 2s linear infinite;
+      z-index: 1;
+    }
+    .box-1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(270deg, transparent, #03e9f4);
+      animation: animate2 2s linear infinite;
+      animation-delay: 1s;
+      z-index: 1;
+    }
+    @keyframes animate1 {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(200%);
+      }
+    }
+    @keyframes animate2 {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-200%);
+      }
+    }
+
+    /* 作业2：霓虹描边 */
+    .box-2 {
+      /* overflow: visible; */
+    }
+    .box-2::before,
+    .box-2::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      background: linear-gradient(45deg, #00fffc, #fc00ff, #fffc00, #00fffc);
+      background-size: 400%;
+      border-radius: 10px;
+      z-index: -1;
+      animation: neonGlow 20s linear infinite;
+    }
+    .box-2::after {
+      filter: blur(10px);
+      /* z-index: -2; */
+    }
+    .box-2 .box-content {
+      
+
+      background: #0c0c0c;
+      padding: 20px;
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    @keyframes neonGlow {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- 单边流光 -->
+    <div class="box box-1">
+      <div class="box-content">单边流光效果</div>
+    </div>
+
+    <!-- 霓虹描边 -->
+    <div class="box box-2">
+      <div class="box-content">霓虹描边效果</div>
+    </div>
+
+  </div>
+</body>
+
+</html>

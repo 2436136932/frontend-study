@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clip-path基本使用</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+    .nav {
+      width: 200px;
+      height: 60px;
+      background-color: #141e37;
+      margin: 100px auto;
+      text-align: center;
+      line-height: 60px;
+      color: #fff;
+      font-size: 16px;
+      -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+      clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+    }
+
+    .box {
+      position: relative;
+      left: 700px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: translate 10s infinite;
+    }
+    .box img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 700px;
+      transition: all 2s;
+    }
+    .box img:nth-child(2) {
+      -webkit-clip-path: polygon(0% 0%, 0 0, 0 51%, 0 100%, 0 100%);
+      clip-path: polygon(0% 0%, 0 0, 0 51%, 0 100%, 0 100%);
+    }
+    .box:hover img:nth-child(2) {
+      -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+      clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    }
+
+    @keyframes translate {
+      0% {}
+      100% {
+        left: -45px;
+        opacity: 1;
+      }
+    }
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+  <div class="nav">电竞专属客户端</div>
+  <div class="box">
+    <img src="./img/blue.png" alt="">
+    <img src="./img/orange.png" alt="">
+  </div>
+
+
+</body>
+
+</html>
