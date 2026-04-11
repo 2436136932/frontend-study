@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>变量var的使用</title>
+  <style>
+    :root {
+      --color: #96f;
+      --bgcolor: transparent;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 3000px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: var(--bgcolor);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .scrollbar {
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #96f, #bf70ff, #e67aff, #ff89dc, #ffa176, #ffb90f);
+      animation: scrollbar 2s linear forwards;
+      /* 添加滚动时间线 */
+      /* 让动画绑定时间线 */
+      animation-timeline: scroll();
+    }
+
+    /* 彩色线条动画效果 */
+    @keyframes scrollbar {
+      0% {
+        width: 0%;
+      }
+
+      100% {
+        width: 100%;
+      }
+    }
+
+    .box {
+      position: sticky;
+      top: 50px;
+      width: 1000px;
+      height: 500px;
+      margin: 800px auto 0;
+      /* background-color: pink; */
+    }
+    .box p {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+    }
+    .box img {
+        opacity: 0.2;
+        animation: anim 1s linear forwards;
+        /* 绑定视图时间线 */
+        animation-timeline: view();
+    }
+
+    .box .pic1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200px;
+    }
+
+    .box .pic2 {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 200px;
+    }
+    /* 图片动画 */
+    @keyframes anim {
+      0% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+
+  </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="scrollbar"></div>
+    </div>
+
+    <div class="box">
+        <p>专业哈苏人像</p>
+        <img src="./img/x1.jpg" alt="" class="pic1">
+        <img src="./img/x2.jpg" alt="" class="pic2">
+    </div>
+</body>
+
+</html>

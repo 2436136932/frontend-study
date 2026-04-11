@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS背景滤镜</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 3000px;
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+
+
+    .navbar {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      /* background: pink; */
+    }
+
+    .navbar1 {
+      top: 0;
+      background: transparent;
+      backdrop-filter: saturate(150%) blur(28px);
+    }
+
+    .navbar2 {
+      top: 130px;
+      border-bottom: 1px solid #ccc;
+      background-image: radial-gradient(transparent 1px, #fff 1px);
+      background-size: 4px 4px;
+      backdrop-filter: saturate(50%) blur(4px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar navbar1">头部导航栏</div>
+  <div class="navbar navbar2">头部导航栏</div>
+  <img src="./img/dh.jpg" alt="">
+  <img src="./img/bgimg.png" alt="">
+</body>
+
+</html>

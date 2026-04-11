@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/c/font_4096975_pswyqyk8tdo.css">
+    <style>
+        /* 1.去除默认样式 设置底色 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ccc;
+        }
+        ul {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            list-style: none;
+            gap: 5px;
+        }
+        ul li {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            /* 开启子元素的3d空间 */
+            transform-style: preserve-3d;
+            transition: all .5s;
+        }
+        ul li span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            line-height: 100px;
+            background: #fff;
+            color: #262626;
+            text-align: center;
+        }
+
+        ul li .front {
+            background: #fff;
+            color: #3b5999;
+            font-size: 50px;
+            transform: translateZ(50px);
+        }
+        ul li .bottom {
+            background: #3b5999;
+            color: #fff;
+            font-size: 50px;
+            transform: translateY(50px) rotateX(-90deg);
+        }
+        ul li:hover {
+            transform: rotateX(90deg);
+        }
+        </style>
+</head>
+
+<body>
+    <!-- 结构 -->
+    <ul>
+        <li>
+            <span class="front iconfont icon-QQ"></span>
+            <span class="bottom iconfont icon-QQ"></span>
+        </li>
+        <li>
+            <span class="front iconfont icon-weixin"></span>
+            <span class="bottom iconfont icon-weixin"></span>
+        </li>
+        <li>
+            <span class="front iconfont icon-douyin"></span>
+            <span class="bottom iconfont icon-douyin"></span>
+        </li>
+        <li>
+            <span class="front iconfont icon-xinlangweibo"></span>
+            <span class="bottom iconfont icon-xinlangweibo"></span>
+        </li>
+        <li>
+            <span class="front iconfont icon-shouji"></span>
+            <span class="bottom iconfont icon-shouji"></span>
+        </li>
+    </ul>
+
+</body>
+
+</html>

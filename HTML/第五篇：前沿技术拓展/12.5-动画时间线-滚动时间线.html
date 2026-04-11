@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动时间线</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            height: 8000px;
+        }
+        .box {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: pink;
+            width: 1000px;
+            height: 100px;
+            border-radius: 25px;
+            margin: 100px auto;
+        }
+        .bar {
+            position: absolute;
+            top: 46px;
+            left: 5px;
+            right: 5px;
+            height: 6px;
+            background-color: #96f;
+            border-radius: 25px;
+            animation: move 1s linear forwards;
+            animation-timeline: scroll();
+        }
+        @keyframes move {
+            0% {
+                width: 0px;
+            }
+            100% {
+                width: 990px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="bar"></div>
+    </div>
+</body>
+</html>

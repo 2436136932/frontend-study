@@ -11,8 +11,11 @@
         h3~p {
             color: blue;
         }
-        .brother+li {
+        .brother1+li {
             color: pink;
+        }
+        ul li:nth-child(2)~.brother2 {
+            color: yellow;
         }
     </style>
 </head>
@@ -31,9 +34,9 @@
     <ul>
         <li>我是ul的第一个li</li>
         <li>我是ul的第二个li</li>
-        <li class="brother">我是ul的第三个li</li>
+        <li class="brother1">我是ul的第三个li</li>
         <li>我是ul的第四个li</li>
-        <li>我是ul的第五个li</li>
+        <li class="brother2">我是ul的第五个li</li>
     </ul>
 </body>
 </html>
