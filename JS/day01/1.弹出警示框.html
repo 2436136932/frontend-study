@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弹出警示框</title>
+    <style>
+        button {
+            display: block;
+            width: 100px;
+            height: 30px;
+            background-color: pink;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <button>点击我</button>
+
+    <script>
+        // 先弹出警示框
+        alert('你好')
+
+        // 点击按钮后，会弹出警示框
+        document.querySelector('button').addEventListener('click', function () {
+            alert('hello world')
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BootStrap布局(重点)</title>
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
+    <style>
+        
+    /* 在 1200像素以上，一行摆放 6个盒子
+    在 992像素以上，摆放 4个 
+    在768像素以上，摆放 3个盒子
+    在 576像素以上，摆放2个盒子
+    在 576像素以下，摆放1个盒子 */
+    .container {
+      width: 80%;
+      min-width: 800px;
+      max-width: 1200px;
+      border: 1px solid red;
+      margin: 0 auto;
+    }
+    .row {
+        /* justify-content: center; */
+    }
+    .item {
+        background-color: pink;
+        width: 150px;
+        height: 80px;
+        margin: 0 8px 16px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">1</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">2</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">3</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">4</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">5</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">6</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">7</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">8</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">9</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">10</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">11</div>
+            <div class="item col-xl-2 col-lg-3 col-md-4 col-sm-6">12</div>
+        </div>
+    </div>
+    
+
+    <script src="./bootstrap/bootstrap.min.js"></script>
+</body>
+</html>

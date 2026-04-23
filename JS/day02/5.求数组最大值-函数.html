@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>求数组最大值-函数</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    function countMax(arr){
+        let max = arr[0]
+        for(let i = 0;i < arr.length;i++){
+            if(arr[i] > max){
+                max = arr[i]
+            }
+        }
+        return max
+    }
+    let arr = prompt(`请输入一个数组,数组元素用逗号隔开`).split(',')//将字符串转换为数组
+    let news = alert(`您输入的数组为:${arr}\n
+    该数组的最大值为:${countMax(arr)}`)
+</script>
+</html>

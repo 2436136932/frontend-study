@@ -1,0 +1,132 @@
+:root {
+    --cardHeight: 40vw;
+    --cardMargin: 4vw;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+}
+ul,
+ol {
+    list-style: none;
+}
+body {
+    background-color: #3a1d2b;
+    font-size: calc(1em + 0.5vw);
+}
+
+/* 头部制作 */
+.header {
+    height: 100vh;
+    width: 80vw;
+    margin: 0 auto;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+@keyframes line {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 100%;
+    }
+}
+.header .line {
+    position: fixed;
+    top: 0;
+    transform: translateX(-100%);
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, pink 0%, skyblue 100%);
+    animation: line 1s linear forwards;
+    /* 绑定滚动时间线 */
+    animation-timeline: scroll();
+}
+
+.header div {
+    color: #fff;
+    font-size: 2vw;
+}
+.header div h1 {
+    font-size: 4vw;
+    margin-bottom: 2vw;
+}
+
+/* 主体内容 */
+.main {
+    width: 80vw;
+    margin: 0 auto;
+}
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.8);
+    }
+}
+.main ul li {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: var(--cardHeight);
+    margin-bottom: var(--cardMargin);
+    background-color: #fff;
+    border-radius: 1em;
+    overflow: hidden;
+    animation: scale 0.5s ease-in-out forwards;
+    /* 绑定视图时间线 */
+    animation-timeline: view();
+}
+.main ul li > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main ul li figure {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main ul li img {
+    width: 100%;
+    object-fit: cover;
+}
+.main .l > div {
+    width: 80%;
+    /* text-align: center; */
+}
+.main .l h2 {
+    font-weight: 300;
+    font-size: 2.5em;
+}
+.main .l p {
+    font-size: 1.25em;
+    margin: 1em 0;
+}
+.main .l a {
+    font-size: 1em;
+    color: #fff;
+    background-color: rgb(188, 87, 36);
+    padding: 0.5em;
+    border-radius: 0.25em;
+}
+/* 页脚制作 */
+.footer {
+    height: 200vh;
+    width: 80vw;
+    margin: 0 auto;
+}
+
+
+
+

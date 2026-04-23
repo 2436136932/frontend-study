@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插值表达式</title>
+</head>
+<body>
+    <div id="box">
+        <h1>{{name}}</h1>
+        <p>年龄：{{age}}</p>
+        <p>性别：{{sex}}</p>
+        <p>好友：{{friend.name}}</p>
+        <p>好友年龄：{{friend.age}}</p>
+        <p>好友性别：{{friend.sex}}</p>
+    </div>
+    
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // Vue应用创建（核心部分）
+        const { createApp } = Vue
+        createApp({
+            data() {
+                return {
+                    name: '张三',
+                    age: 18,
+                    sex: '男',
+                    friend: {
+                        name: '李四',
+                        age: 18,
+                        sex: '男'
+                    }
+                }
+            }
+        }).mount('#box')
+    </script>
+</body>
+</html>

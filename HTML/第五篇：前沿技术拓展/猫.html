@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PawPaw Love · 宠物乐园</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --pink:#FFB6C1;--pink-deep:#FF85A2;--pink-light:#FFF0F3;--pink-mid:#FFD1DC;
+    --lavender:#E8D5F5;--lavender-light:#F5EEFB;
+    --mint:#B8F0E0;--mint-light:#E8FFF7;
+    --cream:#FFF8F0;--warm-white:#FFFAF5;
+    --brown:#8B6F5E;--brown-light:#C4A882;
+    --text:#5D4037;--text-light:#8D6E63;
+    --shadow-pink:rgba(255,133,162,.25);--shadow-lavender:rgba(200,170,230,.25);
+    --radius:20px;--radius-sm:12px;--radius-lg:30px;
+  }
+  html{font-size:16px;scroll-behavior:smooth}
+  body{
+    font-family:'Quicksand','ZCOOL KuaiLe',sans-serif;
+    background:var(--warm-white);color:var(--text);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    overflow:hidden;position:relative;
+  }
+
+  /* ===== 背景装饰 ===== */
+  .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-blob{
+    position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;
+    animation:blobFloat 8s ease-in-out infinite alternate;
+  }
+  .bg-blob:nth-child(1){width:400px;height:400px;background:var(--pink-mid);top:-100px;left:-100px;animation-delay:0s}
+  .bg-blob:nth-child(2){width:350px;height:350px;background:var(--lavender);bottom:-80px;right:-80px;animation-delay:-3s}
+  .bg-blob:nth-child(3){width:250px;height:250px;background:var(--mint);top:50%;left:60%;animation-delay:-5s}
+  @keyframes blobFloat{
+    0%{transform:translate(0,0) scale(1)}
+    100%{transform:translate(30px,-20px) scale(1.1)}
+  }
+
+  /* 漂浮的爪印 */
+  .floating-paws{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .paw{
+    position:absolute;font-size:24px;opacity:.15;
+    animation:pawFloat linear infinite;
+  }
+  @keyframes pawFloat{
+    0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+    10%{opacity:.15}
+    90%{opacity:.15}
+    100%{transform:translateY(-100px) rotate(360deg);opacity:0}
+  }
+
+  /* 漂浮的星星/爱心 */
+  .sparkle{
+    position:absolute;pointer-events:none;
+    animation:sparkle 3s ease-in-out infinite;
+  }
+  @keyframes sparkle{
+    0%,100%{opacity:.3;transform:scale(.8)}
+    50%{opacity:.8;transform:scale(1.2)}
+  }
+
+  /* ===== 主容器 ===== */
+  .auth-container{
+    position:relative;z-index:1;
+    width:min(960px,92vw);min-height:580px;
+    display:flex;border-radius:var(--radius-lg);
+    box-shadow:0 20px 60px var(--shadow-pink),0 8px 24px var(--shadow-lavender);
+    overflow:hidden;
+    animation:containerIn .8s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes containerIn{
+    0%{opacity:0;transform:translateY(40px) scale(.95)}
+    100%{opacity:1;transform:translateY(0) scale(1)}
+  }
+
+  /* ===== 左侧装饰面板 ===== */
+  .decor-panel{
+    flex:1;background:linear-gradient(135deg,var(--pink) 0%,var(--pink-deep) 50%,#FF6B9D 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:40px 30px;position:relative;overflow:hidden;
+  }
+  .decor-panel::before{
+    content:'';position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .pet-illustration{
+    position:relative;z-index:1;text-align:center;
+    animation:petBounce 3s ease-in-out infinite;
+  }
+  @keyframes petBounce{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+  }
+
+  .pet-illustration .pet-svg{
+    width:200px;height:200px;
+    filter:drop-shadow(0 10px 20px rgba(0,0,0,.15));
+  }
+
+  .decor-title{
+    font-family:'ZCOOL KuaiLe',cursive;
+    font-size:28px;color:#fff;margin-top:24px;
+    text-shadow:0 2px 8px rgba(0,0,0,.1);
+    position:relative;z-index:1;
+    animation:fadeSlideUp .8s .3s both;
+  }
+  .decor-subtitle{
+    font-size:14px;color:rgba(255,255,255,.85);margin-top:8px;
+    position:relative;z-index:1;
+    animation:fadeSlideUp .8s .5s both;
+  }
+
+  /* 装饰元素 */
+  .deco-bone{
+    position:absolute;width:50px;height:20px;
+    background:rgba(255,255,255,.2);border-radius:10px;
+  }
+  .deco-bone::before,.deco-bone::after{
+    content:'';position:absolute;width:16px;height:16px;
+    background:rgba(255,255,255,.2);border-radius:50%;top:-5px;
+  }
+  .deco-bone::before{left:-6px}
+  .deco-bone::after{right:-6px}
+  .deco-bone:nth-child(1){top:15%;left:10%;transform:rotate(-30deg);animation:boneFloat 4s ease-in-out infinite}
+  .deco-bone:nth-child(2){bottom:20%;right:15%;transform:rotate(25deg);animation:boneFloat 4s 1s ease-in-out infinite}
+  @keyframes boneFloat{0%,100%{transform:translateY(0) rotate(-30deg)}50%{transform:translateY(-8px) rotate(-25deg)}}
+
+  .deco-heart{
+    position:absolute;font-size:20px;color:rgba(255,255,255,.3);
+    animation:heartBeat 2s ease-in-out infinite;
+  }
+  .deco-heart:nth-child(3){top:20%;right:20%;animation-delay:0s}
+  .deco-heart:nth-child(4){bottom:30%;left:15%;animation-delay:.7s;font-size:16px}
+  .deco-heart:nth-child(5){top:45%;left:8%;animation-delay:1.4s;font-size:14px}
+  @keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+
+  .deco-fish{
+    position:absolute;bottom:12%;left:25%;font-size:22px;color:rgba(255,255,255,.25);
+    animation:fishSwim 5s ease-in-out infinite;
+  }
+  @keyframes fishSwim{0%,100%{transform:translateX(0) scaleX(1)}50%{transform:translateX(15px) scaleX(1)}}
+
+  /* ===== 右侧表单面板 ===== */
+  .form-panel{
+    flex:1;background:#fff;padding:40px 36px;
+    display:flex;flex-direction:column;justify-content:center;
+    position:relative;
+  }
+
+  /* Tab 切换 */
+  .tab-switch{
+    display:flex;gap:0;margin-bottom:28px;
+    background:var(--pink-light);border-radius:var(--radius);
+    padding:4px;position:relative;
+  }
+  .tab-btn{
+    flex:1;padding:12px 0;border:none;background:none;
+    font-family:inherit;font-size:15px;font-weight:600;
+    color:var(--text-light);cursor:pointer;border-radius:16px;
+    transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;z-index:1;
+  }
+  .tab-btn.active{color:#fff}
+  .tab-slider{
+    position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);
+    background:linear-gradient(135deg,var(--pink-deep),#FF6B9D);
+    border-radius:16px;transition:transform .4s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 4px 12px var(--shadow-pink);
+  }
+  .tab-slider.right{transform:translateX(100%)}
+
+  /* 表单 */
+  .form-area{position:relative;overflow:hidden}
+  .form-slide{
+    transition:all .45s cubic-bezier(.4,0,.2,1);
+  }
+  .form-slide.hidden{
+    position:absolute;inset:0;opacity:0;transform:translateX(30px);pointer-events:none;
+  }
+  .form-slide.visible{
+    opacity:1;transform:translateX(0);pointer-events:auto;
+  }
+
+  .form-group{margin-bottom:18px;position:relative}
+  .form-group label{
+    display:block;font-size:13px;font-weight:600;color:var(--text-light);
+    margin-bottom:6px;letter-spacing:.3px;
+  }
+  .input-wrapper{
+    position:relative;display:flex;align-items:center;
+  }
+  .input-icon{
+    position:absolute;left:14px;font-size:18px;
+    transition:transform .3s;
+  }
+  .form-input{
+    width:100%;padding:13px 14px 13px 44px;
+    border:2px solid var(--pink-mid);border-radius:var(--radius-sm);
+    font-family:inherit;font-size:14px;color:var(--text);
+    background:var(--warm-white);
+    transition:all .3s;outline:none;
+  }
+  .form-input::placeholder{color:#C4A882;font-weight:400}
+  .form-input:focus{
+    border-color:var(--pink-deep);
+    box-shadow:0 0 0 4px rgba(255,133,162,.15);
+    background:#fff;
+  }
+  .form-input:focus ~ .input-icon,
+  .form-input:focus + .input-icon{transform:scale(1.15)}
+
+  .toggle-pw{
+    position:absolute;right:14px;background:none;border:none;
+    cursor:pointer;font-size:18px;color:var(--text-light);
+    transition:color .2s;padding:4px;
+  }
+  .toggle-pw:hover{color:var(--pink-deep)}
+
+  /* 密码强度 */
+  .pw-strength{
+    display:flex;gap:4px;margin-top:6px;height:4px;
+  }
+  .pw-bar{
+    flex:1;border-radius:2px;background:var(--pink-mid);
+    transition:background .3s;
+  }
+  .pw-bar.weak{background:#FFB6C1}
+  .pw-bar.medium{background:#FF85A2}
+  .pw-bar.strong{background:#FF6B9D}
+
+  /* 选项行 */
+  .form-options{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:22px;font-size:13px;
+  }
+  .checkbox-wrap{
+    display:flex;align-items:center;gap:6px;cursor:pointer;
+  }
+  .custom-checkbox{
+    width:18px;height:18px;border:2px solid var(--pink-mid);
+    border-radius:6px;display:flex;align-items:center;justify-content:center;
+    transition:all .25s;flex-shrink:0;
+  }
+  .checkbox-wrap input{display:none}
+  .checkbox-wrap input:checked + .custom-checkbox{
+    background:var(--pink-deep);border-color:var(--pink-deep);
+  }
+  .checkbox-wrap input:checked + .custom-checkbox::after{
+    content:'✓';color:#fff;font-size:12px;font-weight:700;
+  }
+  .checkbox-wrap span{color:var(--text-light)}
+  .forgot-link{
+    color:var(--pink-deep);text-decoration:none;font-weight:600;
+    transition:color .2s;
+  }
+  .forgot-link:hover{color:#FF6B9D}
+
+  /* 提交按钮 */
+  .submit-btn{
+    width:100%;padding:14px;border:none;border-radius:var(--radius);
+    background:linear-gradient(135deg,var(--pink-deep),#FF6B9D);
+    color:#fff;font-family:inherit;font-size:16px;font-weight:700;
+    cursor:pointer;position:relative;overflow:hidden;
+    transition:all .3s;box-shadow:0 6px 20px var(--shadow-pink);
+    letter-spacing:.5px;
+  }
+  .submit-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px var(--shadow-pink);
+  }
+  .submit-btn:active{transform:translateY(0);box-shadow:0 4px 12px var(--shadow-pink)}
+  .submit-btn .btn-shine{
+    position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+    transition:left .6s;
+  }
+  .submit-btn:hover .btn-shine{left:100%}
+
+  /* 分隔线 */
+  .divider{
+    display:flex;align-items:center;gap:12px;margin:20px 0;
+    color:var(--text-light);font-size:12px;
+  }
+  .divider::before,.divider::after{
+    content:'';flex:1;height:1px;background:var(--pink-mid);
+  }
+
+  /* 社交登录 */
+  .social-row{display:flex;gap:12px}
+  .social-btn{
+    flex:1;padding:11px;border:2px solid var(--pink-mid);border-radius:var(--radius-sm);
+    background:var(--warm-white);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    font-family:inherit;font-size:13px;font-weight:600;color:var(--text-light);
+    transition:all .3s;
+  }
+  .social-btn:hover{
+    border-color:var(--pink-deep);color:var(--pink-deep);
+    transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow-pink);
+  }
+  .social-btn svg{width:20px;height:20px}
+
+  /* 协议 */
+  .agreement{
+    margin-top:18px;font-size:11px;color:var(--text-light);
+    text-align:center;line-height:1.6;
+  }
+  .agreement a{color:var(--pink-deep);text-decoration:none}
+  .agreement a:hover{text-decoration:underline}
+
+  /* ===== 动画 ===== */
+  @keyframes fadeSlideUp{
+    0%{opacity:0;transform:translateY(20px)}
+    100%{opacity:1;transform:translateY(0)}
+  }
+  .form-group{animation:fadeSlideUp .5s both}
+  .form-group:nth-child(1){animation-delay:.1s}
+  .form-group:nth-child(2){animation-delay:.2s}
+  .form-group:nth-child(3){animation-delay:.3s}
+
+  /* ===== 响应式 ===== */
+  @media(max-width:700px){
+    .auth-container{flex-direction:column;min-height:auto;width:95vw;max-width:420px}
+    .decor-panel{padding:30px 20px;min-height:200px}
+    .pet-illustration .pet-svg{width:120px;height:120px}
+    .decor-title{font-size:22px;margin-top:16px}
+    .decor-subtitle{font-size:12px}
+    .form-panel{padding:28px 22px}
+  }
+
+  /* ===== Toast ===== */
+  .toast{
+    position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
+    background:#fff;padding:14px 24px;border-radius:var(--radius);
+    box-shadow:0 8px 30px rgba(0,0,0,.12);
+    font-size:14px;font-weight:600;color:var(--text);
+    z-index:100;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+    display:flex;align-items:center;gap:8px;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast .toast-icon{font-size:20px}
+</style>
+</head>
+<body>
+
+<!-- 背景层 -->
+<div class="bg-layer">
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+</div>
+
+<!-- 漂浮爪印 -->
+<div class="floating-paws" id="floatingPaws"></div>
+
+<!-- Toast 提示 -->
+<div class="toast" id="toast">
+  <span class="toast-icon">🐾</span>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- 主容器 -->
+<div class="auth-container">
+
+  <!-- 左侧装饰面板 -->
+  <div class="decor-panel">
+    <div class="deco-bone"></div>
+    <div class="deco-bone"></div>
+    <div class="deco-heart">♥</div>
+    <div class="deco-heart">♥</div>
+    <div class="deco-heart">♥</div>
+    <div class="deco-fish">🐟</div>
+
+    <div class="pet-illustration">
+      <svg class="pet-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 猫咪身体 -->
+        <ellipse cx="100" cy="130" rx="55" ry="45" fill="#FFD1DC"/>
+        <ellipse cx="100" cy="130" rx="55" ry="45" fill="url(#bodyGrad)"/>
+        <!-- 猫咪头 -->
+        <circle cx="100" cy="75" r="40" fill="#FFD1DC"/>
+        <circle cx="100" cy="75" r="40" fill="url(#headGrad)"/>
+        <!-- 耳朵 -->
+        <path d="M68 48L58 18L88 40Z" fill="#FFB6C1"/>
+        <path d="M132 48L142 18L112 40Z" fill="#FFB6C1"/>
+        <path d="M70 46L63 24L85 41Z" fill="#FF85A2"/>
+        <path d="M130 46L137 24L115 41Z" fill="#FF85A2"/>
+        <!-- 眼睛 -->
+        <ellipse cx="85" cy="72" rx="6" ry="7" fill="#5D4037"/>
+        <ellipse cx="115" cy="72" rx="6" ry="7" fill="#5D4037"/>
+        <ellipse cx="87" cy="70" rx="2.5" ry="3" fill="#fff"/>
+        <ellipse cx="117" cy="70" rx="2.5" ry="3" fill="#fff"/>
+        <!-- 鼻子 -->
+        <ellipse cx="100" cy="82" rx="4" ry="3" fill="#FF85A2"/>
+        <!-- 嘴巴 -->
+        <path d="M95 85Q100 90 105 85" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- 胡须 -->
+        <line x1="60" y1="78" x2="80" y2="80" stroke="#C4A882" stroke-width="1" stroke-linecap="round"/>
+        <line x1="58" y1="84" x2="79" y2="84" stroke="#C4A882" stroke-width="1" stroke-linecap="round"/>
+        <line x1="120" y1="80" x2="140" y2="78" stroke="#C4A882" stroke-width="1" stroke-linecap="round"/>
+        <line x1="121" y1="84" x2="142" y2="84" stroke="#C4A882" stroke-width="1" stroke-linecap="round"/>
+        <!-- 腮红 -->
+        <ellipse cx="75" cy="82" rx="7" ry="4" fill="rgba(255,133,162,.35)"/>
+        <ellipse cx="125" cy="82" rx="7" ry="4" fill="rgba(255,133,162,.35)"/>
+        <!-- 尾巴 -->
+        <path d="M155 130Q175 110 170 85Q168 75 160 80" stroke="#FFB6C1" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <!-- 前爪 -->
+        <ellipse cx="75" cy="168" rx="14" ry="10" fill="#FFD1DC"/>
+        <ellipse cx="125" cy="168" rx="14" ry="10" fill="#FFD1DC"/>
+        <!-- 爪印纹 -->
+        <circle cx="70" cy="166" r="3" fill="#FFB6C1"/>
+        <circle cx="78" cy="166" r="3" fill="#FFB6C1"/>
+        <circle cx="74" cy="162" r="2.5" fill="#FFB6C1"/>
+        <circle cx="120" cy="166" r="3" fill="#FFB6C1"/>
+        <circle cx="128" cy="166" r="3" fill="#FFB6C1"/>
+        <circle cx="124" cy="162" r="2.5" fill="#FFB6C1"/>
+        <!-- 蝴蝶结 -->
+        <g transform="translate(140,100) rotate(15)">
+          <path d="M0 0Q-12 -8 -8 -16Q-4 -10 0 0Z" fill="#FF6B9D"/>
+          <path d="M0 0Q12 -8 8 -16Q4 -10 0 0Z" fill="#FF6B9D"/>
+          <path d="M0 0Q-12 8 -8 16Q-4 10 0 0Z" fill="#FF6B9D"/>
+          <path d="M0 0Q12 8 8 16Q4 10 0 0Z" fill="#FF6B9D"/>
+          <circle cx="0" cy="0" r="3" fill="#FF85A2"/>
+        </g>
+        <!-- 渐变定义 -->
+        <defs>
+          <radialGradient id="bodyGrad" cx="50%" cy="30%">
+            <stop offset="0%" stop-color="rgba(255,255,255,.3)"/>
+            <stop offset="100%" stop-color="rgba(255,133,162,.1)"/>
+          </radialGradient>
+          <radialGradient id="headGrad" cx="50%" cy="30%">
+            <stop offset="0%" stop-color="rgba(255,255,255,.3)"/>
+            <stop offset="100%" stop-color="rgba(255,133,162,.1)"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="decor-title">🐾 PawPaw Love</div>
+    <div class="decor-subtitle">给毛孩子最好的爱，从这里开始 ✨</div>
+  </div>
+
+  <!-- 右侧表单面板 -->
+  <div class="form-panel">
+    <!-- Tab 切换 -->
+    <div class="tab-switch">
+      <div class="tab-slider" id="tabSlider"></div>
+      <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">登 录</button>
+      <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">注 册</button>
+    </div>
+
+    <div class="form-area">
+      <!-- 登录表单 -->
+      <div class="form-slide visible" id="loginForm">
+        <div class="form-group">
+          <label>邮箱 / 手机号</label>
+          <div class="input-wrapper">
+            <span class="input-icon">💌</span>
+            <input type="text" class="form-input" placeholder="请输入邮箱或手机号" id="loginEmail">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>密码</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" class="form-input" placeholder="请输入密码" id="loginPw">
+            <button class="toggle-pw" onclick="togglePw('loginPw',this)">👁️</button>
+          </div>
+        </div>
+        <div class="form-options">
+          <label class="checkbox-wrap">
+            <input type="checkbox" checked>
+            <span class="custom-checkbox"></span>
+            <span>记住我</span>
+          </label>
+          <a href="javascript:void(0)" class="forgot-link" onclick="showToast('🐾 重置密码链接已发送到您的邮箱~')">忘记密码？</a>
+        </div>
+        <button class="submit-btn" onclick="handleLogin()">
+          <span class="btn-shine"></span>
+          🐾 登 录
+        </button>
+        <div class="divider">或使用以下方式登录</div>
+        <div class="social-row">
+          <button class="social-btn" onclick="showToast('🐱 微信登录开发中，敬请期待~')">
+            <svg viewBox="0 0 24 24" fill="#07C160"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 01-.023-.156.49.49 0 01.201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.87 13.29c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+            微信
+          </button>
+          <button class="social-btn" onclick="showToast('🐶 QQ登录开发中，敬请期待~')">
+            <svg viewBox="0 0 24 24" fill="#12B7F5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 13.2c-.18.54-.66 1.01-1.2 1.26.2.44.34.92.34 1.44 0 .12 0 .24-.02.36-.02.12-.08.2-.18.2h-6.16c-.1 0-.16-.08-.18-.2-.02-.12-.02-.24-.02-.36 0-.52.14-1 .34-1.44-.54-.25-1.02-.72-1.2-1.26-.18-.54-.12-1.14.18-1.62-.3-.48-.36-1.08-.18-1.62.18-.54.66-1.01 1.2-1.26-.2-.44-.34-.92-.34-1.44 0-.12 0-.24.02-.36.02-.12.08-.2.18-.2h6.16c.1 0 .16.08.18.2.02.12.02.24.02.36 0 .52-.14 1-.34 1.44.54.25 1.02.72 1.2 1.26.18.54.12 1.14-.18 1.62.3.48.36 1.08.18 1.62z"/></svg>
+            QQ
+          </button>
+          <button class="social-btn" onclick="showToast('🐰 微博登录开发中，敬请期待~')">
+            <svg viewBox="0 0 24 24" fill="#E6162D"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zM9.05 17.219c-.384.616-1.208.884-1.829.602-.612-.279-.793-.991-.406-1.593.379-.595 1.176-.861 1.793-.583.631.283.822.985.442 1.574zm1.27-1.627c-.141.237-.449.353-.689.253-.236-.09-.313-.361-.177-.586.138-.227.436-.346.672-.24.239.09.327.36.194.573zm.176-2.719c-1.893-.494-4.033.45-4.857 2.118-.836 1.704-.026 3.591 1.886 4.21 1.983.642 4.318-.341 5.132-2.179.8-1.793-.201-3.642-2.161-4.149zM17.014 2.575c.085-.072.245-.156.398-.041.154.116.116.273.069.361-.047.088-1.266 2.095-1.266 2.095s-.183.291-.429.164c-.245-.128-.089-.387-.089-.387s1.233-2.12 1.317-2.192zm1.474-.576c.117-.098.336-.213.547-.056.211.158.159.373.095.484-.064.112-1.743 2.885-1.743 2.885s-.251.398-.589.223c-.337-.176-.122-.527-.122-.527s1.695-2.911 1.812-3.009z"/><path d="M21.926 7.399c-.48-1.626-2.088-2.742-3.746-2.742-.393 0-.784.064-1.161.191-.944.326-1.686 1.037-2.089 1.979-.4.937-.422 1.983-.061 2.944.517 1.402 1.858 2.345 3.353 2.345.393 0 .784-.064 1.161-.191 1.943-.67 2.974-2.789 2.543-4.526z"/></svg>
+            微博
+          </button>
+        </div>
+      </div>
+
+      <!-- 注册表单 -->
+      <div class="form-slide hidden" id="registerForm">
+        <div class="form-group">
+          <label>昵称</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🐱</span>
+            <input type="text" class="form-input" placeholder="给自己取个可爱的名字吧~" id="regName">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>邮箱 / 手机号</label>
+          <div class="input-wrapper">
+            <span class="input-icon">💌</span>
+            <input type="text" class="form-input" placeholder="请输入邮箱或手机号" id="regEmail">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>密码</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" class="form-input" placeholder="设置一个安全的密码" id="regPw" oninput="checkPwStrength(this.value)">
+            <button class="toggle-pw" onclick="togglePw('regPw',this)">👁️</button>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-bar" id="pwBar1"></div>
+            <div class="pw-bar" id="pwBar2"></div>
+            <div class="pw-bar" id="pwBar3"></div>
+            <div class="pw-bar" id="pwBar4"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>确认密码</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔑</span>
+            <input type="password" class="form-input" placeholder="再输入一次密码哦~" id="regPwConfirm">
+          </div>
+        </div>
+        <div class="form-options">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="agreeCheck">
+            <span class="custom-checkbox"></span>
+            <span>我已阅读并同意 <a href="javascript:void(0)" class="forgot-link" style="font-size:12px">用户协议</a></span>
+          </label>
+        </div>
+        <button class="submit-btn" onclick="handleRegister()">
+          <span class="btn-shine"></span>
+          🎀 注 册
+        </button>
+        <div class="agreement">
+          注册即代表您同意 <a href="javascript:void(0)">《用户服务协议》</a> 和 <a href="javascript:void(0)">《隐私政策》</a><br>
+          我们会好好保护您的信息哦~ 🐾
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== Tab 切换 =====
+function switchTab(tab) {
+  const slider = document.getElementById('tabSlider');
+  const loginBtn = document.getElementById('tabLogin');
+  const regBtn = document.getElementById('tabRegister');
+  const loginForm = document.getElementById('loginForm');
+  const regForm = document.getElementById('registerForm');
+
+  if (tab === 'login') {
+    slider.classList.remove('right');
+    loginBtn.classList.add('active');
+    regBtn.classList.remove('active');
+    loginForm.classList.remove('hidden');
+    loginForm.classList.add('visible');
+    regForm.classList.remove('visible');
+    regForm.classList.add('hidden');
+  } else {
+    slider.classList.add('right');
+    regBtn.classList.add('active');
+    loginBtn.classList.remove('active');
+    regForm.classList.remove('hidden');
+    regForm.classList.add('visible');
+    loginForm.classList.remove('visible');
+    loginForm.classList.add('hidden');
+  }
+}
+
+// ===== 密码显示/隐藏 =====
+function togglePw(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+// ===== 密码强度 =====
+function checkPwStrength(pw) {
+  const bars = [
+    document.getElementById('pwBar1'),
+    document.getElementById('pwBar2'),
+    document.getElementById('pwBar3'),
+    document.getElementById('pwBar4')
+  ];
+  let strength = 0;
+  if (pw.length >= 6) strength++;
+  if (pw.length >= 10) strength++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) strength++;
+  if (/[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw)) strength++;
+
+  bars.forEach((bar, i) => {
+    bar.className = 'pw-bar';
+    if (i < strength) {
+      if (strength <= 1) bar.classList.add('weak');
+      else if (strength <= 2) bar.classList.add('medium');
+      else bar.classList.add('strong');
+    }
+  });
+}
+
+// ===== Toast 提示 =====
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  toastMsg.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ===== 登录处理 =====
+function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  if (!email) { showToast('💌 请输入邮箱或手机号哦~'); return; }
+  if (!pw) { showToast('🔒 密码不能为空呢~'); return; }
+  showToast('🐾 登录成功！欢迎回来~');
+}
+
+// ===== 注册处理 =====
+function handleRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pw = document.getElementById('regPw').value;
+  const pwConfirm = document.getElementById('regPwConfirm').value;
+  const agree = document.getElementById('agreeCheck').checked;
+
+  if (!name) { showToast('🐱 请给自己取个名字吧~'); return; }
+  if (!email) { showToast('💌 请输入邮箱或手机号哦~'); return; }
+  if (!pw) { showToast('🔒 密码不能为空呢~'); return; }
+  if (pw.length < 6) { showToast('💪 密码至少要6位哦~'); return; }
+  if (pw !== pwConfirm) { showToast('🤔 两次密码不一致呢~'); return; }
+  if (!agree) { showToast('📋 请先同意用户协议哦~'); return; }
+  showToast('🎉 注册成功！欢迎加入 PawPaw 大家庭~');
+}
+
+// ===== 漂浮爪印生成 =====
+function createFloatingPaws() {
+  const container = document.getElementById('floatingPaws');
+  const pawEmojis = ['🐾', '🐱', '🐶', '🐰', '💕', '✨', '🦴', '🐟'];
+  for (let i = 0; i < 15; i++) {
+    const paw = document.createElement('span');
+    paw.className = 'paw';
+    paw.textContent = pawEmojis[Math.floor(Math.random() * pawEmojis.length)];
+    paw.style.left = Math.random() * 100 + '%';
+    paw.style.fontSize = (14 + Math.random() * 20) + 'px';
+    paw.style.animationDuration = (8 + Math.random() * 12) + 's';
+    paw.style.animationDelay = (Math.random() * 10) + 's';
+    container.appendChild(paw);
+  }
+}
+createFloatingPaws();
+
+// ===== 输入框聚焦动效 =====
+document.querySelectorAll('.form-input').forEach(input => {
+  input.addEventListener('focus', function() {
+    this.parentElement.querySelector('.input-icon').style.transform = 'scale(1.2) rotate(-5deg)';
+  });
+  input.addEventListener('blur', function() {
+    this.parentElement.querySelector('.input-icon').style.transform = 'scale(1) rotate(0deg)';
+  });
+});
+</script>
+</body>
+</html>

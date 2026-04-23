@@ -1,0 +1,193 @@
+:root {
+  --text1: #121826;
+  --text2: #3C3E42;
+  --text3: #848484;
+  --text4: #979797;
+  --text5: #C3C3C5;
+  --text6: #6F6F6F;
+  --text-green: #2CB5A5;
+  --padding15: .4rem;
+}
+body {
+  padding-top: 1.1733rem;
+}
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: 1.1733rem;
+  line-height: 1.1733rem;
+  background-color: #fff;
+  margin-bottom: var(--padding15);
+}
+
+.nav-bar .back {
+  padding-left: var(--padding15);
+  color: #000;
+}
+
+.nav-bar .back i {
+  font-size: .48rem;
+}
+
+.nav-bar .register {
+  font-size: .4533rem;
+  padding-right: var(--padding15);
+  color: var(--text-green);
+}
+
+
+.login-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: .6667rem var(--padding15) 1.2rem;
+}
+
+.login-header h1 {
+  font-size: .64rem;
+  color: var(--text1);
+  font-weight: 500;
+}
+
+.login-header a {
+  color: var(--text2);
+  font-size: .4rem;
+}
+
+.login-header a i {
+  font-size: .5067rem;
+}
+
+/* 登录表单模块 */
+.login-form {
+  padding: 0 var(--padding15);
+}
+
+.login-form .row {
+  padding: var(--padding15) 0;
+  border-bottom: 1px solid #EDEDEDE5;
+}
+
+.login-form .row input {
+  font-size: .3733rem;
+}
+.login-form .row input::placeholder {
+  color: var(--text4);
+}
+.login-form .password {
+  position: relative;
+}
+.login-form .password img {
+  position: absolute;
+  top: .6667rem;
+  right: var(--padding15);
+  width: var(--padding15);
+  height: var(--padding15);
+}
+
+/* From Uiverse.io by SelfMadeSystem */ 
+.container {
+  cursor: pointer;
+}
+
+.container input {
+  display: none;
+}
+
+.container svg {
+  overflow: visible;
+  width: .3467rem;
+  height: .3467rem;
+}
+
+.path {
+  fill: none;
+  stroke: var(--text4);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+  stroke-dasharray: 241 9999999;
+  stroke-dashoffset: 0;
+}
+
+.container input:checked ~ svg .path {
+  stroke-dasharray: 70.5096664428711 9999999;
+  stroke-dashoffset: -262.2723388671875;
+}
+
+
+.login-form .agree {
+  display: flex;
+  align-items: center;
+  border-bottom: 0;
+  font-size: .3467rem;
+  color: var(--text2);
+}
+.login-form .agree .agree-text {
+  line-height: 1.1733rem;
+  margin-left: 5px;
+}
+.login-form .agree .agree-text a {
+  color: var(--text-green);
+}
+.login-btn {
+  display: block;
+  width: 100%;
+  height: 1.1733rem;
+  border-radius: .5867rem;
+  background: #FAFAFA;
+  color: #D9DBDE;
+  font-size: .4267rem;
+}
+
+.forget {
+  padding-top: .4rem;
+  text-align: center;
+}
+
+.forget a {
+  font-size: .3733rem;
+  color: var(--text3);
+}
+
+/* 第三方登录模块 */
+.third-login {
+    padding: var(--padding15);
+}
+
+.third-login p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .3733rem;
+}
+.third-login p::before,
+.third-login p::after {
+    content: "";
+    display: inline-block;
+    width: 50px;
+    height: 1px;
+    background-color: var(--text5);
+    margin: 0 .4rem;
+}
+
+.third-login p span {
+    font-size: .4267rem;
+    color: var(--text5);
+}
+.third-login a {
+    display: flex;
+    margin-top: var(--padding15);
+    align-items: center;
+    justify-content: center;
+}
+.third-login a img {
+    width: .8rem;
+    height: .8rem;
+}

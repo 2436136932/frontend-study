@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>俞伟杰 | 前端开发工程师</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========== CSS Variables ========== */
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-card: #151d2e;
+      --bg-card-hover: #1a2540;
+      --text-primary: #e8edf5;
+      --text-secondary: #8892a4;
+      --text-muted: #4a5568;
+      --accent: #34d399;
+      --accent-dim: rgba(52, 211, 153, 0.15);
+      --accent-glow: rgba(52, 211, 153, 0.3);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(52, 211, 153, 0.25);
+      --font-display: 'Noto Sans SC', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-dim) var(--bg-primary);
+    }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 3px; }
+
+    a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+    a:hover { color: #6ee7b7; }
+
+    /* ========== Noise Overlay ========== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ========== Navigation ========== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 14, 23, 0.8);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .nav.scrolled {
+      padding: 0.7rem 2rem;
+      background: rgba(10, 14, 23, 0.95);
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo .bracket {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: relative;
+      padding: 0.3rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: var(--transition);
+      border-radius: 1px;
+    }
+
+    /* ========== Hero Section ========== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+
+    .hero-bg .glow-1 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      opacity: 0.4;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero-bg .glow-2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+      bottom: -100px;
+      left: -50px;
+      opacity: 0.3;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, -20px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid var(--border-accent);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-tag .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    .hero h1 .line-accent {
+      color: var(--accent);
+      position: relative;
+    }
+
+    .hero h1 .line-accent::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--accent-dim);
+      border-radius: 3px;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.8rem 1.8rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      background: #6ee7b7;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+      color: var(--bg-primary);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hero-terminal {
+      margin-top: 3rem;
+      text-align: left;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.8rem 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #ef4444; }
+    .terminal-dot.yellow { background: #eab308; }
+    .terminal-dot.green { background: #22c55e; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: 0.5rem;
+    }
+
+    .terminal-body {
+      padding: 1rem 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .terminal-body .prompt {
+      color: var(--accent);
+    }
+
+    .terminal-body .cmd {
+      color: var(--text-primary);
+    }
+
+    .terminal-body .output {
+      color: var(--text-secondary);
+    }
+
+    .terminal-body .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: var(--accent);
+      animation: blink 1s infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ========== Section Common ========== */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== About Section ========== */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image .frame {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .about-image .frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-image .frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-dim) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .about-image .tag-float {
+      position: absolute;
+      bottom: -12px;
+      right: -12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      backdrop-filter: blur(10px);
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+
+    .about-text p strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .stat:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ========== Skills Section ========== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-category {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .skill-category:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .skill-category:hover::before {
+      opacity: 1;
+    }
+
+    .skill-category-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .skill-category h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .skill-item-name {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .skill-bar-wrap {
+      width: 120px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .skill-bar.animated {
+      /* width set inline */
+    }
+
+    /* ========== Projects Section ========== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-preview {
+      height: 200px;
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-preview .preview-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.5;
+    }
+
+    .project-preview .preview-icon {
+      position: relative;
+      z-index: 1;
+      font-size: 3rem;
+      opacity: 0.6;
+      transition: var(--transition);
+    }
+
+    .project-card:hover .preview-icon {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .project-info {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .project-info h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-info p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      flex: 1;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+    }
+
+    .project-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== Blog Section ========== */
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .blog-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .blog-item:hover {
+      border-color: var(--border-accent);
+      transform: translateX(8px);
+    }
+
+    .blog-date {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 90px;
+    }
+
+    .blog-item h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .blog-arrow {
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .blog-item:hover .blog-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    /* ========== Contact Section ========== */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-text p {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      color: var(--text-primary);
+    }
+
+    .contact-link:hover {
+      border-color: var(--border-accent);
+      transform: translateX(4px);
+      color: var(--text-primary);
+    }
+
+    .contact-link-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-link-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-link-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .contact-link-value {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    .danmaku-section {
+      margin-top: 2rem;
+    }
+
+    .danmaku-input-bar {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .danmaku-input-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .danmaku-input-wrap input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      padding-right: 3.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .danmaku-input-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .danmaku-input-wrap input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .danmaku-char-count {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .danmaku-char-count.warn {
+      color: #ef4444;
+    }
+
+    .danmaku-send-btn {
+      flex-shrink: 0;
+    }
+
+    .danmaku-history {
+      margin-top: 1.5rem;
+    }
+
+    .danmaku-history-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .danmaku-clear-btn {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: none;
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .danmaku-clear-btn:hover {
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .danmaku-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-dim) transparent;
+    }
+
+    .danmaku-list::-webkit-scrollbar { width: 4px; }
+    .danmaku-list::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
+
+    .danmaku-list-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.8rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      animation: danmakuFadeIn 0.3s ease;
+    }
+
+    @keyframes danmakuFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .danmaku-list-item .dm-time {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .danmaku-list-item .dm-text {
+      color: var(--text-secondary);
+      flex: 1;
+    }
+
+    .danmaku-list-item .dm-text .dm-nick {
+      color: var(--accent);
+      font-weight: 500;
+      margin-right: 0.4rem;
+    }
+
+    .danmaku-empty {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ========== Danmaku Float Area ========== */
+    .danmaku-float-area {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .danmaku-float-item {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      background: rgba(10, 14, 23, 0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--border);
+      animation: danmakuFloat linear forwards;
+      will-change: transform;
+    }
+
+    @keyframes danmakuFloat {
+      from { transform: translateX(100vw); }
+      to { transform: translateX(-100%); }
+    }
+
+    /* ========== Footer ========== */
+    .footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer p {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer .heart {
+      color: var(--accent);
+      display: inline-block;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 14, 23, 0.98);
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border);
+        gap: 1rem;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-image {
+        max-width: 280px;
+        margin: 0 auto;
+      }
+
+      .about-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .blog-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1.2rem;
+      }
+
+      .section {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero-terminal {
+        margin-top: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo">
+      <span class="bracket">&lt;</span>俞伟杰<span class="bracket"> /&gt;</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#projects">项目</a></li>
+      <li><a href="#blog">博客</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="grid-lines"></div>
+      <div class="glow-1"></div>
+      <div class="glow-2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        <span>2026届毕业生 · 开放求职中</span>
+      </div>
+      <h1>
+        你好，我是俞伟杰<br>
+        一名热爱创造的<br><span class="line-accent">前端开发工程师</span>
+      </h1>
+      <p class="hero-desc">
+        专注于构建优雅、高性能的 Web 应用。用代码将创意变为现实，追求每一个像素的完美呈现。
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          查看项目
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          联系我
+        </a>
+      </div>
+      <div class="hero-terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">yuweijie@dev ~ %</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$ </span><span class="cmd" id="typingText"></span><span class="cursor"></span></div>
+          <div class="output" id="typingOutput"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="about">
+    <div class="about reveal">
+      <div class="about-image">
+        <div class="frame">
+          <img src="assets/avatar.jpg" alt="俞伟杰头像">
+        </div>
+        <div class="tag-float">🎓 巢湖学院</div>
+      </div>
+      <div class="about-text">
+        <div class="section-label">关于我</div>
+        <h2 class="section-title">热爱前端，<br>更热爱创造</h2>
+        <p>
+          我是<strong>俞伟杰</strong>，巢湖学院软件工程专业的应届毕业生。在校期间，我系统学习了前端开发的全栈知识，并通过多个实战项目积累了丰富的开发经验。
+        </p>
+        <p>
+          我相信优秀的前端开发不仅仅是实现功能，更是关于<strong>用户体验</strong>、<strong>性能优化</strong>和<strong>代码质量</strong>的追求。每一个项目都是一次学习和成长的机会。
+        </p>
+        <p>
+          目前正在积极寻找前端开发岗位的机会，期待与优秀的团队一起创造有价值的产品。
+        </p>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-number" data-target="6">0</span>
+            <span class="stat-label">完成项目</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-target="800">0</span>
+            <span class="stat-label">GitHub Stars</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number" data-target="3">0</span>
+            <span class="stat-label">实习经历</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <div class="reveal">
+      <div class="section-label">技术栈</div>
+      <h2 class="section-title">我的技能</h2>
+      <p class="section-desc">持续学习，不断进步。以下是我掌握和正在学习的技术。</p>
+    </div>
+    <div class="skills-grid reveal">
+      <!-- Frontend Core -->
+      <div class="skill-category">
+        <div class="skill-category-icon">🎨</div>
+        <h3>前端核心</h3>
+        <div class="skill-list">
+          <div class="skill-item">
+            <span class="skill-item-name">HTML5 / CSS3</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="95%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">JavaScript (ES6+)</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">TypeScript</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="80%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">Sass / Less</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="85%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frameworks -->
+      <div class="skill-category">
+        <div class="skill-category-icon">⚡</div>
+        <h3>框架 & 库</h3>
+        <div class="skill-list">
+          <div class="skill-item">
+            <span class="skill-item-name">Vue 3</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">React</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="80%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">Next.js</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="70%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">Tailwind CSS</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="85%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="skill-category">
+        <div class="skill-category-icon">🛠️</div>
+        <h3>工具 & 其他</h3>
+        <div class="skill-list">
+          <div class="skill-item">
+            <span class="skill-item-name">Git / GitHub</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="88%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">Webpack / Vite</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="75%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">Node.js</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="70%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-item-name">Docker</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" data-width="60%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <div class="reveal">
+      <div class="section-label">作品集</div>
+      <h2 class="section-title">项目展示</h2>
+      <p class="section-desc">以下是我参与开发的一些代表性项目，每个项目都让我收获颇丰。</p>
+    </div>
+    <div class="projects-grid reveal">
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-preview" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);">
+          <svg class="preview-pattern" width="100%" height="100%" style="opacity:0.1">
+            <defs><pattern id="p1" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#p1)"/>
+          </svg>
+          <span class="preview-icon">🛒</span>
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="project-tag">Vue 3</span>
+            <span class="project-tag">Pinia</span>
+            <span class="project-tag">Element Plus</span>
+          </div>
+          <h3>电商后台管理系统</h3>
+          <p>基于 Vue 3 + TypeScript 构建的全功能电商后台，包含商品管理、订单处理、数据可视化等模块。</p>
+          <div class="project-links">
+            <a href="#" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              在线预览
+            </a>
+            <a href="#" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              源码
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-preview" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+          <svg class="preview-pattern" width="100%" height="100%" style="opacity:0.08">
+            <defs><pattern id="p2" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" fill="none" stroke="white" stroke-width="0.5"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#p2)"/>
+          </svg>
+          <span class="preview-icon">💬</span>
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Socket.io</span>
+            <span class="project-tag">Node.js</span>
+          </div>
+          <h3>实时聊天应用</h3>
+          <p>基于 WebSocket 的实时聊天系统，支持群聊、私聊、文件传输和消息已读状态等功能。</p>
+          <div class="project-links">
+            <a href="#" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              在线预览
+            </a>
+            <a href="#" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              源码
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card">
+        <div class="project-preview" style="background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%);">
+          <svg class="preview-pattern" width="100%" height="100%" style="opacity:0.08">
+            <defs><pattern id="p3" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M0 40L40 0M-10 10L10 -10M30 50L50 30" stroke="white" stroke-width="0.5"/></pattern></defs>
+            <rect width="100%" height="100%" fill="url(#p3)"/>
+          </svg>
+          <span class="preview-icon">📊</span>
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">ECharts</span>
+            <span class="project-tag">Tailwind</span>
+          </div>
+          <h3>数据可视化平台</h3>
+          <p>企业级数据可视化仪表盘，支持多种图表类型、数据筛选、主题切换和响应式布局。</p>
+          <div class="project-links">
+            <a href="#" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              在线预览
+            </a>
+            <a href="#" class="project-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              源码
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section class="section" id="blog">
+    <div class="reveal">
+      <div class="section-label">技术博客</div>
+      <h2 class="section-title">最新文章</h2>
+      <p class="section-desc">记录学习过程中的思考与实践，分享前端开发的点滴。</p>
+    </div>
+    <div class="blog-list reveal">
+      <a href="#" class="blog-item">
+        <span class="blog-date">2026.04</span>
+        <h3>从零搭建 Vue 3 + TypeScript 项目模板的完整指南</h3>
+        <span class="blog-arrow">→</span>
+      </a>
+      <a href="#" class="blog-item">
+        <span class="blog-date">2026.03</span>
+        <h3>深入理解 React Hooks：useEffect 的执行机制与常见陷阱</h3>
+        <span class="blog-arrow">→</span>
+      </a>
+      <a href="#" class="blog-item">
+        <span class="blog-date">2026.02</span>
+        <h3>CSS Container Queries 实战：构建真正的组件级响应式设计</h3>
+        <span class="blog-arrow">→</span>
+      </a>
+      <a href="#" class="blog-item">
+        <span class="blog-date">2026.01</span>
+        <h3>前端性能优化实战：从 Lighthouse 100 分说起</h3>
+        <span class="blog-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="reveal">
+      <div class="section-label">联系方式</div>
+      <h2 class="section-title">与我联系</h2>
+      <p class="section-desc">如果你对我的项目感兴趣，或者有合作机会，欢迎随时联系我。</p>
+    </div>
+    <div class="contact-wrapper reveal">
+      <div class="contact-text">
+        <p>
+          我非常期待能加入一个充满活力的团队，一起打造优秀的产品。无论是全职岗位还是实习机会，我都愿意认真考虑。
+        </p>
+        <div class="contact-links">
+          <a href="tel:15395104682" class="contact-link">
+            <div class="contact-link-icon">📧</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">手机</span>
+              <span class="contact-link-value">15395104682</span>
+            </div>
+          </a>
+          <a href="https://github.com/2436136932" target="_blank" class="contact-link">
+            <div class="contact-link-icon">🐙</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">GitHub</span>
+              <span class="contact-link-value">github.com/2436136932</span>
+            </div>
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-link-icon">💼</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">学校</span>
+              <span class="contact-link-value">巢湖学院 · 软件工程</span>
+            </div>
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-link-icon">📱</div>
+            <div class="contact-link-info">
+              <span class="contact-link-label">微信</span>
+              <span class="contact-link-value">15395104682</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="danmaku-section">
+        <p style="color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 0.95rem;">
+          来留下你的足迹吧！发送一条弹幕，让我看到你的到来 ✨
+        </p>
+        <div class="danmaku-input-bar">
+          <div class="danmaku-input-wrap">
+            <input type="text" id="danmakuInput" placeholder="说点什么吧..." maxlength="20">
+            <span class="danmaku-char-count" id="danmakuCharCount">0/20</span>
+          </div>
+          <button class="btn btn-primary danmaku-send-btn" id="danmakuSendBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            发送
+          </button>
+        </div>
+        <div class="danmaku-history">
+          <div class="danmaku-history-title">
+            <span>弹幕记录 (<span id="danmakuCount">0</span>/50)</span>
+            <button class="danmaku-clear-btn" id="danmakuClearBtn">清空</button>
+          </div>
+          <div class="danmaku-list" id="danmakuList">
+            <div class="danmaku-empty" id="danmakuEmpty">还没有弹幕，快来发第一条吧~</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 俞伟杰 · 巢湖学院 · 用 <span class="heart">♥</span> 和代码构建</p>
+  </footer>
+
+  <!-- Danmaku Float Area -->
+  <div class="danmaku-float-area" id="danmakuFloatArea"></div>
+
+  <script>
+    // ========== Navigation ==========
+    const nav = document.getElementById('nav');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // ========== Typing Animation ==========
+    const commands = [
+      { cmd: 'cat about.json', output: '{ "name": "俞伟杰", "school": "巢湖学院", "major": "软件工程", "status": "开放求职中 ✓" }' },
+      { cmd: 'ls skills/', output: 'vue3/  react/  typescript/  tailwind/  node.js/' },
+      { cmd: 'echo $MOTTO', output: '"代码是诗，界面是画，用户体验是灵魂。"' },
+    ];
+
+    let cmdIndex = 0;
+    const typingEl = document.getElementById('typingText');
+    const outputEl = document.getElementById('typingOutput');
+
+    async function typeCommand() {
+      const { cmd, output } = commands[cmdIndex];
+      typingEl.textContent = '';
+      outputEl.textContent = '';
+
+      for (let i = 0; i < cmd.length; i++) {
+        typingEl.textContent += cmd[i];
+        await new Promise(r => setTimeout(r, 50 + Math.random() * 30));
+      }
+
+      await new Promise(r => setTimeout(r, 500));
+      outputEl.textContent = output;
+
+      await new Promise(r => setTimeout(r, 3000));
+      cmdIndex = (cmdIndex + 1) % commands.length;
+      typeCommand();
+    }
+
+    setTimeout(typeCommand, 1500);
+
+    // ========== Scroll Reveal ==========
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+
+          // Animate skill bars
+          entry.target.querySelectorAll('.skill-bar').forEach((bar, i) => {
+            setTimeout(() => {
+              bar.style.width = bar.dataset.width;
+              bar.classList.add('animated');
+            }, i * 100);
+          });
+
+          // Animate stat numbers
+          entry.target.querySelectorAll('.stat-number').forEach(num => {
+            animateNumber(num, parseInt(num.dataset.target));
+          });
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ========== Number Animation ==========
+    function animateNumber(el, target) {
+      let current = 0;
+      const increment = target / 40;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = Math.floor(current) + (target >= 100 ? '+' : '+');
+      }, 30);
+    }
+
+    // ========== Danmaku System (云函数 URL 化) ==========
+    // ⚠️ 部署步骤：
+    // 1. 在 DCloud 控制台 → 云函数 → 新建云函数 "danmaku"
+    // 2. 把 unicloud-functions/danmaku/index.js 的代码粘贴进去，上传部署
+    // 3. 点击云函数详情 → 设置 HTTP 访问路径为 /danmaku
+    // 4. 复制你的默认域名 + /danmaku 填入下面的 CLOUD_URL
+    //
+    // 你的默认域名是：https://static-mp-e4cfc134-f6c8-42fc-a665-3ca2e878fe25.next.bspapp.com
+    // 所以完整URL应该是：https://static-mp-e4cfc134-f6c8-42fc-a665-3ca2e878fe25.next.bspapp.com/danmaku
+    //
+    const CLOUD_URL = 'https://fc-mp-e4cfc134-f6c8-42fc-a665-3ca2e878fe25.next.bspapp.com/danmaku';
+
+    const DANMAKU_MAX_LEN = 20;
+    const danmakuInput = document.getElementById('danmakuInput');
+    const danmakuCharCount = document.getElementById('danmakuCharCount');
+    const danmakuSendBtn = document.getElementById('danmakuSendBtn');
+    const danmakuList = document.getElementById('danmakuList');
+    const danmakuCount = document.getElementById('danmakuCount');
+    const danmakuClearBtn = document.getElementById('danmakuClearBtn');
+    const danmakuFloatArea = document.getElementById('danmakuFloatArea');
+
+    const nicknames = ['路人甲', '匿名用户', '小可爱', '路过的人', '访客', '小伙伴', '匿名侠', '吃瓜群众'];
+    const danmakuColors = ['#34d399', '#60a5fa', '#f472b6', '#facc15', '#a78bfa', '#fb923c', '#38bdf8', '#e879f9'];
+
+    function randomNick() {
+      return nicknames[Math.floor(Math.random() * nicknames.length)];
+    }
+
+    function randomColor() {
+      return danmakuColors[Math.floor(Math.random() * danmakuColors.length)];
+    }
+
+    function formatTime(ts) {
+      const d = new Date(ts);
+      const pad = n => String(n).padStart(2, '0');
+      return `${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ===== 调用云函数 =====
+    async function callCloud(action, data = {}) {
+      try {
+        const res = await fetch(CLOUD_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, ...data })
+        });
+        return await res.json();
+      } catch (e) {
+        console.error('云函数调用失败:', e);
+        return { errCode: -1, errMsg: '网络错误' };
+      }
+    }
+
+    // ===== 本地降级 =====
+    const LOCAL_KEY = 'yuweijie_danmaku';
+    function getLocalDanmaku() {
+      try { return JSON.parse(localStorage.getItem(LOCAL_KEY)) || []; } catch { return []; }
+    }
+    function saveLocalDanmaku(list) {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+    }
+
+    // ===== 加载弹幕 =====
+    async function loadDanmaku() {
+      const res = await callCloud('getList');
+      if (res.errCode === 0 && res.data) {
+        renderDanmakuList(res.data);
+        replayFloatDanmaku(res.data);
+      } else {
+        // 降级到本地
+        const local = getLocalDanmaku();
+        renderDanmakuList(local);
+        replayFloatDanmaku(local);
+      }
+    }
+
+    // ===== 发送弹幕 =====
+    async function sendDanmaku() {
+      const text = danmakuInput.value.trim();
+      if (!text) return;
+      if (text.length > DANMAKU_MAX_LEN) return;
+
+      danmakuSendBtn.disabled = true;
+      danmakuSendBtn.style.opacity = '0.6';
+
+      const item = {
+        nick: randomNick(),
+        text: text,
+        color: randomColor()
+      };
+
+      const res = await callCloud('send', item);
+
+      danmakuSendBtn.disabled = false;
+      danmakuSendBtn.style.opacity = '1';
+
+      if (res.errCode === 0) {
+        danmakuInput.value = '';
+        danmakuCharCount.textContent = '0/20';
+        danmakuCharCount.classList.remove('warn');
+        // send 已返回最新列表，直接渲染，不再额外请求
+        if (res.data) {
+          renderDanmakuList(res.data);
+          if (res.sent) launchFloatDanmaku(res.sent);
+        }
+      } else {
+        // 降级到本地
+        const local = getLocalDanmaku();
+        const localItem = { ...item, time: Date.now() };
+        local.push(localItem);
+        if (local.length > 50) local.splice(0, local.length - 50);
+        saveLocalDanmaku(local);
+        danmakuInput.value = '';
+        danmakuCharCount.textContent = '0/20';
+        renderDanmakuList(local);
+        launchFloatDanmaku(localItem);
+        console.log('已保存到本地（云函数未配置）');
+      }
+    }
+
+    // ===== 清空弹幕 =====
+    async function clearDanmaku() {
+      await callCloud('clear');
+      localStorage.removeItem(LOCAL_KEY);
+      renderDanmakuList([]);
+    }
+
+    // ===== 渲染弹幕列表 =====
+    function renderDanmakuList(list) {
+      danmakuCount.textContent = list.length;
+
+      if (list.length === 0) {
+        danmakuList.innerHTML = '<div class="danmaku-empty">还没有弹幕，快来发第一条吧~</div>';
+        return;
+      }
+
+      danmakuList.innerHTML = '';
+      [...list].reverse().forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'danmaku-list-item';
+        div.innerHTML = `
+          <span class="dm-time">${formatTime(item.time)}</span>
+          <span class="dm-text"><span class="dm-nick">${escapeHtml(item.nick)}</span>${escapeHtml(item.text)}</span>
+        `;
+        danmakuList.appendChild(div);
+      });
+    }
+
+    // ===== 飘屏弹幕 =====
+    function launchFloatDanmaku(item) {
+      const el = document.createElement('div');
+      el.className = 'danmaku-float-item';
+      el.textContent = `${item.nick}: ${item.text}`;
+      el.style.color = item.color;
+      el.style.top = Math.random() * 140 + 10 + 'px';
+      const duration = 8 + Math.random() * 6;
+      el.style.animationDuration = duration + 's';
+      danmakuFloatArea.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }
+
+    function replayFloatDanmaku(list) {
+      if (!list || list.length === 0) return;
+      const recent = list.slice(-8);
+      recent.forEach((item, i) => {
+        setTimeout(() => launchFloatDanmaku(item), i * 1200);
+      });
+    }
+
+    // ===== 事件绑定 =====
+    danmakuInput.addEventListener('input', () => {
+      const len = danmakuInput.value.length;
+      danmakuCharCount.textContent = `${len}/${DANMAKU_MAX_LEN}`;
+      danmakuCharCount.classList.toggle('warn', len >= DANMAKU_MAX_LEN);
+    });
+
+    danmakuSendBtn.addEventListener('click', sendDanmaku);
+
+    danmakuInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendDanmaku();
+      }
+    });
+
+    danmakuClearBtn.addEventListener('click', clearDanmaku);
+
+    // ===== 初始化 =====
+    loadDanmaku();
+    // 每60秒自动刷新弹幕（仅在页面可见时，节省数据库读操作）
+    setInterval(() => {
+      if (document.visibilityState === 'visible') loadDanmaku();
+    }, 60000);
+
+    // ========== Smooth scroll for anchor links ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

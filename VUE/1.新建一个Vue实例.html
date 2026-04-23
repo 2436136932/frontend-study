@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新建一个Vue实例</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <a href="#">{{data.name}}</a>
+        <p>年龄：{{data.age}}</p>
+        <p>性别：{{data.sex}}</p>
+    </div>
+
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // Vue应用创建（核心部分）
+        const { createApp } = Vue
+        
+        createApp({
+            data() {
+                return {
+                    message: 'hello vue',
+                    data: {
+                        name: '张三',
+                        age: 18,
+                        sex: '男'
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+    
+</body>
+</html>

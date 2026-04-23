@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for循环嵌套</title>
+    <style>
+        table {
+            margin: 0 auto;
+            width: 500px;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 1px solid rgb(243, 172, 216);
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+       
+        let date = +prompt('请输入日期')
+        let words = +prompt('请输入单词数量')
+        
+        // 创建表格开始
+        document.write('<table>')
+        document.write('<tr><th>日期</th><th>单词序号</th></tr>')
+        
+        // 1. 外层循环控制
+        for (let i = 0; i < date; i++) {
+            // 2. 内层循环控制
+            for (let j = 0; j < words; j++) {
+                document.write(`<tr><td>第${i + 1}天</td><td>第${j + 1}个单词</td></tr>`)
+            }
+        }
+        
+        // 结束表格
+        document.write('</table>')
+    </script>
+    
+</body>
+</html>

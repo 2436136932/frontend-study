@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分支语句</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>用户信息打印</h1>
+
+    <script>
+        // 1. 从用户输入中获取用户名密码
+        let userName = prompt('请输入用户名')
+        let userPwd = prompt('请输入密码')
+        // 2. 检查用户名密码是否为空
+        if (userName === 'admin' && userPwd === '123456') {
+            alert('登录成功')
+            document.write(`
+            <table>
+                <tr>
+                    <th>用户名</th>
+                    <th>密码</th>
+                </tr>
+                <tr>
+                    <th>${userName}</th>
+                    <th>${userPwd}</th>
+                </tr>
+            </table>
+            `)
+        } else {
+            alert('登录失败')
+        }
+    </script>
+</body>
+</html>

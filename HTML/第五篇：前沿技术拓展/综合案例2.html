@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>综合案例2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            /* 全局变量 */
+            --awidth: 160px;
+        }
+        body {
+            background-color: #2c3e50;
+        }
+        /* 导航栏 */
+        nav {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 80px;
+            width: 800px;
+            margin: 200px auto;
+            border-radius: 8px;
+            background-color: #34495e;;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        nav a {
+            height: 100%;
+            width: 100px;
+            line-height: 80px;
+            font-size: 20px;
+            display: inline-block;
+            position: relative;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 1;
+            color: white;
+            cursor: pointer;
+        }
+        nav .animation {
+            position: absolute;
+            left: 0;
+            width: 160px;
+            height: 80px;
+            border-radius: 8px;
+            background-color: #ce84ff;
+            transition: all 0.5s ease-in-out;
+        }
+        /* 第一个a 做动画效果 */
+    nav a:nth-child(1):hover~.animation {
+      left: calc(var(--awidth) * 0);
+
+    }
+
+    /* 第二个a 做动画效果 */
+    nav a:nth-child(2):hover~.animation {
+      left: calc(var(--awidth) * 1);
+      background-color: #e74c3c;
+    }
+
+    /* 第三个a 做动画效果 */
+    nav a:nth-child(3):hover~.animation {
+      left: calc(var(--awidth) * 2);
+      background-color: #3498db;
+    }
+
+    /* 第四个a 做动画效果 */
+    nav a:nth-child(4):hover~.animation {
+      left: calc(var(--awidth) * 3);
+      background-color: #9b59b6;
+    }
+
+    /* 第五个a 做动画效果 */
+    nav a:nth-child(5):hover~.animation {
+      left: calc(var(--awidth) * 4);
+      background-color: #e67e22;
+    }
+    </style>
+</head>
+<body>
+    <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Blog</a>
+    <a href="#">News</a>
+    <a href="#">Contact</a>
+    <div class="animation"></div>
+  </nav>
+</body>
+</html>
