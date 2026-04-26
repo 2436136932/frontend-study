@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遍历对象</title>
+</head>
+<body>
+    
+    <script>
+        // 1.遍历对象
+        let cxk = {
+            name:'蔡徐坤',
+            age:28,
+            sex:'男',
+            // hobby: function(x,y){
+            //     console.log(`唱`);
+            //     console.log(`跳`);
+            //     console.log(`rap`);
+            //     console.log(x+y);
+            // }
+        }
+        for(let k in cxk){
+            console.log(k);
+            console.log(cxk[k]);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象的使用</title>
+</head>
+<body>
+    
+
+    <script>
+        // 1.对象的定义
+        let cxk = {
+            name:'蔡徐坤',
+            age:28,
+            sex:'男',
+            hobby: function(x,y){
+                console.log(`唱`);
+                console.log(`跳`);
+                console.log(`rap`);
+                console.log(x+y);
+            }
+        }
+        console.log(cxk.name);
+        console.log(cxk.age);
+        console.log(cxk.sex);
+        console.log(cxk.hobby(1,2));
+    </script>
+</body>
+</html>

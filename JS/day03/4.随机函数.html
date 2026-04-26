@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let arr = ['red', 'green','blue']
+        // let random = Math.floor(Math.random()*arr.length)
+        // console.log(random)
+        // console.log(arr[random])
+
+        function getRandomColor(N,M) {
+            return Math.floor(Math.random() * (M - N + 1)) + N
+        }
+        alert(`请输入两个数字N和M，N<M，M为最大值，N为最小值，我来随机生成一个数字，这个数字在N和M之间`)
+        let N = Number(prompt(`请输入N`))
+        let M = Number(prompt(`请输入M`))
+        console.log(getRandomColor(N,M))
+    </script>           
+</body>
+
+</html>
