@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全选按钮</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            padding: 50px;
+        }
+
+        .cart {
+            width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* 表头 */
+        .cart-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f8f8f8;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .cart-header input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        /* 商品列表 */
+        .cart-list {
+            list-style: none;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+
+        .cart-item:hover {
+            background: #fafafa;
+        }
+
+        .cart-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-desc {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .item-price {
+            font-size: 16px;
+            color: #ff6700;
+            font-weight: bold;
+            width: 100px;
+            text-align: center;
+        }
+
+        /* 底部结算栏 */
+        .cart-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .select-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .select-info span {
+            color: #ff6700;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            padding: 12px 40px;
+            background: #ff6700;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #f56300;
+        }
+
+        /* 已选中商品的样式 */
+        .cart-item.selected {
+            background: #fff8f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cart">
+        <h2>🛒 购物车</h2>
+
+        <!-- 表头 -->
+        <div class="cart-header">
+            <input type="checkbox" id="checkAll">
+            <label for="checkAll">全选</label>
+        </div>
+
+        <!-- 商品列表 -->
+        <ul class="cart-list">
+            <li class="cart-item">
+                <input type="checkbox" class="item-checkbox">
+                <img src="https://via.placeholder.com/80/ff6700/fff?text=手机" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">小米14 Pro</div>
+                    <div class="item-desc">12GB+256GB 黑色</div>
+                </div>
+                <div class="item-price">¥4999</div>
+            </li>
+            <li class="cart-item">
+                <input type="checkbox" class="item-checkbox">
+                <img src="https://via.placeholder.com/80/2196F3/fff?text=耳机" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">小米真无线耳机</div>
+                    <div class="item-desc">主动降噪 长续航</div>
+                </div>
+                <div class="item-price">¥399</div>
+            </li>
+            <li class="cart-item">
+                <input type="checkbox" class="item-checkbox">
+                <img src="https://via.placeholder.com/80/4CAF50/fff?text=手表" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">小米手表 S3</div>
+                    <div class="item-desc">eSIM独立通话</div>
+                </div>
+                <div class="item-price">¥799</div>
+            </li>
+            <li class="cart-item">
+                <input type="checkbox" class="item-checkbox">
+                <img src="https://via.placeholder.com/80/9C27B0/fff?text=平板" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">小米平板6</div>
+                    <div class="item-desc">11英寸 2.8K屏</div>
+                </div>
+                <div class="item-price">¥1999</div>
+            </li>
+            <li class="cart-item">
+                <input type="checkbox" class="item-checkbox">
+                <img src="https://via.placeholder.com/80/FF9800/fff?text=音箱" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">小爱音箱 Pro</div>
+                    <div class="item-desc">智能控制 音质升级</div>
+                </div>
+                <div class="item-price">¥299</div>
+            </li>
+        </ul>
+
+        <!-- 底部结算 -->
+        <div class="cart-footer">
+            <div class="select-info">
+                已选中 <span id="selectedCount">0</span> 件商品
+            </div>
+            <button class="checkout-btn">去结算</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 全选按钮练习
+        // ============================================
+        // 
+        // 请在这里完成以下功能：
+        const checkAll = document.querySelector('#checkAll')
+        const cks = document.querySelectorAll('.item-checkbox')
+        const count = document.querySelector('#selectedCount')
+        // 
+        // 1. 点击"全选"复选框时：
+        //    - 如果全选被勾选，所有商品项也被勾选
+        //    - 如果全选被取消，所有商品项也取消
+        checkAll.addEventListener('click', function () {
+            // 遍历所有商品项，设置勾选状态
+            for (let i = 0; i < cks.length; i++) {
+                cks[i].checked = this.checked
+            }
+            updateCount()
+        })
+        //
+        // 2. 点击任意商品复选框时：
+        //    - 如果所有商品都被勾选，全选按钮自动勾选
+        //    - 如果有商品未勾选，全选按钮自动取消
+        for (let i = 0; i < cks.length; i++) {
+            cks[i].addEventListener('click', function () {
+                checkAll.checked = document.querySelectorAll('.item-checkbox:checked').length === cks.length
+                updateCount()
+            })
+        }
+        //
+        // 3. 实时统计选中的商品数量，显示在底部
+        let updateCount = function () {
+            const checkedNum = document.querySelectorAll('.item-checkbox:checked').length
+            count.innerHTML = checkedNum
+        }
+        //
+        //
+        //
+        //
+        // 提示用到的 API：
+        // - document.querySelector() / querySelectorAll()
+        // - element.addEventListener('change', fn)
+        // - checkbox.checked 属性（获取/设置勾选状态）
+        // - element.classList.add() / remove()
+        // ============================================
+
+
+
+    </script>
+</body>
+
+</html>

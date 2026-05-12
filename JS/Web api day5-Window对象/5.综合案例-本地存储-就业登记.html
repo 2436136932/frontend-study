@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生就业统计表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        /* 表单区域 */
+        .form-area {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-area input,
+        .form-area select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            width: 120px;
+        }
+
+        .form-area input:focus,
+        .form-area select:focus {
+            border-color: #ff6700;
+        }
+
+        .btn-add {
+            padding: 10px 25px;
+            background: #87CEEB;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-add:hover {
+            background: #5BC0DE;
+        }
+
+        /* 统计信息 */
+        .info-bar {
+            background: #f0f0f0;
+            padding: 15px 30px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-bar span {
+            color: #ff6700;
+            font-weight: bold;
+        }
+
+        /* 表格区域 */
+        .table-area {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f8f8;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            color: #666;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .btn-delete {
+            padding: 8px 20px;
+            background: #ff6700;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-delete:hover {
+            background: #e55a00;
+        }
+
+        /* 空状态 */
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>学生就业统计表</h2>
+
+    <!-- 表单区域 -->
+    <form class="form-area" autocomplete="off">
+        <input type="text" id="name" placeholder="姓名" required>
+        <input type="text" id="age" placeholder="年龄" required>
+        <input type="text" id="salary" placeholder="薪资" required>
+        <select id="gender" required>
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        <select id="city" required>
+            <option value="北京">北京</option>
+            <option value="上海">上海</option>
+            <option value="广州">广州</option>
+            <option value="深圳">深圳</option>
+            <option value="杭州">杭州</option>
+        </select>
+        <button class="btn-add" id="btnAdd">➕ 添加</button>
+    </form>
+
+    <!-- 统计信息 -->
+    <div class="info-bar">
+        共有数据 <span id="total">0</span> 条
+    </div>
+
+    <!-- 表格区域 -->
+    <div class="table-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>薪资</th>
+                    <th>就业城市</th>
+                    <th>录入时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <!-- 示例数据，JS 可以从这里开始替换 -->
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // ============================================
+        // 本地存储练习 - 学生就业统计表
+        // ============================================
+
+        // ============================================
+        // 【第一步】从本地存储读取数据
+        // ============================================
+        // 1. localStorage.getItem('data')：从本地存储中读取键名为 'data' 的数据
+        //    注意：localStorage 只能存字符串，读取出来的也是字符串
+        //
+        // 2. JSON.parse()：把读取到的 JSON 字符串转换成 JavaScript 数组
+        //
+        // 3. || []：如果读取到 null（说明本地存储没有这个数据），就用空数组作为默认值
+        //    这样可以保证 arr 永远是数组，不会报错
+        const arr = JSON.parse(localStorage.getItem('data')) || []
+
+        // ============================================
+        // 【第二步】定义渲染表格的函数
+        // ============================================
+        const render = function () {
+            // 1. 使用 map() 方法遍历数组，把每个对象变成 HTML 字符串
+            //    ele：当前遍历到的学生对象
+            //    index：当前元素在数组中的索引位置（后面删除会用到）
+            const trArr = arr.map(function (ele, index) {
+                return `<tr>
+                <td>${ele.id}</td>
+                <td>${ele.name}</td>
+                <td>${ele.age}</td>
+                <td>${ele.gender}</td>
+                <td>${ele.salary}</td>
+                <td>${ele.city}</td>
+                <td>${ele.time}</td>
+                <td><button class="btn-delete" data-index="${index}">🗑️ 删除</button></td>
+            </tr>`
+            })
+
+            // 2. 获取 tbody DOM 元素
+            const tbody = document.getElementById('tbody')
+
+            // 3. 把数组的所有 HTML 字符串拼接起来，设置到 tbody 中
+            //    join('')：把数组变成单个字符串（不加分隔符）
+            tbody.innerHTML = trArr.join('')
+        }
+
+        // 4. 页面加载时立即调用一次渲染函数，显示数据
+        render()
+
+        // ============================================
+        // 【第三步】更新统计数量
+        // ============================================
+        // 把数组的长度（数据条数）显示到页面上的 #total 元素中
+        document.querySelector('#total').innerHTML = arr.length
+
+        // ============================================
+        // 【第四步】添加数据功能
+        // ============================================
+
+        // 1. 获取表单 DOM 元素
+        const form = document.querySelector('.form-area')
+
+        // 2. 初始化 ID 计数器，保证 ID 永远不重复
+        //    逻辑：找到数组中最大的 ID，然后 +1 作为下一个新数据的 ID
+        //
+        //    拆解：
+        //    arr.length > 0 ：判断数组是否有数据
+        //    arr.map(item => item.id)：把数组变成只包含 ID 的新数组，比如 [1, 3, 5]
+        //    Math.max(...数组)：找到数组中的最大值
+        //    : 0：如果数组为空，最大 ID 就是 0
+        let maxId = arr.length > 0 ? Math.max(...arr.map(item => item.id)) : 0
+
+        //    下一个新数据的 ID 就是最大 ID + 1
+        let idCounter = maxId + 1 
+
+        // 3. 监听表单的提交事件（submit）
+        form.addEventListener('submit', function (e) {
+            // 4. 阻止表单的默认提交行为（防止页面刷新跳转）
+            e.preventDefault()
+
+            // 5. 获取表单中的所有输入值
+            //    value.trim()：去除字符串首尾的空白字符（空格、制表符等）
+            const name = document.querySelector('#name').value.trim()
+            const age = document.querySelector('#age').value.trim()
+            const salary = document.querySelector('#salary').value.trim()
+            const gender = document.querySelector('#gender').value
+            const city = document.querySelector('#city').value
+
+            // 6. 生成当前录入时间
+            //    new Date()：创建当前时间对象
+            //    toLocaleString()：把时间变成本地时间格式的字符串，比如 "2026/5/10 14:30:25"
+            const time = new Date().toLocaleString()
+
+            // 7. 验证输入是否为空（简单的表单验证）
+            if (name === '' || age === '' || salary === '') {
+                alert('输入信息不能为空！')
+                return // 停止执行后面的代码，不添加数据
+            }
+
+            // 8. 把新数据作为一个对象，添加到数组中
+            arr.push({
+                id: idCounter++, // 使用当前计数器，然后自增
+                name: name,
+                age: Number(age), // 把字符串类型的年龄转成数字类型
+                gender: gender,
+                salary: Number(salary), // 把字符串类型的薪资转成数字类型
+                city: city,
+                time: time
+            })
+
+            // 9. 更新页面上的统计数量
+            document.querySelector('#total').innerHTML = arr.length
+
+            // 10. 重新渲染表格，显示新添加的数据
+            render()
+
+            // 11. 清空表单的所有输入框
+            form.reset()
+
+            // 12. 保存最新的数据到本地存储
+            //    JSON.stringify(arr)：把 JavaScript 数组转成 JSON 字符串
+            //    localStorage.setItem('key', value)：把键值对存入本地存储
+            localStorage.setItem('data', JSON.stringify(arr))
+        })
+
+        // ============================================
+        // 【第五步】删除数据功能（事件委托）
+        // ============================================
+
+        // 1. 获取 tbody DOM 元素（作为父元素）
+        const tbody = document.getElementById('tbody')
+
+        // 2. 在父元素 tbody 上监听点击事件（事件委托）
+        //    因为按钮是动态生成的，直接给按钮绑定事件会失效，所以绑定在父元素上
+        tbody.addEventListener('click', function (e) {
+            // 3. 判断点击的是不是 BUTTON 元素
+            //    e.target：实际触发事件的元素（就是你点击的那个元素）
+            //    tagName：获取标签名（注意要大写，比如 'BUTTON'）
+            if (e.target.tagName === 'BUTTON') {
+                // 4. 获取按钮上的 data-index 属性值（数组索引）
+                //    dataset.index：获取 data-index 属性
+                //    Number()：转成数字类型（虽然这里字符串也能用，但数字更严谨）
+                const index = Number(e.target.dataset.index)
+
+                // 5. 从数组中删除对应索引位置的元素
+                //    splice(开始索引, 删除的数量)
+                arr.splice(index, 1)
+
+                // 6. 重新渲染表格（删除后表格会更新）
+                render()
+
+                // 7. 更新本地存储
+                localStorage.setItem('data', JSON.stringify(arr))
+
+                // 8. 更新统计数量
+                document.querySelector('#total').innerHTML = arr.length
+            }
+        })
+
+    </script>
+</body>
+
+</html>

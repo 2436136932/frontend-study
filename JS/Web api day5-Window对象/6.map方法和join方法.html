@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map方法和join方法</title>
+</head>
+<body>
+    <script>
+        const arr = ['pink','red','green','blue','yellow']
+        const newArr1 = arr.forEach(function(ele,index){
+            console.log(ele)
+            console.log(index)
+        })
+        const newArr2 = arr.map(function(ele,index){
+            // console.log(ele)
+            // console.log(index)
+            return ele+'颜色'
+        })
+        console.log(newArr2)
+        const str = newArr2.join('+')
+        console.log(str)
+    </script>
+</body>
+</html>

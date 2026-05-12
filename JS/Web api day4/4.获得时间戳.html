@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获得时间戳</title>
+</head>
+<body>
+    <script>
+        // 时间戳：1970年1月1日0时0分0秒到当前时间的毫秒数
+        // 1. 通过日期对象的getTime()方法获得时间戳
+        // 实例化日期对象
+        const date = new Date();
+        // 获取时间戳
+        console.log(date.getTime());
+
+        // 2.通过+new Date()获得时间戳
+        console.log(+new Date());
+
+        // 3. 通过Date.now()方法获得时间戳
+        console.log(Date.now());
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件委托</title>
+</head>
+<body>
+    <ul>
+        <li>我是第一个li</li>
+        <li>我是第二个li</li>
+        <li>我是第三个li</li>
+        <li>我是第四个li</li>
+        <li>我是第五个li</li>
+        <li>我是第六个li</li>
+        <li>我是第七个li</li>
+        <li>我是第八个li</li>
+        <p>我是第一个p</p>
+        <p>我是第二个p</p>
+        <p>我是第三个p</p>  
+        <p>我是第四个p</p>
+        <p>我是第五个p</p>
+        <p>我是第六个p</p>
+        <p>我是第七个p</p>
+        <p>我是第八个p</p>
+    </ul>
+    <script>
+        const ul = document.querySelector('ul')
+        ul.addEventListener('click', function (e) {
+            console.log(e.target.tagName)
+            if(e.target.tagName === 'LI'){
+                alert('我是li')
+                e.target.style.color = 'red'
+            }else if(e.target.tagName === 'P'){
+                alert('我是p')
+            }
+        })
+    </script>
+</body>
+</html>

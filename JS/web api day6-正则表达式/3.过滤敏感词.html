@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤敏感词</title>
+</head>
+<body>
+    <textarea name="" id="content"></textarea>
+    <button id="button">发布</button>
+    <div id="result"></div>
+    <script>
+        const content = document.querySelector('#content');
+        const button = document.querySelector('#button');
+        const result = document.querySelector('#result');
+        const div = document.querySelector('#result');
+        button.addEventListener('click', function(){
+            const text = content.value;
+            const reg = /操|八嘎|混蛋/g;
+            if(reg.test(content.value)){
+                result.innerHTML = content.value.replace(reg, '**');
+                content.value = '';
+            }else{
+                result.innerHTML = content.value;
+                content.value = '';
+            }
+        })
+        content.addEventListener('keyup', function(e){
+            if(e.key === 'Enter'){
+                button.click();
+            }
+        })
+    </script>
+</body>
+</html>

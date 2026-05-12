@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宠物领养本地存储</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        /* 表单区域 */
+        .form-area {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-area input,
+        .form-area select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            width: 120px;
+        }
+
+        .form-area input:focus,
+        .form-area select:focus {
+            border-color: #ff6700;
+        }
+
+        .btn-add {
+            padding: 10px 25px;
+            background: #87CEEB;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-add:hover {
+            background: #5BC0DE;
+        }
+
+        /* 统计信息 */
+        .info-bar {
+            background: #f0f0f0;
+            padding: 15px 30px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-bar span {
+            color: #ff6700;
+            font-weight: bold;
+        }
+
+        /* 表格区域 */
+        .table-area {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f8f8;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            color: #666;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .btn-delete {
+            padding: 8px 20px;
+            background: #ff6700;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-delete:hover {
+            background: #e55a00;
+        }
+
+        /* 空状态 */
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>宠物领养本地存储</h2>
+
+    <!-- 表单区域 -->
+    <form class="form-area" autocomplete="off">
+        <input type="text" id="name" placeholder="宠物姓名" required>
+        <input type="text" id="age" placeholder="宠物年龄（岁）" required>
+        <select id="gender" required>
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        <select name="type" required id="type">
+            <option value="狗">狗</option>
+            <option value="猫">猫</option>
+        </select>
+        <input type="text" id="ownerName" placeholder="领养人姓名" required>
+        <input type="text" id="phone" placeholder="领养人手机号" required>
+        <button class="btn-add" id="btnAdd">➕ 添加</button>
+    </form>
+
+    <!-- 统计信息 -->
+    <div class="info-bar">
+        共有数据 <span id="total">0</span> 条
+    </div>
+
+    <!-- 表格区域 -->
+    <div class="table-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>领养ID</th>
+                    <th>宠物姓名</th>
+                    <th>宠物年龄</th>
+                    <th>宠物性别</th>
+                    <th>种类</th>
+                    <th>领养人姓名</th>
+                    <th>领养人手机号</th>
+                    <th>领养时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 1. 从本地存储读取数据（没有就用空数组）
+        const arr = JSON.parse(localStorage.getItem('petData')) || []
+
+        // 2. 渲染表格
+        const render = function () {
+            const arrStr = arr.map(function (ele, index) {
+                return `
+                <tr>
+                    <td>${ele.id}</td>
+                    <td>${ele.name}</td>
+                    <td>${ele.age}</td>
+                    <td>${ele.gender}</td>
+                    <td>${ele.type}</td>
+                    <td>${ele.ownerName}</td>
+                    <td>${ele.phone}</td>
+                    <td>${ele.time}</td>
+                    <td>
+                        <button class="btn-delete" data-id="${index}">🗑️ 删除</button>
+                    </td>
+                </tr>
+                `
+            })
+            // 拼接 HTML 并显示
+            document.querySelector('tbody').innerHTML = arrStr.join('')
+        }
+        render()
+
+        // 3. 更新统计数量
+        document.querySelector('#total').innerHTML = arr.length
+
+        // 4. 初始化 ID 计数器（找最大 ID + 1）
+        let maxId = arr.length > 0 ? Math.max(...arr.map(item => item.id)) : 0
+        let idCounter = maxId + 1
+
+        // 5. 添加数据功能
+        const form = document.querySelector('.form-area')
+        form.addEventListener('submit', function (e) {
+            e.preventDefault() // 阻止页面刷新
+            // 获取表单值
+            const name = document.getElementById('name').value
+            const age = document.getElementById('age').value
+            const gender = document.getElementById('gender').value
+            const type = document.getElementById('type').value
+            const ownerName = document.getElementById('ownerName').value
+            const phone = document.getElementById('phone').value
+            const time = new Date().toLocaleString()
+
+            // 验证输入
+            if (!name.trim() || !age.trim() || !gender.trim() || !type.trim() || !ownerName.trim() || !phone.trim()) {
+                alert('输入信息不能为空')
+                return
+            }
+            // 添加到数组
+            arr.push({
+                id: idCounter++,
+                name: name.trim(),
+                age: age.trim(),
+                gender: gender,
+                type: type,
+                ownerName: ownerName.trim(),
+                phone: phone.trim(),
+                time: time
+            })
+            // 更新页面
+            render()
+            form.reset()
+            document.querySelector('#total').innerHTML = arr.length
+            localStorage.setItem('petData', JSON.stringify(arr)) // 保存
+        })
+
+        // 6. 删除数据功能（事件委托）
+        const tbody = document.querySelector('tbody')
+        tbody.addEventListener('click', function (e) {
+            if (e.target.tagName === 'BUTTON') {
+                if (confirm('确认要删除吗？')) {
+                    const id = e.target.dataset.id // 获取索引
+                    arr.splice(id, 1) // 从数组删除
+                    // 更新页面
+                    render()
+                    document.querySelector('#total').innerHTML = arr.length
+                    localStorage.setItem('petData', JSON.stringify(arr)) // 保存
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

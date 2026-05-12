@@ -63,8 +63,9 @@
             z-index: 0;
             transition: all .5s;
         }
-        .menu span i {
+        .menu span a i {
             color: var(--clr);
+            transform: rotate(0deg);
             transition: 0s;
         }
         .menu:hover .btn {
@@ -73,7 +74,7 @@
         .menu:hover span {
             transform: rotate(calc(360deg / 8 * var(--i))) translateX(80px);
         }
-        .menu:hover span i {
+        .menu:hover span a i {
             transform: rotate(calc(-360deg / 8 * var(--i)));
         }
         /* 鼠标经过span 会有一个漂亮的阴影效果 */
@@ -86,7 +87,7 @@
             /* 想要阴影立马显示，所以去掉过渡 */
             transition: all 0s;
         }
-        .menu span:hover i {
+        .menu span:hover a i {
             color: rgb(0, 0, 0);
         }
     </style>
@@ -98,44 +99,44 @@
             <i class="iconfont icon-add"></i>
         </div>
             <span style="--i:0;--clr: #ff2972;">
-                
+                <a href="">
                     <i class="iconfont icon-home"></i>
-              
+                </a>
             </span>
             <span style="--i:1;--clr: #fee800;">
-                
+                <a href="">
                     <i class="iconfont icon-more"></i>
-              
+                </a>
             </span>
             <span style="--i:2;--clr: #04fc43;">
-                
+                <a href="">
                     <i class="iconfont icon-gift"></i>
-              
+                </a>
             </span>
             <span style="--i:3;--clr: #fe00f1;">
-                
+                <a href="">
                     <i class="iconfont icon-setting"></i>
-              
+                </a>
             </span>
             <span style="--i:4;--clr: #00b0fe;">
-                
+                <a href="">
                     <i class="iconfont icon-message"></i>
-              
+                </a>
             </span>
             <span style="--i:5;--clr: #fea600;">
-                
+                <a href="">
                     <i class="iconfont icon-cart"></i>
-
+                </a>
             </span>
             <span style="--i:6;--clr: #a529ff;">
-                
+                <a href="">
                     <i class="iconfont icon-money"></i>
-              
+                </a>
             </span>
             <span style="--i:7;--clr: #01bdab;">
-                
+                <a href="">
                     <i class="iconfont icon-star"></i>
-              
+                </a>
             </span>
     </div>
 </body>

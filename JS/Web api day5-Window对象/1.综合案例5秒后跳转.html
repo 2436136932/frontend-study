@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        a{
+            text-decoration: none;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://www.bilibili.com/" target="_blank"><span>5</span>秒后跳转哔哩哔哩</a>
+    <script>
+        const a = document.querySelector('a');
+        let time = 5;
+        let timer = setInterval(function () {
+            time--;
+            a.querySelector('span').textContent = time;
+            if (time === 0) {
+                clearInterval(timer);
+                location.href = 'https://www.bilibili.com/';
+                // ========== location 常用属性（以 https://www.baidu.com:8080/search?q=js#top 为例）==========
+                // location.href      完整URL          https://www.baidu.com:8080/search?q=js#top
+                // location.protocol  协议              https:
+                // location.host      主机名+端口        www.baidu.com:8080
+                // location.hostname  主机名             www.baidu.com
+                // location.port      端口号             8080
+                // location.pathname  路径              /search
+                // location.search    查询字符串         ?q=js
+                // location.hash      哈希值            #top
+                // location.origin    协议+主机名+端口(只读) https://www.baidu.com:8080
+                //
+                // ========== location 常用方法 ==========
+                // location.href = 'xxx'      跳转新页面（最常用）
+                // location.assign('xxx')    跳转，保留历史记录（可后退）
+                // location.replace('xxx')   跳转，替换当前记录（不可后退）
+                // location.reload()         刷新页面
+
+                
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

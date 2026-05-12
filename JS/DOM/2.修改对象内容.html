@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改对象内容</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .nav li {
+            color: red;
+        }
+    </style>
+
+</head>
+<body>
+    <ul class="nav">
+        <li>我的首页</li>
+        <li>产品介绍</1i>
+        <li>联系方式</1i>
+    </u1>
+
+    
+    <script>
+        const nav = document.querySelectorAll('.nav li');
+        for (let i = 0; i < nav.length; i++) {
+            nav[i].innerHTML = `<strong>修改后的内容${i}</strong>`;
+        }
+    </script>
+    
+</body>
+</html>

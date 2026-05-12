@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .sider {
+            width: 840px;
+            height: 420px;
+            overflow: hidden;
+            margin: 100px auto;
+            background: no-repeat center / cover;
+            padding: 100px 250px;
+        }
+
+        .sider-wrapper {
+            position: relative;
+        }
+
+        .sider-wrapper img {
+            width: 340px;
+            height: 200px;
+        }
+
+        .sider-footer {
+            position: absolute;
+            bottom: -35px;
+            left: 0;
+            width: 100%;
+            height: 42px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sider-footer p {
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .sider-footer ul {
+            display: flex;
+        }
+
+        .sider-footer ul li {
+            list-style: none;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .sider-footer ul li.active {
+            background: #fff;
+            color: #fff;
+        }
+
+        .sider-footer ul li:hover {
+            background: #fff;
+            color: #fff;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle button {
+            font-size: 20px;
+            color: #ffffff;
+            background: transparent;
+            border: 1px solid #ffffff;
+            border-radius: 50%;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sider">
+        <div class="sider-wrapper">
+            <img src="../img/落日黄昏时.jpg" alt="">
+            <div class="sider-footer">
+                <p>落日黄昏时</p>
+                <ul class="sider-indicater">
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="toggle">
+                <button class="prev">&lt;</button>
+                <button class="next">&gt;</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const siderData = [
+            {
+                url: '../img/落日黄昏时.jpg',
+                title: '落日黄昏时'
+            },
+            {
+                url: '../img/是风吹.jpg',
+                title: '是风吹'
+            },
+            {
+                url: '../img/桃花依旧笑春风.jpg',
+                title: '桃花依旧笑春风'
+            },
+            {
+                url: '../img/万条垂下绿丝绦.jpg',
+                title: '万条垂下绿丝绦'
+            },
+            {
+                url: '../img/夏日的浪漫.jpg',
+                title: '夏日的浪漫'
+            },
+            {
+                url: '../img/心脏的温度.jpg',
+                title: '心脏的温度'
+            },
+        ]
+        const prev = document.querySelector('.prev')
+        const next = document.querySelector('.next')
+        const img = document.querySelector('img')
+        const p = document.querySelector('p')
+
+        let i = 0
+        //1.next按钮模块
+        next.addEventListener('click', function () {
+            i++
+            if (i >= siderData.length) {
+                i = 0
+            }
+            common()
+
+        })
+        //2.prev按钮模块
+        prev.addEventListener('click', function () {
+            i--
+            if (i < 0) {
+                i = siderData.length - 1
+            }
+            common()
+        })
+
+        //3.公共模块
+        let common = function () {
+            img.src = siderData[i].url
+            p.innerHTML = siderData[i].title
+            // 指向当前图片的li添加active类名
+            document.querySelector('.sider-indicater li.active').classList.remove('active')
+            document.querySelector(`li:nth-child(${i + 1})`).classList.add('active')
+        }
+
+
+
+        //4.定时播放
+        let timeId = setInterval(function () {
+            next.click()
+        }, 3000)
+
+
+        //5.鼠标经过暂停定时播放
+        const sider = document.querySelector('.sider')
+        sider.addEventListener('mouseenter', function () {
+            clearInterval(timeId)
+        })
+        //6.鼠标离开继续定时播放
+        sider.addEventListener('mouseleave', function () {
+            clearInterval(timeId)
+            timeId = setInterval(function () {
+                next.click()
+            }, 3000)
+        })
+        
+        
+    </script>
+</body>
+
+</html>

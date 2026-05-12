@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地存储复杂数据类型</title>
+</head>
+<body>
+    <script>
+        const obj = {
+            name: 'pink老师',
+            age: 18,
+            sex: '女'
+        }
+        // 1. 存储方式 都加引号  不能直接存储对象，只能存储字符串
+        // localStorage.setItem('键', '值')
+        localStorage.setItem('user', JSON.stringify(obj))
+        // JSON 对象 属性和值有引号，而是引号统一是双引号
+        // {"name":"pink老师","age":18,"sex":"女"}
+        // 取console.Log(typeof localStorage.getItem('user'))
+
+        // 2. 获取方式 把字符串转换为对象
+        // JSON.parse() 方法用于将 JSON 字符串转换为 JavaScript 对象或值
+        console.log(JSON.parse(localStorage.getItem('user')))
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机点名</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 600px;
+            height: 300px;
+            background: pink;
+            margin: 100px auto;
+        }
+
+        span,
+        .qs {
+            font-size: 30px;
+            text-align: center;
+            line-height: 300px;
+        }
+
+        .btns {
+            text-align: center;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .start {
+            margin-right: 20px;
+        }
+
+        .end {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>随机点名</h2>
+    <div class="box">
+        <span>名字是&nbsp;:&nbsp;&nbsp;</span>
+        <div class="qs">姓名</div>
+    </div>
+    <div class="btns">
+        <button class="start">开始</button>
+        <button class="end" disabled>结束</button>
+    </div>
+
+    <script>
+        // 数据数组
+        const arr = ["马超", "黄忠", "赵云", "关羽", "张飞"]
+
+        let timeId = null
+
+        let random = 0
+
+        // 业务1.开始按钮模块
+        const qs = document.querySelector('.qs')
+        const start = document.querySelector('.start')
+        //1.1 获取开始按钮对象
+        start.addEventListener('click', function () {
+            start.disabled = true
+            end.disabled = false
+            timeId = setInterval(function () {
+                random = Math.floor(Math.random() * arr.length)
+                qs.innerHTML = arr[random]
+            }, 30)
+            if (arr.length == 1) {
+                end.disabled = true
+            }
+        })
+        // 业务2.结束按钮模块
+        const end = document.querySelector('.end')
+        end.addEventListener('click', function () {
+            start.disabled = false
+            end.disabled = true
+            clearInterval(timeId)
+            arr.splice(random, 1)
+            // console.log(arr)
+        })
+    </script>
+</body>
+
+</html>

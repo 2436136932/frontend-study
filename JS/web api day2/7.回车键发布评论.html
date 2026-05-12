@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回车键发布评论</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .textarea-wrapper {
+            display: flex;
+            width: 300px;
+            margin: 50px auto;
+        }
+
+        .textarea-wrapper #textarea {
+            width: 300px;
+            height: 50px;
+            padding: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .textarea-wrapper #textarea::placeholder {
+            color: #d8d8d8;
+        }
+
+        .textarea-wrapper #textarea:focus {
+            height: 150px;
+        }
+
+        .textarea-wrapper .textarea-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .textarea-wrapper .textarea-count {
+            display: inline-block;
+            color: #999;
+            padding-right: 10px;
+            opacity: 0;
+        }
+
+        .textarea-wrapper .textarea-btn {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            background-color: skyblue;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .textarea-wrapper #textarea:focus~.textarea-footer .textarea-btn {
+            height: 150px;
+        }
+
+        .list {
+            margin: 20px auto;
+        }
+
+        .list .item .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 10px auto;
+            width: 300px;
+        }
+
+        .list .item .info .name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .list .item .info .text {
+            font-size: 14px;
+        }
+
+        .list .item .info .time {
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="textarea-wrapper">
+        <textarea name="" id="textarea" cols="30" rows="10" placeholder="请输入内容" maxlength="100"></textarea>
+        <div class="textarea-footer">
+            <button class="textarea-btn">提交</button>
+            <p class="textarea-count">0/100</p>
+        </div>
+    </div>
+    <div class="list">
+        <div class="item" style="display: none;"><i class="avatar"></i>
+            <div class="info">
+                <p class="name">清风徐来</p>
+                <p class="text">大家都辛苦啦，感谢各位大大的努力</p>
+                <p class="time">2026-4-10 20:29:21</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const textarea = document.querySelector('#textarea')
+        const count = document.querySelector('.textarea-count')
+        const btn = document.querySelector('.textarea-btn')
+        const text = document.querySelector('.text')
+        const item = document.querySelector('.item')
+        textarea.addEventListener('focus', function () {
+            count.style.opacity = 1
+        })
+        textarea.addEventListener('blur', function () {
+            count.style.opacity = 0
+        })
+        textarea.addEventListener('input', function () {
+            count.innerHTML = `${textarea.value.length}/100`
+        })
+        btn.addEventListener('click', function () {
+            //如果评论内容为空，不发布
+            if (textarea.value.trim() !== '') {
+                item.style.display = 'block'
+                text.innerHTML = textarea.value
+                count.innerHTML = '0/100'
+            }
+            textarea.value = ''
+        })
+        textarea.addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') {
+                btn.click()
+            }
+        })
+        
+    </script>
+</body>
+
+</html>

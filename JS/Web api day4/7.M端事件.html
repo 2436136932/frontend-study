@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>M端三大事件案例</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none; /* 禁止选中文本，提升App质感 */
+            -webkit-tap-highlight-color: transparent; /* 去除点击高亮 */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-left: 4px solid #007aff;
+            padding-left: 10px;
+        }
+
+        .container {
+            margin-bottom: 30px;
+        }
+
+        /* 案例通用按钮样式 */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            font-size: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            background-color: #f0f0f0;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        /* 案例1：点击样式 */
+        #tap-btn.active {
+            background-color: #007aff;
+            color: white;
+        }
+
+        /* 案例2：长按样式 */
+        #long-press-btn.holding {
+            background-color: #ff3b30;
+            color: white;
+        }
+
+        /* 案例3：滑动区域样式 */
+        .swipe-area {
+            width: 100%;
+            height: 150px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ccc;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 滑动时的指示器 */
+        .swipe-indicator {
+            position: absolute;
+            bottom: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 案例 1: 点击事件 -->
+    <div class="container">
+        <h2>1. 点击事件</h2>
+        <div id="tap-btn" class="btn">点击我</div>
+        <div id="tap-status" class="status">等待操作...</div>
+    </div>
+
+    <!-- 案例 2: 长按事件 -->
+    <div class="container">
+        <h2>2. 长按事件</h2>
+        <div id="long-press-btn" class="btn">长按我删除</div>
+        <div id="long-press-status" class="status">等待操作...</div>
+    </div>
+
+    <!-- 案例 3: 滑动事件 -->
+    <div class="container">
+        <h2>3. 滑动事件</h2>
+        <div id="swipe-area" class="swipe-area">
+            <span id="swipe-text">在此区域滑动</span>
+            <div class="swipe-indicator">支持左右滑动</div>
+        </div>
+        <div id="swipe-status" class="status">等待操作...</div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 案例 1: 点击事件
+        // ==========================================
+        const tapBtn = document.getElementById('tap-btn');
+        const tapStatus = document.getElementById('tap-status');
+
+        tapBtn.addEventListener('click', function() {
+            // 切换激活状态样式
+            this.classList.toggle('active');
+            
+            // 更新状态文字
+            if (this.classList.contains('active')) {
+                tapStatus.innerText = '状态：已激活';
+                tapStatus.style.color = '#007aff';
+            } else {
+                tapStatus.innerText = '状态：已取消';
+                tapStatus.style.color = '#666';
+            }
+        });
+
+        // ==========================================
+        // 案例 2: 长按事件
+        // ==========================================
+        const longPressBtn = document.getElementById('long-press-btn');
+        const longPressStatus = document.getElementById('long-press-status');
+        let longPressTimer;
+
+        // 当手指按下时
+        longPressBtn.addEventListener('touchstart', function(e) {
+            // 阻止默认事件（防止某些浏览器触发缩放或滚动）
+            // e.preventDefault(); 
+            
+            // 设置定时器，800毫秒后触发长按逻辑
+            longPressTimer = setTimeout(() => {
+                // 触发长按成功
+                this.classList.add('holding');
+                longPressStatus.innerText = '操作成功：已删除！';
+                longPressStatus.style.color = '#ff3b30';
+                
+                // 添加震动反馈 (如果设备支持)
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }, 800); // 800ms 长按判定时间
+        }, { passive: false });
+
+        // 当手指松开或移出时，清除定时器
+        const clearLongPress = () => {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            // 如果之前触发了长按样式，这里可以重置（可选）
+            // longPressBtn.classList.remove('holding');
+        };
+
+        longPressBtn.addEventListener('touchend', clearLongPress);
+        longPressBtn.addEventListener('touchmove', clearLongPress); // 如果手指移动了，通常取消长按判定
+
+        // ==========================================
+        // 案例 3: 滑动事件
+        // ==========================================
+        const swipeArea = document.getElementById('swipe-area');
+        const swipeText = document.getElementById('swipe-text');
+        const swipeStatus = document.getElementById('swipe-status');
+        
+        let startX = 0; // 记录起始X坐标
+
+        swipeArea.addEventListener('touchstart', function(e) {
+            // 获取第一个触摸点的坐标
+            startX = e.touches[0].clientX;
+            swipeStatus.innerText = '状态：开始滑动...';
+            swipeText.style.color = '#333';
+        }, { passive: false });
+
+        swipeArea.addEventListener('touchmove', function(e) {
+            // 阻止默认滚动行为，防止页面跟着动
+            e.preventDefault(); 
+            
+            const currentX = e.touches[0].clientX;
+            const diffX = currentX - startX;
+
+            // 实时反馈滑动方向
+            if (diffX > 0) {
+                swipeText.innerText = `向右滑动 (${Math.round(diffX)}px)`;
+            } else {
+                swipeText.innerText = `向左滑动 (${Math.round(Math.abs(diffX))}px)`;
+            }
+        }, { passive: false });
+
+        swipeArea.addEventListener('touchend', function(e) {
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - startX;
+
+            // 判断滑动距离是否超过阈值（例如 50px）
+            if (Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    swipeStatus.innerText = '结果：向右翻页';
+                    swipeArea.style.backgroundColor = '#e8f5e9'; // 浅绿背景
+                } else {
+                    swipeStatus.innerText = '结果：向右删除';
+                    swipeArea.style.backgroundColor = '#ffebee'; // 浅红背景
+                }
+            } else {
+                swipeStatus.innerText = '结果：滑动距离太短，取消';
+                swipeArea.style.backgroundColor = '#fff';
+                swipeText.innerText = '在此区域滑动';
+            }
+
+            // 恢复背景色延时
+            setTimeout(() => {
+                swipeArea.style.backgroundColor = '#fff';
+            }, 300);
+        });
+    </script>
+</body>
+</html>

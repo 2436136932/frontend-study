@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下班倒计时</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #a52a2a;
+            color: #fff;
+            font-family: "Microsoft YaHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .date {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 50px;
+        }
+
+        .countdown .box {
+            width: 60px;
+            height: 60px;
+            background-color: #333;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .countdown .colon {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .end-time {
+            font-size: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="date">今天是<span id="date">2222年2月22日13:00:00</span></div>
+        <div class="title">下班倒计时</div>
+        <div class="countdown">
+            <div class="box" id="hour">00</div>
+            <div class="colon">:</div>
+            <div class="box" id="minute">00</div>
+            <div class="colon">:</div>
+            <div class="box" id="second">00</div>
+        </div>
+        <div class="end-time">17:00:00下班</div>
+    </div>
+
+    <script>
+        // 在这里写你的 JS 代码
+        // 1.页面刷新背景颜色变换
+        const body = document.body;
+        function changeColor(flag) {
+            if (flag) {
+                let str = '#';
+                let arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+                for (let i = 0; i < 6; i++) {
+                    let random = Math.floor(Math.random() * 16);
+                    str += arr[random];
+                }
+                body.style.backgroundColor = str;
+                return str;
+            }
+            else {
+                //rgb颜色值
+                let r = Math.floor(Math.random() * 256);
+                let g = Math.floor(Math.random() * 256);
+                let b = Math.floor(Math.random() * 256);
+                body.style.backgroundColor = `rgb(${r},${g},${b})`;
+                return `rgb(${r},${g},${b})`;
+            }
+        }
+        changeColor(false);  // 调用函数，改变背景颜色为随机颜色
+
+        // 2. 实时显示时间
+        const span = document.querySelector('span');
+        function myTime() {
+            // 实例化日期对象
+            const date = new Date();
+            let h = date.getHours();
+            let m = date.getMinutes();
+            let s = date.getSeconds();
+            // 补0
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            span.innerHTML = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${h}:${m}:${s}`;
+        }
+        // 调用函数
+        myTime();
+        // 调用函数
+        setInterval(function () {
+            myTime();
+        }, 1000);
+
+        // 3. 下班倒计时
+        const hour = document.querySelector('#hour');
+        const minute = document.querySelector('#minute');
+        const second = document.querySelector('#second');
+
+        function countdown() {
+            const now = +new Date();
+            const end = +new Date('2026-05-04 17:00:00');
+            // 计算倒计时时间
+            const diff = (end - now) / 1000;
+            // 转换为小时、分钟、秒
+            let h = Math.floor(diff / 60 / 60 % 24);
+            let m = Math.floor(diff / 60 % 60);
+            let s = Math.floor(diff % 60);
+            // 补0
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            // 显示倒计时
+            hour.innerHTML = h;
+            minute.innerHTML = m;
+            second.innerHTML = s;
+        }
+        // 调用函数
+        countdown();
+        // 调用函数
+        setInterval(countdown, 1000);
+    </script>
+</body>
+
+</html>

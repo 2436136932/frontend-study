@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顺序播放轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .sider {
+            width: 840px;
+            height: 420px;
+            overflow: hidden;
+            margin: 100px auto;
+            background: no-repeat center / cover;
+            padding: 100px 250px;
+        }
+
+        .sider-wrapper {
+            position: relative;
+        }
+
+        .sider-wrapper img {
+            width: 340px;
+            height: 200px;
+        }
+
+        .sider-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 42px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sider-footer p {
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .sider-footer ul {
+            display: flex;
+        }
+
+        .sider-footer ul li {
+            list-style: none;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .sider-footer ul li.active {
+            background: #fff;
+            color: #fff;
+            transform: scale(1.2);
+        }
+
+        .sider-footer ul li:hover {
+            background: #fff;
+            color: #fff;
+            transform: scale(1.2);
+        }
+
+        .toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle button {
+            font-size: 20px;
+            color: #000;
+            background: transparent;
+            border-radius: 50%;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sider">
+        <div class="sider-wrapper">
+            <img src="../img/落日黄昏时.jpg" alt="">
+            <div class="sider-footer">
+                <p>落日黄昏时</p>
+                <ul class="sider-indicater">
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="toggle">
+                <button class="prev">&lt;</button>
+                <button class="next">&gt;</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const siderData = [
+            {
+                url: '../img/落日黄昏时.jpg',
+                title: '落日黄昏时'
+            },
+            {
+                url: '../img/是风吹.jpg',
+                title: '是风吹'
+            },
+            {
+                url: '../img/桃花依旧笑春风.jpg',
+                title: '桃花依旧笑春风'
+            },
+            {
+                url: '../img/万条垂下绿丝绦.jpg',
+                title: '万条垂下绿丝绦'
+            },
+            {
+                url: '../img/夏日的浪漫.jpg',
+                title: '夏日的浪漫'
+            },
+            {
+                url: '../img/心脏的温度.jpg',
+                title: '心脏的温度'
+            },
+        ]
+        const img = document.querySelector('.sider-wrapper img')
+        const p = document.querySelector('.sider-footer p')
+        let i = 0
+        let n = setInterval(function () {
+            i++
+            if (i === siderData.length) {
+                i = 0
+            }
+            // console.log(i)
+            img.src = siderData[i].url
+            p.innerHTML = siderData[i].title
+            document.querySelector('.sider-indicater li.active').classList.remove('active')
+            document.querySelector(`.sider-indicater li:nth-child(${i + 1})`).classList.add('active')
+
+        }, 1000)
+    </script>
+</body>
+
+</html>

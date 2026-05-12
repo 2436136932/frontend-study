@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input文本事件事件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .textarea-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .textarea-wrapper #textarea {
+            margin: 50px auto;
+            width: 300px;
+            height: 50px;
+            padding: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .textarea-wrapper #textarea:focus {
+            height: 150px;
+        }
+
+        .textarea-wrapper .textarea-footer {
+            display: flex;
+            margin: 0 auto;
+        }
+
+        .textarea-wrapper .textarea-count {
+            display: block;
+            color: #999;
+            padding-right: 10px;
+            opacity: 0;
+        }
+
+        .textarea-wrapper .textarea-btn {
+            display: block;
+            width: 100px;
+            height: 30px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="textarea-wrapper">
+        <textarea name="" id="textarea" cols="30" rows="10" placeholder="请输入内容" maxlength="100"></textarea>
+        <div class="textarea-footer">
+            <p class="textarea-count">0/100</p>
+            <button class="textarea-btn">提交</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        const textarea = document.querySelector('#textarea')
+        const count = document.querySelector('.textarea-count')
+        textarea.addEventListener('focus', function () {
+            count.style.opacity = 1
+        })
+        textarea.addEventListener('blur', function () {
+            count.style.opacity = 0
+        })
+        textarea.addEventListener('input', function () {
+            count.innerHTML = `${textarea.value.length}/100`
+        })
+    </script>
+</body>
+
+</html>

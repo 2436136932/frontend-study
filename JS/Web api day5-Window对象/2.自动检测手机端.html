@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自动检测手机端</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>这是 PC 端</h1>
+    <p>如果检测到是手机访问，会自动跳转到手机站</p>
+
+    <script>
+        // 检测 userAgent（浏览器信息）
+        !(function () {
+            const userAgent = navigator.userAgent
+            // 验证是否为 Android 或 iPhone
+            const android = userAgent.match(/(Android);?[\s\/]+([\d.]+)?/)
+            const iphone = userAgent.match(/(iPhone\sOS)\s([\d_]+)/)
+            // 如果是 Android 或 iPhone，则跳转至移动站点
+            if (android || iphone) {
+                location.href = 'http://m.bilibili.com/'
+            }
+        })()
+    </script>
+</body>
+</html>

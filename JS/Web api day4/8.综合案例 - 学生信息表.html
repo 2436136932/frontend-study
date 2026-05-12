@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生信息表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* 表单区域 */
+        .form-area {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-item label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-item input,
+        .form-item select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-item select {
+            height: 32px;
+        }
+
+        .form-item input:focus,
+        .form-item select:focus {
+            border-color: #409eff;
+        }
+
+        .btn-add {
+            padding: 6px 20px;
+            background-color: #1a4b8c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-add:hover {
+            background-color: #153d73;
+        }
+
+        /* 表格区域 */
+        .table-area {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #d6e9ff;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        th {
+            color: #333;
+            font-weight: normal;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f7fa;
+        }
+
+        .btn-del {
+            padding: 4px 12px;
+            background-color: #f56c6c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-del:hover {
+            background-color: #f78989;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 新增学员区域 -->
+    <div class="form-area">
+        <h2>新增学员</h2>
+        <form id="studentForm" autocomplete="off">
+            <div class="form-row">
+                <div class="form-item">
+                    <label>姓名：</label>
+                    <input type="text" id="name" name="name" placeholder="请输入姓名" required>
+                </div>
+                <div class="form-item">
+                    <label>年龄：</label>
+                    <input type="number" id="age" name="age" placeholder="请输入年龄" required>
+                </div>
+                <div class="form-item">
+                    <label>性别：</label>
+                    <select id="gender" name="gender">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label>薪资：</label>
+                    <input type="text" id="salary" name="salary" placeholder="请输入薪资" required>
+                </div>
+                <div class="form-item">
+                    <label>就业城市：</label>
+                    <select id="city" name="city">
+                        <option value="合肥" selected>合肥</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                        <option value="深圳">深圳</option>
+                        <option value="杭州">杭州</option>
+                        <option value="南京">南京</option>
+                        <option value="武汉">武汉</option>
+                        <option value="成都">成都</option>
+                        <option value="重庆">重庆</option>
+                        <option value="西安">西安</option>
+                        <option value="郑州">郑州</option>
+                        <option value="青岛">青岛</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-add">录入</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 就业榜区域 -->
+    <div class="table-area">
+        <h2>就业榜</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>薪资</th>
+                    <th>就业城市</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <!-- 数据行将通过 JS 动态添加 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 获取元素
+        const name = document.querySelector('#name');
+        const age = document.querySelector('#age');
+        const gender = document.querySelector('#gender');
+        const salary = document.querySelector('#salary');
+        const city = document.querySelector('#city');
+        // 在这里写你的 JS 代码
+        const arr = []; // 存储所有学员信息
+        let idCounter = 1; // 自增 ID 计数器
+        // 1. 获取表单元素
+        const form = document.getElementById('studentForm');
+        // 2. 获取表格元素
+        const tbody = document.getElementById('tbody');
+        // 3. 监听表单的提交事件
+        form.addEventListener('submit', function (e) {
+            // 阻止表单的默认提交行为
+            e.preventDefault();
+            // console.log(11);
+            const obj = {
+                Id: idCounter++,  // 使用自增计数器，删除后不会重复
+                name: name.value,
+                age: age.value,
+                gender: gender.value,
+                salary: salary.value,
+                city: city.value
+            }
+            //追加到数组中
+            arr.push(obj);
+            // 清空表单
+            form.reset();
+            // console.log(arr);
+
+            // 调用渲染函数
+            rander();
+        })
+        // 4. 渲染函数
+        const rander = function () {
+            // 清空表格
+            tbody.innerHTML = '';
+            for (let i = 0; i < arr.length; i++) {
+                // 生成 tr 标签
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${arr[i].Id}</td>
+                <td>${arr[i].name}</td>
+                <td>${arr[i].age}</td>
+                <td>${arr[i].gender}</td>
+                <td>${arr[i].salary}</td>
+                <td>${arr[i].city}</td>
+                <td>
+                    <button class="btn-del" data-id="${i}">删除</button>
+                </td>
+                `
+                // 渲染到表格中
+                tbody.appendChild(tr);
+            }
+        }
+        // 5. 删除功能
+        tbody.addEventListener('click', function (e) {
+            // console.log(e.target);  // 打印点击的元素
+            // console.log(e);  // 打印整个事件对象
+            // console.log(e.target.tagName);  // 打印点击的元素的标签名
+            // console.log(e.target.dataset.id);  // 打印点击的元素的 data-id 属性值
+            if (e.target.tagName === 'BUTTON') {
+                // 点击删除按钮
+                // 1. 获取删除按钮的索引
+                const id = e.target.dataset.id;
+                // 2. 从数组中删除
+                arr.splice(id, 1);
+                // 3. 重新渲染
+                rander();
+            }
+        })
+
+    </script>
+</body>
+
+</html>

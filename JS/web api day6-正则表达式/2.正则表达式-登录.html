@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            margin: 20px;
+        }
+        form div {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        span.error {
+            color: #ff6700;
+            font-size: 12px;
+            margin-left: 5px;
+            background: #fff;
+        }
+        span.success {
+            color: #009688;
+            font-size: 12px;
+            margin-left: 5px;
+            background: #fff;
+        }
+        button {
+            width: 80px;
+            height: 30px;
+            padding: 5px 10px;
+            background: #ff6700;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <div>
+            <label for="username">用户名：</label>
+            <input type="text" id="username" name="username" required>
+            <span></span>
+        </div>
+        <div>
+            <label for="password">密码：</label>
+            <input type="password" id="password" name="password" required>
+            <span></span>
+        </div>
+            <button>登录</button>
+    </form>
+    <script>
+        const reg = /^[a-zA-Z0-9_]{6,12}$/;
+        const btn = document.querySelector('button');
+        const span = document.querySelectorAll('span');
+        btn.addEventListener('click', function() {
+            const username = document.querySelector('#username').value;
+            if(reg.test(username)) {
+                span[0].className = 'success';
+                span[0].textContent = '用户名格式正确';
+                return;
+            }else{
+                span[0].className = 'error';
+                span[0].textContent = '用户名格式错误';
+                return;
+            }
+        })
+    </script>
+</body>
+</html>

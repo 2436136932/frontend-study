@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册倒计时按钮</title>
+</head>
+<body>
+    <form action="">
+        <textarea name="" id="" cols="30" rows="10">
+            用户注册协议
+        1. 用户注册协议内容
+        2. 用户注册协议内容
+        3. 用户注册协议内容
+        4. 用户注册协议内容
+        5. 用户注册协议内容
+        6. 用户注册协议内容
+        7. 用户注册协议内容
+        8. 用户注册协议内容
+        9. 用户注册协议内容
+        </textarea>
+        <button id="btn" type="submit" disabled>请阅读上述协议（5s）</button>
+    </form>
+    <script>
+        const btn = document.querySelector('#btn');
+        let count = 5;
+        let time = setInterval(function(){
+            count--;
+            btn.innerHTML = `请阅读上述协议（${count}s）`
+            if(count === 0){
+                clearInterval(time);
+                btn.innerHTML = '注册';
+                btn.disabled = false;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

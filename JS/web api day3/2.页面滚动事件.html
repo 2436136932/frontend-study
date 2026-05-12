@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面滚动事件</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .box{
+            margin: 100px auto;
+            width: 150px;
+            height: 150px;
+            /* overflow: scroll; */
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+        <p>这是一个段落</p>
+    </div>
+    <script>
+        // 监听滚动事件
+        const box = document.querySelector('.box');
+        box.addEventListener('scroll',function(){
+            console.log(this.scrollTop);
+        })
+    </script>
+</body>
+</html>

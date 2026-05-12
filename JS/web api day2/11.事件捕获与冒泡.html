@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件捕获与冒泡</title>
+    <style>
+
+        .father {
+            width: 300px;
+            height: 300px;
+            background: #ccffcc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .son {
+            width: 150px;
+            height: 150px;
+            background: #ccccff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="father">爸爸
+        <div class="son">儿子</div>
+    </div>
+    <script>
+        const fa = document.querySelector('.father')
+        const son = document.querySelector('.son')
+
+        // 默认是冒泡模式（第三个参数为 false 或不写）
+        document.addEventListener('click', function () {
+            alert('我是爷爷')
+        }, true)
+
+        fa.addEventListener('click', function () {
+            alert('我是爸爸')
+        }, true)
+
+        son.addEventListener('click', function (e) {
+            alert('我是儿子')
+            // 阻止事件冒泡
+            e.stopPropagation()
+        }, true)
+    </script>
+</body>
+
+</html>

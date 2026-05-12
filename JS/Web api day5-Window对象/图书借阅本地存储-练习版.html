@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书借阅管理-练习版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        /* 表单区域 */
+        .form-area {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-area input,
+        .form-area select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            width: 120px;
+        }
+
+        .form-area input:focus,
+        .form-area select:focus {
+            border-color: #ff6700;
+        }
+
+        .btn-add {
+            padding: 10px 25px;
+            background: #87CEEB;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-add:hover {
+            background: #5BC0DE;
+        }
+
+        /* 统计信息 */
+        .info-bar {
+            background: #f0f0f0;
+            padding: 15px 30px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-bar span {
+            color: #ff6700;
+            font-weight: bold;
+        }
+
+        /* 表格区域 */
+        .table-area {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f8f8;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            color: #666;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .btn-delete {
+            padding: 8px 20px;
+            background: #ff6700;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-delete:hover {
+            background: #e55a00;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>📚 图书借阅管理-练习版</h2>
+
+    <!-- 表单区域 -->
+    <form class="form-area" autocomplete="off" novalidate>
+        <input type="text" id="bookName" placeholder="图书名称" required>
+        <input type="text" id="author" placeholder="作者" required>
+        <input type="text" id="price" placeholder="价格（元）" required>
+        <select id="category" required>
+            <option value="小说">小说</option>
+            <option value="技术">技术</option>
+            <option value="历史">历史</option>
+            <option value="科普">科普</option>
+        </select>
+        <input type="text" id="borrower" placeholder="借阅人姓名" required>
+        <input type="text" id="borrowerPhone" placeholder="借阅人手机号" required>
+        <button class="btn-add" id="btnAdd">➕ 借阅</button>
+    </form>
+
+    <!-- 统计信息 -->
+    <div class="info-bar">
+        共有借阅 <span id="total">0</span> 本
+    </div>
+
+    <!-- 表格区域 -->
+    <div class="table-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>借阅ID</th>
+                    <th>图书名称</th>
+                    <th>作者</th>
+                    <th>价格</th>
+                    <th>分类</th>
+                    <th>借阅人</th>
+                    <th>借阅人手机号</th>
+                    <th>借阅时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // ============================================
+        // 💪 你的练习区域
+        // ============================================
+        // 
+        // 请你完成以下功能：
+        //
+        // 1. 从本地存储读取数据（没有就用空数组）
+        //    提示：localStorage.getItem('bookData')
+        const arr = JSON.parse(localStorage.getItem('bookData')) || []
+        console.log(arr)
+        // 2. 定义 render() 函数，把数组渲染到表格
+        //    提示：arr.map() + join('') + innerHTML
+        const render = function () {
+            const arrStr = arr.map(function (ele, index) {
+                return `
+                <tr>
+                    <td>${ele.id}</td>
+                    <td>${ele.bookName}</td>
+                    <td>${ele.author}</td>
+                    <td>${ele.price}</td>
+                    <td>${ele.category}</td>
+                    <td>${ele.borrower}</td>
+                    <td>${ele.borrowerPhone}</td>
+                    <td>${ele.time}</td>
+                    <td>
+                        <button class="btn-delete" data-id="${index}">🗑️ 删除</button>
+                    </td>
+                </tr>
+                `
+            })
+            document.querySelector('#tbody').innerHTML = arrStr.join('')
+        }
+
+        // 3. 页面加载时调用 render() 并显示统计数量
+        render()
+        document.querySelector('#total').innerHTML = arr.length
+
+        // 4. 初始化 ID 计数器（找最大 ID + 1）
+        let maxId = arr.length > 0 ? Math.max(...arr.map(item => item.id)) : 0
+        let idCounter = maxId + 1
+        // 5. 添加数据功能：
+        const form = document.querySelector('.form-area')
+        form.addEventListener('submit', function (e) {
+            //    - 阻止表单跳转 e.preventDefault()
+            e.preventDefault()
+            //    - 获取表单值
+            const bookName = document.querySelector('#bookName').value
+            const author = document.querySelector('#author').value
+            const price = document.querySelector('#price').value
+            const category = document.querySelector('#category').value
+            const borrower = document.querySelector('#borrower').value
+            const borrowerPhone = document.querySelector('#borrowerPhone').value
+            //    - 验证输入（不能为空）
+            if (bookName === '' || author === '' || price === '' || category === '' || borrower === '' || borrowerPhone === '') {
+                alert('填写信息不可为空')
+                return
+            }
+            //    - 添加到数组
+            arr.push({
+                id: idCounter++,
+                bookName: bookName.trim(),
+                author: author.trim(),
+                price: price.trim(),
+                category: category,
+                borrower: borrower.trim(),
+                borrowerPhone: borrowerPhone.trim(),
+                time: new Date().toLocaleString()
+            })
+            render()
+            form.reset()
+            document.querySelector('#total').innerHTML = arr.length
+            //    - 保存到本地存储
+            localStorage.setItem('bookData', JSON.stringify(arr)) // 保存
+        })
+        // 6. 删除数据功能（事件委托）：
+        const tbody = document.querySelector('tbody')
+        //    - 监听 tbody 的点击
+        tbody.addEventListener('click', function (e) {
+            //    - 只在点击 BUTTON 时执行
+            if (e.target.tagName == 'BUTTON') {
+                if (confirm('确认要删除吗？')) {
+                    const id = e.target.dataset.id // 获取索引
+                    arr.splice(id, 1) // 从数组删除
+                    // 更新页面
+                    render()
+                    document.querySelector('#total').innerHTML = arr.length
+                    localStorage.setItem('bookData', JSON.stringify(arr)) // 保存
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

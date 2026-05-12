@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>兄弟选择器</title>
     <style>
+        /* 相邻兄弟选择器，只能选择紧接在指定元素后面的第一个兄弟元素 */
         h2+p {
             color: red;
         }
+        /* 通用兄弟选择器，可以选择所有指定元素后面的所有兄弟元素 */
         h3~p {
             color: blue;
         }
+        /* 相邻兄弟选择器，只能选择紧接在指定元素后面的第一个兄弟元素 */
         .brother1+li {
             color: pink;
         }
+        /* 通用兄弟选择器，可以选择所有指定元素后面的所有兄弟元素 */
         ul li:nth-child(2)~.brother2 {
             color: yellow;
         }
     </style>
 </head>
+
 <body>
     <h1>兄弟选择器</h1>
     <div>
@@ -39,4 +45,5 @@
         <li class="brother2">我是ul的第五个li</li>
     </ul>
 </body>
+
 </html>
