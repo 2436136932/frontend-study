@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账户登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ==================== 登录容器 ==================== */
+        .container {
+            width: 400px;
+            height: 500px;
+            background-color: #fff;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ==================== 标题区域 ==================== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        /* 左侧标题 */
+        .title-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        .tab {
+            font-size: 18px;
+            color: #999;
+            cursor: pointer;
+            padding-bottom: 8px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #333;
+            border-bottom-color: #4db6ac;
+        }
+
+        .tab:hover {
+            color: #333;
+        }
+
+        /* 右侧链接 */
+        .link-right {
+            font-size: 13px;
+            color: #4db6ac;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .link-right:hover {
+            text-decoration: underline;
+        }
+
+        /* ==================== 表单组 ==================== */
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        /* 输入框基础样式 */
+        .form-group input {
+            width: 100%;
+            height: 44px;
+            padding: 0 15px 0 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        /* 输入框占位符颜色 */
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        /* 输入框获得焦点时的边框颜色 */
+        .form-group input:focus {
+            border-color: #4db6ac;
+        }
+
+        /* 图标 */
+        .form-group::before {
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            font-size: 16px;
+            color: #999;
+            z-index: 1;
+        }
+
+        .form-group.user::before {
+            content: '👤';
+        }
+
+        .form-group.password::before {
+            content: '🔒';
+        }
+
+        /* 错误提示 */
+        .error-msg {
+            display: none;
+            font-size: 12px;
+            color: #ff6700;
+            margin-top: 6px;
+            padding-left: 15px;
+        }
+
+        /* 错误状态 */
+        .form-group.error input {
+            border-color: #ff6700;
+        }
+
+        .form-group.error .error-msg {
+            display: block;
+        }
+
+        /* Group 区域 - 默认隐藏 */
+        .Group {
+            display: none;
+        }
+
+        /* Group 激活时显示 */
+        .Group.active {
+            display: block;
+        }
+
+        /* 二维码容器居中 */
+        .Group[data-group="2"] {
+            text-align: center;
+        }
+
+        /* 二维码图片 */
+        .Group[data-group="2"] img {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        /* ==================== 协议区域 ==================== */
+        .agreement {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .agreement input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #4db6ac;
+        }
+
+        .agreement label {
+            cursor: pointer;
+        }
+
+        .agreement a {
+            color: #4db6ac;
+            text-decoration: none;
+        }
+
+        .agreement a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==================== 登录按钮 ==================== */
+        .btn-login {
+            width: 100%;
+            height: 46px;
+            background-color: #4db6ac;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #3d9a91;
+        }
+
+        .btn-login:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* ==================== 底部链接 ==================== */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            font-size: 13px;
+            color: #999;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #4db6ac;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 标题区域 -->
+        <div class="header">
+            <div class="title-left">
+                <span class="tab active" id="tabAccount" data-group="1">账户登录</span>
+                <span class="tab" id="tabQR" data-group="2">二维码登录</span>
+            </div>
+            <a href="#" class="link-right" id="linkPhone">手机验证码登录</a>
+        </div>
+
+        <!-- 登录表单 -->
+        <form id="loginForm" novalidate>
+                <div class="Group active" data-group="1">
+                    <!-- 用户名/手机号 -->
+                    <div class="form-group user" id="userGroup">
+                        <input type="text" id="username" placeholder="请输入用户名称/手机号码" autocomplete="off">
+                        <div class="error-msg">请输入正确的用户名或手机号</div>
+                    </div>
+
+                    <!-- 密码 -->
+                    <div class="form-group password" id="passwordGroup">
+                        <input type="password" id="password" placeholder="请输入密码" autocomplete="off">
+                        <div class="error-msg">密码不能为空</div>
+                    </div>
+                </div>
+                <div class="Group" data-group="2">
+                    <img src="./images/wx.png" alt="二维码登录">
+                </div>
+            <!-- 协议 -->
+            <div class="agreement">
+                <input type="checkbox" id="agree">
+                <label for="agree">我已同意 <a href="#">《服务条款》</a> 和 <a href="#">《隐私政策》</a></label>
+            </div>
+
+            <!-- 登录按钮 -->
+            <button type="submit" class="btn-login" id="btnLogin" disabled>登 录</button>
+        </form>
+
+        <!-- 底部链接 -->
+        <div class="footer">
+            <a href="#">忘记密码？</a>
+            <a href="4.综合案例-注册.html">免费注册</a>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 💪 登录页面练习 - 表单验证
+        // ============================================
+        //
+        // 请你完成以下功能：
+        //
+        // 1. Tab 切换功能：
+        //    - 点击"账户登录"或"二维码登录"切换 active 状态
+        //    - 提示：使用 classList.add('active') / remove('active')
+        //    - 切换时，切换 Group1 和 Group2 的 display 属性
+        const Groups = document.querySelectorAll('.Group');
+        const titleLeft = document.querySelector('.title-left');
+        titleLeft.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (e.target.tagName === 'SPAN') {
+                document.querySelector('.title-left .active').classList.remove('active');
+                e.target.classList.add('active');
+                document.querySelector('.Group.active').classList.remove('active');
+                document.querySelector(`.Group[data-group="${e.target.dataset.group}"]`).classList.add('active');
+            }
+        });
+        //
+        // 2. 用户名/手机号验证：
+        //    - 规则：可以是用户名（2-10位中文/字母/数字）或手机号（11位）
+        //    - 正则1（用户名）：/^[\u4e00-\u9fa5a-zA-Z0-9_]{2,10}$/
+        //    - 正则2（手机号）：/^1[3-9]\d{9}$/
+        //    - 提示：用 | 连接两个正则，满足其一即可
+        const userName = document.querySelector('#username');
+        const reg = /^[\u4e00-\u9fa5a-zA-Z0-9_]{2,10}$|^1[3-9]\d{9}$/;
+        userName.addEventListener('change', function() {
+            if (!reg.test(userName.value.trim())) {
+                userName.nextElementSibling.style.display = 'block';
+                return false;
+            } else {
+                userName.nextElementSibling.style.display = 'none';
+                return true;
+            }
+        });
+        
+        //
+        // 3. 密码验证：
+        //    - 规则：不能为空
+        //    - 提示：判断 value.trim() 是否为空字符串
+        const passWord = document.querySelector('#password');
+        passWord.addEventListener('change', function() {
+            if (passWord.value.trim() === '') {
+                passWord.nextElementSibling.style.display = 'block';
+                return false;
+            } else {
+                passWord.nextElementSibling.style.display = 'none';
+                return true;
+            }
+        });
+        //
+        // 4. 协议勾选控制登录按钮：
+        //    - 勾选时：btnLogin.disabled = false
+        //    - 未勾选时：btnLogin.disabled = true
+        //    - 提示：监听 checkbox 的 change 事件
+        
+        const submitBtn = document.querySelector('#btnLogin');
+        const agree = document.querySelector('#agree');
+        checkAgree();
+        function checkAgree() {
+            if (agree.checked){
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+        agree.addEventListener('change', checkAgree);
+        //
+        // 5. 表单提交验证：
+        //    - 提交时检查所有字段是否验证通过
+        //    - 检查协议是否勾选
+        //    - 提示：使用 e.preventDefault() 阻止默认提交
+        //
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const loginInput = document.querySelector('#username');
+            const loginPwd = document.querySelector('#password');
+
+            if (!loginInput.value.trim() || !loginPwd.value.trim() || !agree.checked) {
+                alert('请填写完整信息');
+                return;
+            }
+
+            // 1. 从 localStorage 读取用户列表
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // 2. 查找匹配的用户（用户名或手机号）
+            const matchedUser = users.find(u => 
+                u.username === loginInput.value.trim() || 
+                u.phone === loginInput.value.trim()
+            );
+
+            if (!matchedUser) {
+                alert('该用户不存在，请先注册');
+                return;
+            }
+
+            // 3. 比对密码
+            if (matchedUser.password === loginPwd.value) {
+                alert('登录成功！');
+                // 可选：存当前登录状态
+                localStorage.setItem('currentUser', JSON.stringify(matchedUser));
+                // 这里可以跳转到首页
+                window.location.href = 'index.html';
+                return;
+            } else {
+                alert('密码错误');
+            }
+        });
+        // ============================================
+        // 样式切换提示：
+        // - 验证通过：给 form-group 移除 'error' 类
+        // - 验证失败：给 form-group 添加 'error' 类
+        // ============================================
+
+        // 获取DOM元素
+        const tabAccount = document.getElementById('tabAccount');
+        const tabQR = document.getElementById('tabQR');
+        const linkPhone = document.getElementById('linkPhone');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+
+        const btnLogin = document.getElementById('btnLogin');
+        const loginForm = document.getElementById('loginForm');
+        const userGroup = document.getElementById('userGroup');
+        const passwordGroup = document.getElementById('passwordGroup');
+
+        
+
+    </script>
+</body>
+
+</html>
