@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组解构学习</title>
+</head>
+<body>
+    <script>
+        // ========== 1. 基本数组解构 ==========
+        const arr = ['🍎', '🍊', '🍋'];
+        const [a, b, c] = arr;
+        console.log(a, b, c);
+        // 输出：🍎 🍊 🍋
+
+        // ========== 2. 跳过元素 ==========
+        const [, , fruit] = arr;
+        console.log(fruit);
+        // 输出：🍋
+
+        // ========== 3. 剩余元素 ==========
+        const [first, ...rest] = [1, 2, 3, 4, 5];
+        console.log(first, rest);
+        // 输出：1 [2, 3, 4, 5]
+
+        // ========== 4. 默认值 ==========
+        const [x, y, z = 100] = [1, 2];
+        console.log(x, y, z);
+        // 输出：1 2 100
+
+        // ========== 5. 交换变量 ==========
+        let m = 10, n = 20;
+        [m, n] = [n, m];
+        console.log(m, n);
+        // 输出：20 10
+
+        // ========== 6. 函数返回多值 ==========
+        function getMinMax(nums) {
+            return [Math.min(...nums), Math.max(...nums)];
+        }
+        const [min, max] = getMinMax([8, 3, 9, 1, 6]);
+        console.log(min, max);
+        // 输出：1 9
+
+        // ========== 7. 嵌套数组解构 ==========
+        const nested = [1, [2, 3], 4];
+        const [one, [two, three], four] = nested;
+        console.log(one, two, three, four);
+        // 输出：1 2 3 4
+    </script>
+</body>
+</html>

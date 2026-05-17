@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 箭头函数基础语法
+
+        //1.函数只有一个参数时，可以省略括号
+        // 标准写法
+        let fn1 = function (x) {
+            return x * 2;
+        };
+        // 箭头函数
+        let fn1Arrow = x => x * 2;
+
+        //2.函数有多个参数时，不能省略括号
+        // 标准写法
+        let fn2 = function (a, b) {
+            return a + b;
+        };
+        // 箭头函数
+        let fn2Arrow = (a, b) => a + b;
+
+        //3.函数只有一行代码时，可以省略大括号和return关键字
+        // 标准写法
+        let fn3 = function (x, y) {
+            return x + y;
+        };
+        // 箭头函数
+        let fn3Arrow = (x, y) => x + y;
+
+        //4.加括号的函数体返回对象字面量表达式
+        // 标准写法
+        let fn4 = function (name, age) {
+            return { 
+                name: name, 
+                age: age 
+            };
+        };
+        // 箭头函数（加括号避免被当作函数体）
+        let fn4Arrow = (name, age) => ({ name, age });
+
+        //5.箭头函数可以直接返回一个对象
+        // 标准写法
+        let fn5 = function () {
+            return { 
+                name: '张三', 
+                age: 18 
+            };
+        };
+        // 箭头函数
+        let fn5Arrow = () => ({ name: '张三', age: 18 });
+
+
+
+        // ========== 运行看看结果 ==========
+        console.log('fn1(3) =', fn1(3));       // 6
+        console.log('fn1Arrow(3) =', fn1Arrow(3)); // 6
+
+        console.log('fn2(1,2) =', fn2(1, 2));       // 3
+        console.log('fn2Arrow(1,2) =', fn2Arrow(1, 2)); // 3
+
+        console.log('fn4("李四",20) =', fn4('李四', 20));
+        console.log('fn4Arrow("李四",20) =', fn4Arrow('李四', 20));
+    </script>
+</body>
+</html>

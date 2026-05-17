@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>多级对象解构案例</title>
+</head>
+
+<body>
+    <h1>多级对象解构案例 — 控制台查看输出</h1>
+
+    <script>
+        // 模拟后台返回的数据
+        const msg = {
+            code: 200,
+            msg: "获取新闻列表成功",
+            data: [
+                {
+                    id: 1,
+                    title: "5G商用自己，二大运用商收入下降",
+                    count: 58
+                },
+                {
+                    id: 2,
+                    title: "国际媒体头条速览",
+                    count: 56
+                },
+                {
+                    id: 3,
+                    title: "乌克兰和俄罗斯持续冲突",
+                    count: 1669
+                }
+            ]
+        };
+
+        // 需求1：使用对象解构的方式只取出 data（作为函数参数解构）
+        // const {data} = msg;
+        // console.log(data);
+
+        // function render1({ data }) {
+            // console.log('render1 - data:', data);
+            // // 示例：在控制台打印每条新闻的标题
+            // data.forEach(item => console.log(`render1 item -> id:${item.id} title:${item.title} count:${item.count}`));
+        // }
+        // render1(msg);
+
+        // 需求2：有时候把 data 单独当作参数传给函数（调用方负责取出）
+        // function render ({data}){
+        //     console.log(data);
+        // }
+        // render(msg);
+
+        // function render2(data) {
+        //     console.log('render2 - data:', data);
+        //     data.forEach(({ id, title, count }) => console.log(`render2 item -> ${id} | ${title} | ${count}`));
+        // }
+        // 调用时显式传入 msg.data
+        // render2(msg.data);
+
+        // 需求3：为防止函数内部 data 名称冲突，可以在参数解构时重命名为 myData
+        function render({data: myData}){
+            console.log(myData);
+        }
+        render(msg);
+
+
+
+
+        // function render3({ data: myData }) {
+        //     console.log('render3 - myData:', myData);
+        //     myData.forEach(({ id, title, count }) => console.log(`render3 item -> (${id}) ${title} — ${count}`));
+        // }
+        // render3(msg);
+
+        // 额外：多级解构示例，直接取出第一条新闻的 title
+        // const { data: [{ title: firstTitle }] } = msg;
+        // console.log('firstTitle:', firstTitle);
+    </script>
+</body>
+
+</html>

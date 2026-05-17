@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forEach语法学习</title>
+</head>
+<body>
+    <script>
+        // ========== 1. 基本用法 ==========
+        const arr = ['a', 'b', 'c'];
+        arr.forEach(function(item) {
+            console.log(item);
+        });
+        // 输出：a b c
+
+        // ========== 2. 带索引 ==========
+        const fruits = ['🍎', '🍊', '🍋'];
+        fruits.forEach(function(item, index) {
+            console.log(`${index}: ${item}`);
+        });
+        // 输出：0: 🍎  1: 🍊  2: 🍋
+
+        // ========== 3. 带原数组 ==========
+        const nums = [10, 20, 30];
+        nums.forEach(function(item, index, array) {
+            console.log(`${item} / ${array[index]}`);
+        });
+        // 输出：10/10  20/20  30/30
+
+        // ========== 4. 使用箭头函数 ==========
+        const colors = ['red', 'green', 'blue'];
+        colors.forEach(item => console.log(item));
+        // 输出：red green blue
+
+        // ========== 5. forEach 与普通 for 循环对比 ==========
+        const data = [2, 4, 6, 8];
+        // for 循环
+        for (let i = 0; i < data.length; i++) {
+            console.log(`for: ${data[i]}`);
+        }
+        // forEach
+        data.forEach(item => console.log(`forEach: ${item}`));
+
+        // ========== 6. forEach 无法 break/return 跳出 ==========
+        const numbers = [1, 2, 3, 4, 5];
+        numbers.forEach(function(item) {
+            if (item > 3) return; // 只是跳过本次，不会跳出循环
+            console.log(item);
+        });
+        // 输出：1 2 3 （4和5被跳过但循环仍在继续）
+
+        // ========== 7. forEach 修改原数组（引用类型） ==========
+        const users = [
+            { name: '张三', score: 60 },
+            { name: '李四', score: 80 }
+        ];
+        users.forEach(user => {
+            user.score += 10;
+        });
+        console.log(users);
+        // 输出：[{name:'张三',score:70}, {name:'李四',score:90}]
+    </script>
+</body>
+</html>

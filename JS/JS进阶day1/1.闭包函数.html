@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闭包函数学习案例</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        h1 {
+            text-align: center;
+            color: #303133;
+            margin-bottom: 30px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #409eff;
+            border-bottom: 2px solid #409eff;
+            padding-bottom: 10px;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .result {
+            background: #f0f9eb;
+            color: #67c23a;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        button {
+            background: #409eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #66b1ff;
+        }
+        .counter-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #409eff;
+            margin: 10px 0;
+        }
+        .note {
+            background: #fdf6ec;
+            border-left: 4px solid #e6a23c;
+            padding: 10px;
+            margin: 10px 0;
+            color: #e6a23c;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 闭包函数学习案例</h1>
+
+    <div class="section">
+        <h2>1. 什么是闭包？</h2>
+        <p>闭包是指有权访问另一个函数作用域中变量的函数。当一个函数在另一个函数内部定义，并且被返回或传递到外部时，就形成了闭包。</p>
+        <div class="note">💡 核心特点：函数记住并访问它所在的词法作用域，即使函数在当前词法作用域之外执行。</div>
+    </div>
+
+    <div class="section">
+        <h2>2. 基础闭包示例 - 计数器</h2>
+        <div class="code-block">
+function createCounter() {
+    let count = 0; 
+    return {
+        increment: function() {
+            count++;
+            return count;
+        },
+        decrement: function() {
+            count--;
+            return count;
+        },
+        getCount: function() {
+            return count;
+        }
+    };
+}
+        </div>
+        <div id="counter1" class="counter-display">0</div>
+        <button onclick="counter1.increment()">+1</button>
+        <button onclick="counter1.decrement()">-1</button>
+        <button onclick="document.getElementById('counter1').textContent = counter1.getCount()">获取当前值</button>
+    </div>
+
+    <div class="section">
+        <h2>3. 闭包实现数据私有化</h2>
+        <div class="code-block">
+function createPerson(name) {
+    let age = 18; 
+    return {
+        getName: function() {
+            return name;
+        },
+        getAge: function() {
+            return age;
+        },
+        birthday: function() {
+            age++;
+            return age;
+        }
+    };
+}
+        </div>
+        <div id="personResult" class="result"></div>
+        <button onclick="testPerson()">测试Person对象</button>
+    </div>
+
+    <div class="section">
+        <h2>4. 循环中的闭包经典问题</h2>
+        <div class="code-block">
+for (var i = 0; i < 5; i++) {
+    setTimeout(function() {
+        console.log(i); 
+    }, 100);
+}
+
+for (var i = 0; i < 5; i++) {
+    (function(j) {
+        setTimeout(function() {
+            console.log(j); 
+        }, 100);
+    })(i);
+}
+        </div>
+        <div id="loopResult" class="result"></div>
+        <button onclick="testLoopClosure()">测试循环闭包</button>
+    </div>
+
+    <div class="section">
+        <h2>5. 函数柯里化（Currying）</h2>
+        <div class="code-block">
+function curry(fn) {
+    return function curried(...args) {
+        if (args.length >= fn.length) {
+            return fn.apply(this, args);
+        } else {
+            return function(...moreArgs) {
+                return curried.apply(this, args.concat(moreArgs));
+            };
+        }
+    };
+}
+
+function add(a, b, c) {
+    return a + b + c;
+}
+
+const curriedAdd = curry(add);
+        </div>
+        <div id="curryResult" class="result"></div>
+        <button onclick="testCurry()">测试柯里化</button>
+    </div>
+
+    <div class="section">
+        <h2>6. 闭包实现模块模式</h2>
+        <div class="code-block">
+const Calculator = (function() {
+    let result = 0;
+    
+    return {
+        add: function(x) {
+            result += x;
+            return this;
+        },
+        subtract: function(x) {
+            result -= x;
+            return this;
+        },
+        multiply: function(x) {
+            result *= x;
+            return this;
+        },
+        divide: function(x) {
+            if (x !== 0) {
+                result /= x;
+            }
+            return this;
+        },
+        getResult: function() {
+            return result;
+        },
+        reset: function() {
+            result = 0;
+            return this;
+        }
+    };
+})();
+        </div>
+        <div id="calcResult" class="result">当前结果: 0</div>
+        <button onclick="Calculator.add(10).update()">+10</button>
+        <button onclick="Calculator.subtract(5).update()">-5</button>
+        <button onclick="Calculator.multiply(2).update()">×2</button>
+        <button onclick="Calculator.divide(2).update()">÷2</button>
+        <button onclick="Calculator.reset().update()">重置</button>
+    </div>
+
+    <div class="section">
+        <h2>📚 闭包的优缺点总结</h2>
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1;">
+                <h3 style="color: #67c23a;">✅ 优点</h3>
+                <ul>
+                    <li>数据私有化和封装</li>
+                    <li>保持状态，避免全局变量污染</li>
+                    <li>实现函数柯里化</li>
+                    <li>模块化编程</li>
+                    <li>函数式编程</li>
+                </ul>
+            </div>
+            <div style="flex: 1;">
+                <h3 style="color: #f56c6c;">❌ 缺点</h3>
+                <ul>
+                    <li>内存占用较大，可能导致内存泄漏</li>
+                    <li>性能影响</li>
+                    <li>代码可读性降低</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createCounter() {
+            let count = 0; 
+            return {
+                increment: function() {
+                    count++;
+                    document.getElementById('counter1').textContent = count;
+                    return count;
+                },
+                decrement: function() {
+                    count--;
+                    document.getElementById('counter1').textContent = count;
+                    return count;
+                },
+                getCount: function() {
+                    return count;
+                }
+            };
+        }
+
+        const counter1 = createCounter();
+
+        function testPerson() {
+            const person = createPerson('张三');
+            let result = `姓名: ${person.getName()}\n`;
+            result += `年龄: ${person.getAge()}\n`;
+            result += `过生日后年龄: ${person.birthday()}\n`;
+            result += `再次获取年龄: ${person.getAge()}`;
+            document.getElementById('personResult').textContent = result;
+        }
+
+        function createPerson(name) {
+            let age = 18; 
+            return {
+                getName: function() {
+                    return name;
+                },
+                getAge: function() {
+                    return age;
+                },
+                birthday: function() {
+                    age++;
+                    return age;
+                }
+            };
+        }
+
+        function testLoopClosure() {
+            let result = '正确使用闭包后的输出:\n';
+            for (var i = 0; i < 5; i++) {
+                (function(j) {
+                    setTimeout(function() {
+                        result += j + ' ';
+                        if (j === 4) {
+                            document.getElementById('loopResult').textContent = result;
+                        }
+                    }, 100 * j);
+                })(i);
+            }
+        }
+
+        function curry(fn) {
+            return function curried(...args) {
+                if (args.length >= fn.length) {
+                    return fn.apply(this, args);
+                } else {
+                    return function(...moreArgs) {
+                        return curried.apply(this, args.concat(moreArgs));
+                    };
+                }
+            };
+        }
+
+        function add(a, b, c) {
+            return a + b + c;
+        }
+
+        function testCurry() {
+            const curriedAdd = curry(add);
+            let result = '';
+            result += `curriedAdd(1)(2)(3) = ${curriedAdd(1)(2)(3)}\n`;
+            result += `curriedAdd(1, 2)(3) = ${curriedAdd(1, 2)(3)}\n`;
+            result += `curriedAdd(1)(2, 3) = ${curriedAdd(1)(2, 3)}\n`;
+            result += `curriedAdd(1, 2, 3) = ${curriedAdd(1, 2, 3)}`;
+            document.getElementById('curryResult').textContent = result;
+        }
+
+        const Calculator = (function() {
+            let result = 0;
+            
+            return {
+                add: function(x) {
+                    result += x;
+                    return this;
+                },
+                subtract: function(x) {
+                    result -= x;
+                    return this;
+                },
+                multiply: function(x) {
+                    result *= x;
+                    return this;
+                },
+                divide: function(x) {
+                    if (x !== 0) {
+                        result /= x;
+                    }
+                    return this;
+                },
+                getResult: function() {
+                    return result;
+                },
+                reset: function() {
+                    result = 0;
+                    return this;
+                },
+                update: function() {
+                    document.getElementById('calcResult').textContent = '当前结果: ' + result;
+                    return this;
+                }
+            };
+        })();
+    </script>
+</body>
+</html>

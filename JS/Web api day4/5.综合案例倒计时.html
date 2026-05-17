@@ -135,7 +135,9 @@
 
         function countdown() {
             const now = +new Date();
-            const end = +new Date('2026-05-04 17:00:00');
+            // 动态获取今天的日期，拼接下午5点
+            const today = new Date();
+            const end = +new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 0, 0);
             // 计算倒计时时间
             const diff = (end - now) / 1000;
             // 转换为小时、分钟、秒

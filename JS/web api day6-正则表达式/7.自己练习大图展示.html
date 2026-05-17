@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放大镜效果 - 新手教学版</title>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  在开始之前，先了解两个前置概念：                              ║
+    ║                                                              ║
+    ║  1. CSS 定位（position）                                      ║
+    ║     - relative（相对定位）：元素仍占位置，但它的子元素如果      ║
+    ║       设置了 absolute，就以它为参照物来移动                    ║
+    ║     - absolute（绝对定位）：元素脱离文档流，相对于最近设置了     ║
+    ║       relative 的父元素定位                                   ║
+    ║                                                              ║
+    ║  2. CSS overflow: hidden                                     ║
+    ║     超出父容器边界的内容会被裁剪掉，就像一扇窗户                ║
+    ║     只能看到窗户范围内的景色                                   ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
+
+    <style>
+        /* ================================================================
+           第一步：认识每个 CSS 属性，一个都不能跳过！
+           ================================================================ */
+
+        /* ── 全局重置：消除浏览器默认的边距 ── */
+        * {
+            margin: 0;
+            /* 清除外边距 */
+            padding: 0;
+            /* 清除内边距 */
+            box-sizing: border-box;
+            /* 宽高包含 border 和 padding，更容易计算 */
+        }
+
+        /* ── body：让页面内容居中 ── */
+        body {
+            display: flex;
+            /* 开启 flex 布局（弹性盒子） */
+            justify-content: center;
+            /* 水平居中 */
+            align-items: center;
+            /* 垂直居中 */
+            min-height: 100vh;
+            /* 最小高度 = 整个浏览器窗口的高度 */
+            background-color: #f5f5f5;
+            /* 浅灰色背景 */
+        }
+
+        /* ── container：一个白色卡片，把左右两部分包起来 ── */
+        .container {
+            display: flex;
+            /* 让子元素（左侧、右侧）横向排列 */
+            width: 850px;
+            /* 宽度 850px */
+            height: 450px;
+            /* 高度 450px */
+            gap: 20px;
+            /* 子元素之间的间距为 20px */
+            background: #fff;
+            /* 白色背景 */
+            padding: 30px;
+            /* 内边距 30px */
+            border-radius: 8px;
+            /* 圆角 8px */
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            /* 阴影：x偏移 y偏移 模糊 颜色 */
+        }
+
+
+        /* ================================================================
+           第二步：左侧小图区域（核心！很多概念在这里）
+           ================================================================ */
+
+        .small-box {
+            /* ── 这句非常关键！ ── */
+            position: relative;
+            /* 含义：我本身不动，但我的子元素（mask）如果设置了 absolute，
+               就以我的左上角作为 (0,0) 点来移动 */
+            width: 400px;
+            height: 400px;
+            border: 1px solid #eee;
+            /* 淡淡的边框 */
+            cursor: crosshair;
+            /* 鼠标放上来变成十字，暗示"可以放大" */
+        }
+
+        /* 左侧显示的图片：让它填满整个 small-box */
+        .small-box img {
+            width: 100%;
+            /* 宽度 = 父容器的 100%，即 400px */
+            height: 100%;
+            /* 高度 = 父容器的 100%，即 400px */
+            object-fit: cover;
+            /* object-fit: cover 的作用：
+               如果图片比例不对，裁剪多余部分而不是拉伸变形 */
+        }
+
+
+        /* ================================================================
+           第三步：遮罩层（黄色半透明方块，起"放大镜框"的作用）
+           ================================================================ */
+
+        .mask {
+            /* ── 绝对定位！相对于设置了 relative 的父元素（small-box）定位 ── */
+            position: absolute;
+            top: 0;
+            /* 初始位置：父元素的左上角 */
+            left: 0;
+
+            /* 尺寸是 small-box 的一半 → 放大倍数是 2 倍 */
+            /* 如果用 100×100 → 放大 4 倍 */
+            /* 如果用 400×400 → 放大 1 倍（没放大） */
+            width: 200px;
+            height: 200px;
+
+            /* 颜色：黄色，最后一个数字是透明度（0-1），0.2 表示 20% 不透明 */
+            background-color: rgba(255, 255, 0, 0.2);
+
+            border: 1px solid #ccc;
+
+            /* 默认隐藏，等鼠标移入时才显示 */
+            display: none;
+
+            /* 直译 ：指针事件 → 无（不接收任何鼠标/触摸事件） */
+            /* 通俗理解 ：让这个元素对鼠标 "透明" ——鼠标可以穿过它，点到它下面的元素。 */
+            pointer-events: none
+        }
+
+
+        /* ================================================================
+           第四步：右侧大图区域（"放大镜"的核心效果在这里实现）
+           ================================================================ */
+
+        .big-box {
+            position: relative;
+            /* 让大图可以相对于这个大图框移动 */
+            width: 400px;
+            /* 大图框尺寸 = 小图框尺寸 */
+            height: 400px;
+            border: 1px solid #eee;
+
+            /* ── 这个属性是放大镜效果的核心！ ── */
+            overflow: hidden;
+            /* 含义：超出 400×400 范围的内容全部裁掉不显示
+               类比：大图框是一扇 400×400 的窗户，
+               窗外有一张 800×800 的画，只能看到窗户里的部分 */
+
+            display: none;
+            /* 默认隐藏 */
+        }
+
+        .big-box img {
+            position: absolute;
+            /* 绝对定位后，可以用 left/top 来移动图片位置 */
+            top: 0;
+            left: 0;
+
+            /* 大图尺寸是小图的 2 倍 → 看到的就是 2 倍放大的效果 */
+            width: 800px;
+            height: 800px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  HTML 结构（DOM 树）：                                        ║
+    ║                                                              ║
+    ║  <div class="container">                                     ║
+    ║    ├── <div class="small-box">     ← 左侧 400×400            ║
+    ║    │     ├── <img>                 ← 小图                    ║
+    ║    │     └── <div class="mask">    ← 遮罩层（放大镜框）       ║
+    ║    └── <div class="big-box">       ← 右侧 400×400（带窗户）   ║
+    ║          └── <img>                 ← 大图 800×800             ║
+    ║                                                              ║
+    ║  mask 的爸爸是 small-box（relative），所以 mask 的 left/top   ║
+    ║  都是相对于 small-box 左上角来计算的                          ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
+
+    <div class="container">
+        <!-- 左侧：小图 + 遮罩层 -->
+        <div class="small-box">
+            <img src="../16-小兔鲜首页项目/images/wx.png" alt="小图">
+            <div class="mask"></div>
+        </div>
+        <!-- 右侧：大图框（窗户） + 大图 -->
+        <div class="big-box">
+            <img src="../16-小兔鲜首页项目/images/wx.png" alt="大图">
+        </div>
+    </div>
+
+
+    <script>
+        // 第一步：获取元素
+        const smallBox = document.querySelector('.small-box');
+        const mask = document.querySelector('.mask');
+        const bigBox = document.querySelector('.big-box');
+        const bigImg = document.querySelector('.big-box img');
+
+        smallBox.addEventListener('mouseenter', function () {
+            mask.style.display = 'block';
+            bigBox.style.display = 'block';
+        });
+        smallBox.addEventListener('mouseleave', function () {
+            mask.style.display = 'none';
+            bigBox.style.display = 'none';
+        });
+        smallBox.addEventListener('mousemove', function (e) {
+            let x = e.clientX - this.offsetLeft - mask.offsetWidth / 2;
+            let y = e.clientY - this.offsetTop - mask.offsetHeight / 2;
+            
+            const maxX = smallBox.offsetWidth - mask.offsetWidth;
+            const maxY = smallBox.offsetHeight - mask.offsetHeight;
+            x = Math.max(0, Math.min(maxX, x));
+            y = Math.max(0, Math.min(maxY, y));
+            mask.style.left = x + 'px';
+            mask.style.top = y + 'px';
+
+
+            const bigMaxX = bigImg.offsetWidth - bigBox.offsetWidth
+            const bigMaxY = bigImg.offsetHeight - bigBox.offsetHeight
+            const bigX = (x / maxX) * bigMaxX 
+            const bigY = (y / maxY) * bigMaxY 
+
+            bigImg.style.left = -bigX + 'px';
+            bigImg.style.top = -bigY + 'px';
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>

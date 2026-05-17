@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>构造函数示例</title>
+</head>
+<body>
+    <script>
+        // ===== 构造函数：用来批量创建相似对象的模板 =====
+
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+            this.sayHi = function() {
+                console.log(`Hi, I'm ${this.name}, ${this.age}岁`)
+            }
+        }
+
+        // 用 new 关键字实例化
+        const p1 = new Person('张三', 18)
+        const p2 = new Person('李四', 20)
+
+        console.log('=== 构造函数示例 ===')
+        console.log('p1:', p1)
+        console.log('p2:', p2)
+        p1.sayHi()
+        p2.sayHi()
+
+        // 验证：每个实例都是独立的
+        p2.name = '王五'
+        console.log('p1.name:', p1.name)  // 还是'张三'，不受影响
+        console.log('p2.name:', p2.name)  // 变成了'王五'
+        console.log('p2:', p2)
+        p2.sayHi()
+
+        // 验证：每个实例的 sayHi 方法不是同一个
+        console.log('p1.sayHi === p2.sayHi:', p1.sayHi === p2.sayHi)  // false
+    </script>
+</body>
+</html>

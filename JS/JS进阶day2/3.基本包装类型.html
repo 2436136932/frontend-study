@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>基本包装类型</title>
+</head>
+<body>
+    <script>
+        console.log('=== 基本包装类型 ===\n')
+
+        // ===== 1. String 包装类型 =====
+        let str = 'hello'
+        console.log('str:', str)
+        console.log('typeof str:', typeof str)           // 'string'（基本类型）
+        console.log('str.length:', str.length)           // 5（JS 自动包装成 String 对象）
+        console.log('str.toUpperCase():', str.toUpperCase())  // 'HELLO'
+        console.log('str.charAt(0):', str.charAt(0))     // 'h'
+
+        // ===== 2. Number 包装类型 =====
+        let num = 42
+        console.log('\nnum:', num)
+        console.log('typeof num:', typeof num)           // 'number'
+        console.log('num.toFixed(2):', num.toFixed(2))   // '42.00'
+        console.log('num.toString():', num.toString())   // '42'
+
+        // ===== 3. Boolean 包装类型 =====
+        let bool = true
+        console.log('\nbool:', bool)
+        console.log('typeof bool:', typeof bool)         // 'boolean'
+        console.log('bool.toString():', bool.toString()) // 'true'
+
+        // ===== 4. 包装类型的陷阱 =====
+        let strObj = new String('hello')
+        let strPrim = 'hello'
+        console.log('\n=== 包装类型陷阱 ===')
+        console.log('strObj:', strObj)
+        console.log('typeof strObj:', typeof strObj)     // 'object'（不是基本类型！）
+        console.log('strPrim:', strPrim)
+        console.log('typeof strPrim:', typeof strPrim)   // 'string'
+
+        console.log('strObj == strPrim:', strObj == strPrim)   // true（值相等）
+        console.log('strObj === strPrim:', strObj === strPrim) // false（类型不同）
+
+        // ===== 5. 包装类型的生命周期 =====
+        console.log('\n=== 包装类型的生命周期 ===')
+        let temp = 'world'
+        temp.customProp = '我是自定义属性'  // JS 临时包装成对象，添加属性
+        console.log('temp.customProp:', temp.customProp)  // undefined！
+        // 解释：第一次访问 temp.customProp 时，JS 创建临时 String 对象，
+        // 属性加在临时对象上，然后临时对象被销毁。第二次访问时，
+        // 又创建了一个新的临时对象，所以找不到 customProp。
+
+        // ===== 6. 总结 =====
+        console.log('\n=== 总结 ===')
+        console.log('基本类型：string, number, boolean, undefined, null, symbol')
+        console.log('包装类型：String, Number, Boolean（对象）')
+        console.log('JS 自动包装：基本类型调用方法时（如 .length），临时包装成对象')
+        console.log('不要 new String/Number/Boolean，直接用基本类型即可')
+    </script>
+</body>
+</html>

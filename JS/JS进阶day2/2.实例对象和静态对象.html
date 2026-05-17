@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>实例对象和静态对象</title>
+</head>
+<body>
+    <script>
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+        }
+
+        // ===== 实例方法：通过 prototype 添加，所有实例共享 =====
+        Person.prototype.sayHi = function() {
+            console.log(`Hi, I'm ${this.name}`)
+        }
+
+        // ===== 静态方法：直接挂在构造函数上，只能通过类名调用 =====
+        Person.species = '人类'
+        Person.create = function(name, age) {
+            return new Person(name, age)
+        }
+
+        const p1 = new Person('张三', 18)
+        const p2 = new Person('李四', 20)
+
+        console.log('=== 实例对象和静态对象 ===')
+
+        // 实例方法：通过实例调用
+        p1.sayHi()
+        p2.sayHi()
+        console.log('p1.sayHi === p2.sayHi:', p1.sayHi === p2.sayHi)  // true！共享同一个方法
+
+        // 静态属性：只能通过构造函数访问
+        console.log('Person.species:', Person.species)  // '人类'
+        console.log('p1.species:', p1.species)          // undefined（实例访问不到）
+
+        // 静态方法：只能通过构造函数调用
+        const p3 = Person.create('王五', 25)
+        console.log('p3:', p3)
+        p3.sayHi()
+    </script>
+</body>
+</html>
