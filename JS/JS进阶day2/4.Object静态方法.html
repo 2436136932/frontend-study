@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object 静态方法</title>
+</head>
+<body>
+    <h2>1. Object.keys() - 获取对象所有可枚举属性的键名</h2>
+    <pre id="demo1"></pre>
+
+    <h2>2. Object.values() - 获取对象所有可枚举属性的键值</h2>
+    <pre id="demo2"></pre>
+
+    <h2>3. Object.assign() - 合并多个对象</h2>
+    <pre id="demo3"></pre>
+
+    <script>
+        /**
+         * Object.keys() 方法
+         * 作用：返回一个数组，包含对象自身所有可枚举属性的键名
+         * 特点：
+         * 1. 只返回对象自身的属性，不包括原型链上的属性
+         * 2. 只返回可枚举的属性（enumerable: true）
+         * 3. 返回顺序与for...in循环顺序一致（ES2015+保证）
+         */
+        const student = { name: '张三', age: 20, score: 95 };
+        const keys = Object.keys(student);
+        // JSON.stringify(student, null, 2) 将对象转为格式化的JSON字符串
+        // 参数1: 要转换的对象
+        // 参数2: replacer，null表示不过滤属性
+        // 参数3: 缩进空格数，2表示用2个空格缩进，使输出更易读
+        document.getElementById('demo1').textContent =
+            '对象: ' + JSON.stringify(student, null, 2) + '\n' +
+            'Object.keys() 结果: ' + JSON.stringify(keys);
+
+        /**
+         * Object.values() 方法
+         * 作用：返回一个数组，包含对象自身所有可枚举属性的键值
+         * 特点：
+         * 1. 与Object.keys()类似，但返回的是值而不是键
+         * 2. 同样只返回自身可枚举属性
+         * 3. 返回顺序与Object.keys()一致
+         */
+        const values = Object.values(student);
+        // JSON.stringify(values) 将数组转为JSON字符串，这里不传第三个参数则不缩进
+        document.getElementById('demo2').textContent =
+            '对象: ' + JSON.stringify(student, null, 2) + '\n' +
+            'Object.values() 结果: ' + JSON.stringify(values);
+
+        /**
+         * Object.assign() 方法
+         * 作用：将所有可枚举属性的值从一个或多个源对象复制到目标对象
+         * 语法：Object.assign(target, ...sources)
+         * 特点：
+         * 1. 第一个参数是目标对象，后续参数是源对象
+         * 2. 后面的源对象会覆盖前面源对象的同名属性
+         * 3. 返回修改后的目标对象
+         * 4. 常用于对象合并、浅拷贝等场景
+         * 
+         * 注意事项：
+         * 1. 如果目标对象有同名属性，会被源对象覆盖
+         * 2. 只复制源对象自身的可枚举属性
+         * 3. 对于嵌套对象，执行的是浅拷贝
+         */
+        const defaults = { theme: 'light', lang: 'zh-CN' };
+        const userSettings = { lang: 'en', fontSize: 14 };
+        const merged = Object.assign({}, defaults, userSettings);
+        // JSON.stringify() 将对象转为JSON字符串，默认不缩进
+        document.getElementById('demo3').textContent =
+            'defaults: ' + JSON.stringify(defaults) + '\n' +
+            'userSettings: ' + JSON.stringify(userSettings) + '\n' +
+            'Object.assign({}, defaults, userSettings): ' + JSON.stringify(merged) + '\n' +
+            '(注意：同名属性 lang 被后面的 userSettings 覆盖)';
+    </script>
+</body>
+</html>
