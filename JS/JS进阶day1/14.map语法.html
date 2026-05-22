@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map语法学习</title>
+</head>
+<body>
+    <script>
+        // ========== 1. 基本用法 ==========
+        const arr = [1, 2, 3];
+        const result = arr.map(function(item) {
+            return item * 2;
+        });
+        console.log(result);
+        // 输出：[2, 4, 6]
+
+        // ========== 2. 带索引 ==========
+        const fruits = ['🍎', '🍊', '🍋'];
+        fruits.map(function(item, index) {
+            console.log(index + ': ' + item);
+            return item;
+        });
+        // 输出：0: 🍎  1: 🍊  2: 🍋
+
+        // ========== 3. 带原数组 ==========
+        const colors = ['red', 'green', 'blue'];
+        colors.map(function(item, index, array) {
+            console.log(item + ' / ' + array[index]);
+            return item;
+        });
+        // 输出：red/red  green/green  blue/blue
+
+        // ========== 4. 使用箭头函数 ==========
+        const nums = [10, 20, 30];
+        const doubled = nums.map(item => item * 2);
+        console.log(doubled);
+        // 输出：[20, 40, 60]
+
+        // ========== 5. map 与 forEach 对比 ==========
+        const data = [2, 4, 6, 8];
+        // forEach 没有返回值，不生成新数组
+        const r1 = data.forEach(item => item * 2);
+        console.log('forEach 返回值：', r1);
+        // 输出：forEach 返回值：undefined
+
+        // map 返回新数组
+        const r2 = data.map(item => item * 2);
+        console.log('map 返回值：', r2);
+        // 输出：map 返回值：[4, 8, 12, 16]
+
+        // ========== 6. 提取对象属性 ==========
+        const users = [
+            { name: '张三', age: 25, city: '北京' },
+            { name: '李四', age: 30, city: '上海' },
+            { name: '王五', age: 28, city: '广州' }
+        ];
+        const names = users.map(function(user) {
+            return user.name;
+        });
+        console.log(names);
+        // 输出：['张三', '李四', '王五']
+
+        // ========== 7. map 返回新数组（不影响原数组） ==========
+        const list = [1, 2, 3];
+        const mapped = list.map(function(item) {
+            return item + 10;
+        });
+        console.log('原数组：', list);
+        // 输出：原数组：[1, 2, 3]
+        console.log('新数组：', mapped);
+        // 输出：新数组：[11, 12, 13]
+    </script>
+</body>
+</html>

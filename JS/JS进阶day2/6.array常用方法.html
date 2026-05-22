@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>array常用方法</title>
+</head>
+<body>
+    <script>
+        const arr = [
+            {
+                name: '小米',
+                price: 1999
+            },
+            {
+                name: 'vivo',
+                price: 2999
+            },
+            {
+                name: 'oppo',
+                price: 3999
+            },
+            {
+                name: 'huawei',
+                price: 4999
+            },  
+            {
+                name: '苹果',
+                price: 5999
+            }
+        ]
+        //find 方法：根据条件查找数组中的第一个元素
+        const res = arr.find(item => item.name === 'oppo')
+        console.log(res);
+    </script>
+    
+</body>
+</html>

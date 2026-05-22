@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reduce语法学习</title>
+</head>
+<body>
+    <script>
+        // ========== 1. 基本用法：数组求和 ==========
+        const arr = [1, 2, 3, 4, 5];
+        const sum = arr.reduce(function(acc, item) {
+            return acc + item;
+        });
+        console.log(sum);
+        // 输出：15
+
+        // ========== 2. 带初始值 ==========
+        const nums = [10, 20, 30];
+        const result = nums.reduce(function(acc, item) {
+            return acc + item;
+        }, 0);
+        console.log(result);
+        // 输出：60
+
+        // ========== 3. 计算最大值 ==========
+        const scores = [55, 80, 90, 40, 70];
+        const max = scores.reduce(function(acc, item) {
+            return item > acc ? item : acc;
+        });
+        console.log(max);
+        // 输出：90
+
+        // ========== 4. 对象数组统计总销售额 ==========
+        const orders = [
+            { name: '商品A', price: 100, count: 2 },
+            { name: '商品B', price: 200, count: 1 },
+            { name: '商品C', price: 50, count: 4 }
+        ];
+        const total = orders.reduce(function(acc, item) {
+            return acc + item.price * item.count;
+        }, 0);
+        console.log(total);
+        // 输出：700
+
+        // ========== 5. 按属性分组 ==========
+        const people = [
+            { name: '张三', gender: '男' },
+            { name: '李四', gender: '女' },
+            { name: '王五', gender: '男' },
+            { name: '赵六', gender: '女' }
+        ];
+        const group = people.reduce(function(acc, item) {
+            if (!acc[item.gender]) {
+                acc[item.gender] = [];
+            }
+            acc[item.gender].push(item.name);
+            return acc;
+        }, {});
+        console.log(group);
+        // 输出：{ 男: ['张三', '王五'], 女: ['李四', '赵六'] }
+
+        // ========== 6. 扁平化二维数组 ==========
+        const matrix = [[1, 2], [3, 4], [5, 6]];
+        const flat = matrix.reduce(function(acc, item) {
+            return acc.concat(item);
+        }, []);
+        console.log(flat);
+        // 输出：[1, 2, 3, 4, 5, 6]
+
+        // ========== 7. reduce 参数说明 ==========
+        // 参数1: 累加器 (accumulator)，累计回调的返回值
+        // 参数2: 当前元素值 (currentValue)
+        // 参数3: 当前索引 (currentIndex)
+        // 参数4: 原数组 (array)
+        // 初始值作为 reduce 的第二个参数传入
+        const data = [2, 4, 6];
+        const info = data.reduce(function(acc, item, index, array) {
+            console.log('acc:', acc, 'item:', item, 'index:', index, 'array:', array);
+            return acc + item;
+        }, 100);
+        // 输出：acc: 100 item: 2 index: 0   acc: 102 item: 4 index: 1   acc: 106 item: 6 index: 2
+        console.log(info);
+        // 输出：112
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>filter语法学习</title>
+</head>
+<body>
+    <script>
+        // ========== 1. 基本用法 ==========
+        const arr = [1, 2, 3, 4, 5];
+        const result = arr.filter(function(item) {
+            return item > 2;
+        });
+        console.log(result);
+        // 输出：[3, 4, 5]
+
+        // ========== 2. 带索引 ==========
+        const nums = [10, 20, 30, 40];
+        nums.filter(function(item, index) {
+            console.log(index + ': ' + item);
+            return true;
+        });
+        // 输出：0: 10  1: 20  2: 30  3: 40
+
+        // ========== 3. 带原数组 ==========
+        const data = ['a', 'b', 'c'];
+        data.filter(function(item, index, array) {
+            console.log(item + ' / ' + array[index]);
+            return true;
+        });
+        // 输出：a/a  b/b  c/c
+
+        // ========== 4. 使用箭头函数 ==========
+        const scores = [55, 80, 90, 40, 70];
+        const pass = scores.filter(item => item >= 60);
+        console.log(pass);
+        // 输出：[80, 90, 70]
+
+        // ========== 5. 筛选奇数与偶数 ==========
+        const numbers = [1, 2, 3, 4, 5, 6];
+        const odd = numbers.filter(item => item % 2 === 1);
+        const even = numbers.filter(item => item % 2 === 0);
+        console.log('奇数：', odd);
+        // 输出：奇数： [1, 3, 5]
+        console.log('偶数：', even);
+        // 输出：偶数： [2, 4, 6]
+
+        // ========== 6. 筛选对象数组 ==========
+        const users = [
+            { name: '张三', age: 25 },
+            { name: '李四', age: 17 },
+            { name: '王五', age: 30 },
+            { name: '赵六', age: 15 }
+        ];
+        const adults = users.filter(function(user) {
+            return user.age >= 18;
+        });
+        console.log(adults);
+        // 输出：[{name:'张三',age:25}, {name:'王五',age:30}]
+
+        // ========== 7. filter 返回新数组（不影响原数组） ==========
+        const list = ['a', 'b', 'c'];
+        const newList = list.filter(function(item) {
+            return item !== 'b';
+        });
+        console.log(list);
+        // 输出：['a', 'b', 'c'] （原数组不变）
+        console.log(newList);
+        // 输出：['a', 'c']
+    </script>
+</body>
+</html>
