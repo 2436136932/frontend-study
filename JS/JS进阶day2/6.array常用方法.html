@@ -31,7 +31,56 @@
         ]
         //find 方法：根据条件查找数组中的第一个元素
         const res = arr.find(item => item.name === 'oppo')
-        console.log(res);
+        console.log('find:', res);
+
+        console.log('========== 分割线 ==========');
+
+        //findIndex 方法：查找符合条件的第一个元素索引，找不到返回 -1
+        const idx = arr.findIndex(item => item.name === 'oppo')
+        console.log('findIndex:', idx);  // 2
+
+        //some 方法：判断是否有元素满足条件，返回 true/false
+        const hasExpensive = arr.some(item => item.price > 5000)
+        console.log('some(>5000):', hasExpensive);  // true
+
+        //every 方法：判断是否所有元素都满足条件
+        const allAbove1000 = arr.every(item => item.price > 1000)
+        console.log('every(>1000):', allAbove1000);  // true
+
+        //includes 方法（用于简单数组）：是否包含某值
+        const names = arr.map(item => item.name)
+        console.log('includes(小米):', names.includes('小米'));  // true
+
+        //indexOf / lastIndexOf：查找元素索引
+        console.log('indexOf(小米):', names.indexOf('小米'));  // 0
+
+        //sort 方法：排序（会改变原数组）
+        const sorted = [...arr].sort((a, b) => a.price - b.price)  // 升序
+        console.log('sort(升序):', sorted);
+
+        //reverse 方法：反转数组
+        const reversed = [...arr].reverse()
+        console.log('reverse:', reversed);
+
+        //slice 方法：截取数组片段（不改变原数组）
+        const sliced = arr.slice(1, 3)
+        console.log('slice(1,3):', sliced);
+
+        //splice 方法：删除/替换元素（会改变原数组）
+        const arr2 = ['a', 'b', 'c', 'd', 'e']
+        const removed = arr2.splice(1, 2)  // 从索引1开始删2个
+        console.log('splice删除:', removed, '| 剩余:', arr2);
+
+        //join 方法：数组转为字符串
+        console.log('join:', arr.map(item => item.name).join('、'));
+
+        //flat 方法：数组扁平化
+        const nested = [1, [2, [3, [4]]]]
+        console.log('flat():', nested.flat());          // [1, 2, [3, [4]]]
+        console.log('flat(Infinity):', nested.flat(Infinity));  // [1, 2, 3, 4]
+
+        //at 方法：支持负索引取值（ES2022）
+        console.log('at(-1):', arr.at(-1));  // 最后一个元素：苹果
     </script>
     
 </body>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂小案例</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script>
+        const goods = {
+                name: '商品1',
+                price: 100,
+                num: 100,
+                size: '40*40',
+                color: '红色'
+            }
+        document.querySelector('#box').innerHTML = Object.values(goods).join('/')
+    </script>
+</body>
+
+</html>
