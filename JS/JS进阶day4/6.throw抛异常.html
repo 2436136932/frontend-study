@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>throw抛异常</title>
+</head>
+<body>
+    <script>
+        function sum(a,b){
+            if (!a || !b) {
+                throw new Error('参数不能为空')
+            }else{
+                return a+b
+            }
+        }
+        sum()//参数不能为空
+        sum(1)//参数不能为空
+        sum(1,2,3)//参数不能为空
+        
+    </script>
+</body>
+</html>

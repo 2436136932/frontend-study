@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bind的使用</title>
+</head>
+<body>
+    <button>测试按钮</button>
+    <script>
+        const obj = {
+            age: 18
+        }
+
+        function fn() {
+            console.log(this)
+        }
+
+        // 1. bind 不会调用函数
+        // 2. 能改变 this 指向
+        // 3. 返回值是个函数，但是这个函数里面的 this 是更改过的 obj
+        const fun = fn.bind(obj)
+        // console.log(fun)
+        fun()
+
+
+        // 使用场景，定时器函数的 this 指向
+        const btn = document.querySelector('button')
+        btn.addEventListener('click', function () {
+            this.disabled = true
+            setTimeout(function () {
+                this.disabled = false
+                console.log(this)
+            }.bind(btn), 2000)
+        })
+
+        // 使用箭头函数
+        // 箭头函数的 this 指向是父级作用域的 this
+        // const btn = document.querySelector('button')
+        // btn.addEventListener('click', function () {
+        //     this.disabled = true
+        //     console.log(this)
+        //     setTimeout( () => {
+        //         this.disabled = false
+        //         console.log(this)
+        //     }, 2000)
+        // })
+    </script>
+</body>
+</html>

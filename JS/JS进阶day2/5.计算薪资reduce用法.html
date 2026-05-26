@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算薪资</title>
+</head>
+
+<body>
+
+    <script>
+        const arr = [
+            {
+                name: '张三',
+                salary: 10000
+            },
+            {
+                name: '李四',
+                salary: 15000
+            }
+            ,
+            {
+                name: '王五',
+                salary: 20000
+            }
+            ,
+            {
+                name: '赵六',
+                salary: 25000
+            }
+        ]
+        // 原始写法
+        const sum = arr.reduce((prev, current) => prev + current.salary, 0)
+        // const sum = arr.reduce((prev, {salary}) => prev + salary, 0)
+        console.log(sum);
+
+        /* ============================================================
+           下方为注释版：解构提取 salary 的 reduce 写法
+           ============================================================
+           // 解构提取 salary：reduce 回调参数直接解构出 salary
+           // 形参 (prev, { salary }) 中的 { salary } 表示：
+           // 从当前元素 current 中只取出 salary 字段，其他字段（如 name）不需要
+           // 等价于 const sum = arr.reduce((prev, current) => prev + current.salary, 0)
+           // const sum = arr.reduce((prev, { salary }) => prev + salary, 0)
+        */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * ============================================
+         * 一、浅拷贝 vs 深拷贝 核心概念
+         * ============================================
+         * 浅拷贝：只拷贝第一层属性，嵌套的引用类型（数组、对象）仍共享同一块内存
+         *        修改新对象的嵌套引用类型，会影响原对象
+         *
+         * 深拷贝：递归拷贝所有层级，新旧对象完全独立，互不影响
+         *
+         * 示例对比：
+         *   浅拷贝 →  const o = { ...obj }
+         *            o.hobby[0] = '乒乓球'
+         *            console.log(obj.hobby[0])  // '乒乓球' ❌ 原对象被影响了！
+         *
+         *   深拷贝 →  deepCopy(o, obj)
+         *            o.hobby[0] = '乒乓球'
+         *            console.log(obj.hobby[0])  // '篮球'   ✅ 原对象不受影响
+         * ============================================
+         */
+
+        // ==================== 原始数据 ====================
+        // 包含三种类型属性：基本类型(name/age/sex)、数组(hobby)、对象(family)
+        const obj = {
+            name: '张三',
+            age: 18,
+            sex: '男',
+            hobby: ['篮球', '足球', '跑步'],
+            family: {
+                baby: 'baby'
+            }
+        }
+
+        /**
+         * ============================================
+         * 二、手写深拷贝函数 deepCopy
+         * ============================================
+         * @param {Object} newObj - 目标对象（拷贝到这里）
+         * @param {Object} oldObj - 源对象（从这里拷贝）
+         *
+         * 核心思路：递归 + instanceof 类型判断
+         *   1. 遍历 oldObj 的每个属性
+         *   2. 判断属性值类型：
+         *      - 数组   → newObj[k] = []，然后递归拷贝数组内容
+         *      - 对象   → newObj[k] = {}，然后递归拷贝对象内容
+         *      - 基本类型 → 直接赋值（基本类型本身就是值拷贝）
+         */
+        function deepCopy(newObj, oldObj) {
+            // for...in 遍历对象的所有可枚举属性（包括继承的，但这里 obj 没有继承属性）
+            for (let k in oldObj) {
+                // ========== 分支一：属性值是数组 ==========
+                // instanceof Array 判断是否为数组
+                // 注意：必须先判断数组，因为数组也是 Object 的实例
+                if (oldObj[k] instanceof Array) {
+                    newObj[k] = []                              // 创建新的空数组
+                    deepCopy(newObj[k], oldObj[k])              // 递归拷贝数组每一项
+                }
+                // ========== 分支二：属性值是普通对象 ==========
+                else if (oldObj[k] instanceof Object) {
+                    newObj[k] = {}                              // 创建新的空对象
+                    deepCopy(newObj[k], oldObj[k])              // 递归拷贝对象的每个属性
+                }
+                // ========== 分支三：基本类型（字符串、数字、布尔等）==========
+                else {
+                    newObj[k] = oldObj[k]                       // 基本类型直接赋值即为值拷贝
+                }
+            }
+        }
+
+        // ==================== 三、验证深拷贝是否成功 ====================
+        const o = {}
+        deepCopy(o, obj)
+        console.log('深拷贝结果：', o)
+        // o 和 obj 属性值相同但引用地址不同
+
+        // ---- 测试1：修改新对象 o 的数组，看原对象 obj 是否受影响 ----
+        o.hobby[0] = '乒乓球'                                   // 修改数组第0项
+        o.hobby.push('羽毛球')                                  // 向数组追加元素
+
+        // ---- 测试2：修改新对象 o 的嵌套对象，看原对象 obj 是否受影响 ----
+        o.family.baby = '111111111111111111'                    // 修改已有属性
+        o.family.dad = '爸爸'                                    // 新增属性
+
+        // ==================== 四、验证结论 ====================
+        console.log('原对象 obj：', obj)
+        // 如果 obj.hobby 仍然是 ['篮球', '足球', '跑步']
+        // 且 obj.family 仍然是 { baby: 'baby' }
+        // 说明深拷贝成功，o 和 obj 完全独立！
+    </script>
+</body>
+
+</html>

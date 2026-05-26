@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原型继承</title>
+</head>
+<body>
+    <script>
+        // 继续抽取 公共的部分放到原型上
+        function Person() {
+            this.eays = 2
+            this.head = 1
+        }
+        // 女人 构造函数 继承 想要 继承 Person
+        function Woman() {
+
+        }
+        // Woman 通过原型来继承 Person
+        Woman.prototype = new Person()
+        // 指回原来的构造函数
+        Woman.prototype.constructor = Woman
+
+        //给女人增加方法
+        Woman.prototype.baby = function () {
+            console.log('baby')
+        }
+
+        const red = new Woman()
+        console.log(red)
+        // console.log(Woman.prototype)
+
+
+
+        function Man() {
+
+        }
+        // Man 通过原型来继承 Person
+        Man.prototype = new Person()
+        // 指回原来的构造函数
+        Man.prototype.constructor = Man
+        //给男人增加方法
+        Man.prototype.sex = function () {
+            console.log('男')
+        }
+        const ldh = new Man()
+        console.log(ldh)
+        // console.log(Man.prototype)
+
+        console.log(ldh instanceof Person)//true
+        console.log(ldh instanceof Object)//true
+        console.log(ldh instanceof Array)//false
+        console.log([1, 2, 3] instanceof Array)//true
+        console.log([1, 2, 3] instanceof Object)//true
+        console.log(Array instanceof Object)//true
+    </script>
+</body>
+</html>

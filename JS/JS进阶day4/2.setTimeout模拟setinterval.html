@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setTimeout模拟setinterval</title>
+</head>
+
+<body>
+    <!-- box1 展示 setTimeout 模拟 setInterval 的效果 -->
+    <div id="box1"></div>
+    <!-- box2 展示原生 setInterval 的效果 -->
+    <div id="box2"></div>
+    <script>
+        const box1 = document.querySelector('#box1')
+        const box2 = document.querySelector('#box2')
+
+        // 用 setTimeout 递归模拟 setInterval，每隔 1 秒更新 box1 的时间
+        function getTime1() {
+            box1.innerHTML = new Date().toLocaleString()
+            setTimeout(getTime1, 1000)
+        }
+        getTime1() // 启动递归调用
+
+        // 原生 setInterval 每隔 1 秒更新 box2 的时间
+        let timer = setInterval(() => box2.innerHTML = new Date().toLocaleString(), 1000)
+    </script>
+</body>
+
+</html>

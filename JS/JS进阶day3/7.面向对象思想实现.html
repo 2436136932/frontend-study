@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面向对象思想实现</title>
+    <style>
+        .model {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            background-color: pink;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header i {
+            font-style: normal;
+            cursor: pointer;
+        }
+
+        .body {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn1">提示</button>
+    <button id="btn2">错误</button>
+    <script>
+        // 构造函数：创建弹窗的 DOM 结构
+        function Model(title = '', message = '') {
+            // 动态创建弹窗容器 div
+            this.modelBox = document.createElement('div')
+            // 添加 class 样式
+            this.modelBox.className = 'model'
+            // 填充标题和内容
+            this.modelBox.innerHTML = `
+            <div class="header">${title}<i>❌️</i></div>
+            <div class="body">${message}</div>
+            `
+            console.log(this.modelBox)
+        }
+
+        // 原型方法：打开弹窗（显示到页面）
+        Model.prototype.open = function () {
+            // 先移除页面上已存在的弹窗，避免重复
+            const box = document.querySelector('.model')
+            box && box.remove()
+            // 将当前弹窗添加到 body
+            document.body.append(this.modelBox)
+            // 给关闭按钮绑定点击事件，箭头函数保持 this 指向当前实例
+            this.modelBox.querySelector('.header i').addEventListener('click', () => {
+                this.close()
+            })
+        }
+
+        // 原型方法：关闭弹窗（从页面移除）
+        Model.prototype.close = function () {
+            this.modelBox.remove()
+        }
+
+        // 点击"提示"按钮：创建提示弹窗并立即打开
+        document.querySelector('#btn1').addEventListener('click', function () {
+            new Model('提示', '这是一条提示信息').open()
+        })
+        // 点击"错误"按钮：创建错误弹窗并立即打开
+        document.querySelector('#btn2').addEventListener('click', function () {
+            new Model('错误', '这是一条错误信息').open()
+        })
+
+        /*
+        // ======================== 面向过程的写法 ========================
+        // 思路：定义一个个函数，通过函数调用完成功能。数据和操作是分离的。
+
+        // 全局函数：创建弹窗 DOM
+        function createModel(title, message) {
+            const modelBox = document.createElement('div')
+            modelBox.className = 'model'
+            modelBox.innerHTML = `
+                <div class="header">${title}<i>❌️</i></div>
+                <div class="body">${message}</div>
+            `
+            return modelBox  // 返回 DOM，调用者自己拿着用
+        }
+
+        // 全局函数：打开弹窗
+        function openModel(modelBox) {
+            // 每次 open 都要手动传入 modelBox
+            const box = document.querySelector('.model')
+            box && box.remove()
+            document.body.append(modelBox)
+            // 关闭逻辑也要手动处理
+            modelBox.querySelector('.header i').addEventListener('click', () => {
+                closeModel(modelBox)  // 手动传参
+            })
+        }
+
+        // 全局函数：关闭弹窗
+        function closeModel(modelBox) {
+            modelBox.remove()
+        }
+
+        // 使用：每一步都要手动管理数据和传参
+        document.querySelector('#btn1').addEventListener('click', function () {
+            const box1 = createModel('提示', '这是一条提示信息')
+            openModel(box1)
+        })
+        document.querySelector('#btn2').addEventListener('click', function () {
+            const box2 = createModel('错误', '这是一条错误信息')
+            openModel(box2)
+        })
+
+        // ======================== 二者区别 ========================
+        //
+        // 面向过程（如上）：
+        // - 数据和操作分离：createModel 返回数据，openModel/closeModel 操作数据
+        // - 调用者需要手动传递数据：每次 openModel(box) 都要传入 DOM
+        // - 扩展麻烦：如果要加"最小化""置顶"等功能，每个函数都要改
+        // - 函数散落：create/open/close 都是独立的全局函数，没有归属感
+        //
+        // 面向对象（正文）：
+        // - 数据和操作绑定：Model 构造函数创建数据，原型方法操作自己的数据
+        // - 调用者一行搞定：new Model(...).open()，不需要手动传参
+        // - 扩展简单：在 Model.prototype 上加新方法即可，不影响已有功能
+        // - 职责清晰：所有弹窗相关行为和属性都封装在 Model 这个类里
+        //
+        // 核心区别：
+        //   面向过程 = 关注"做什么步骤"，先做A再做B再做C
+        //   面向对象 = 关注"谁来做"，弹窗对象自己知道怎么打开和关闭
+        //
+        // 面向对象的优势在规模上：
+        //   1. 弹窗 → 只需要 new Model()，数据和操作自动绑定
+        //   2. 如果要加"确认弹窗""加载弹窗" → 继承 Model，只改差异部分
+        //   3. 如果弹窗要记录状态（是否已打开、是否已关闭）→ 直接加 this.xxx
+        */
+    </script>
+    
+</body>
+
+</html>

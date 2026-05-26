@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lodash实现深拷贝</title>
+    
+</head>
+<body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script>
+        const obj = {
+            name:'张三',
+            age:18,
+            sex:'男',
+            family: {
+                baby:'baby'
+            }
+        }
+        const o = _.cloneDeep(obj)
+        o.name = '李四'
+        o.age = 20
+        o.sex = '女'
+        o.family.baby = '李四'
+        console.log('新对象：',o);
+        console.log('原对象：',obj);
+        console.log('新对象是否等于原对象：',o === obj);
+    </script>
+</body>
+</html>
