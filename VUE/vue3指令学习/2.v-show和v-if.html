@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-show和v-if</title>
+</head>
+<body>
+    <div id="app">
+        <div v-show="flag">显示</div>
+        <div v-if="flag">显示</div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    flag: false
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>

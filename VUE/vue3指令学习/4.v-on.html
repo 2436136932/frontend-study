@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on</title>
+    <style>
+        #app {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 200px 0;
+        }
+        button,
+        span 
+        {
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            line-height: 50px;
+        }
+        </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="count >0 && count--">-</button>
+        <span>{{count}}</span>
+        <button @click="fn">+</button>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            methods: {
+                fn() {
+                    this.count++
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>

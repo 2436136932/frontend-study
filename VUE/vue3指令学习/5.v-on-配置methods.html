@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on-配置methods</title>
+    <style>
+        #app {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 200px 0;
+        }
+        button,
+        span 
+        {
+            width: 500px;
+            height: 50px;
+            font-size: 40px;
+            line-height: 50px;
+        }
+        </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="fn">切换显示隐藏</button>
+        <span v-show="isShow">{{msg}}</span>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    msg: 'hello vue',
+                    isShow: true
+                }
+            },
+            methods: {
+                fn() {
+                    this.isShow = !this.isShow
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>
