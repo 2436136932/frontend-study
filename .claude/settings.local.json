@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(find \"D:\\\\前端\\\\frontend-study\" -maxdepth 3 -name \"package.json\" -type f 2>/dev/null | grep -v node_modules)"
     ]
   }
 }
