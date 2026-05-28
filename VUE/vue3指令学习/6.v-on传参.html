@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on传参</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #app {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            min-width: 360px;
+        }
+        h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 24px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .btn-group button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-group button:nth-child(1) {
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+        }
+        .btn-group button:nth-child(2) {
+            background: linear-gradient(135deg, #f77f00, #e63946);
+        }
+        .btn-group button:nth-child(3) {
+            background: linear-gradient(135deg, #2a9d8f, #264653);
+        }
+        .btn-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        .btn-group button:active {
+            transform: translateY(0);
+        }
+        .balance {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: 2px;
+        }
+        .balance span {
+            color: #e63946;
+            font-size: 28px;
+        }
+        .recharge-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+        }
+        .recharge-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3>🛒 小卖部自动售货机</h3>
+        <div class="btn-group">
+            <button @click="buy(3)">可乐 ¥3</button>
+            <button @click="buy(5)">冰红茶 ¥5</button>
+            <button @click="buy(8)">奶茶 ¥8</button>
+        </div>
+        <div class="balance">余额：<span>{{count}}</span> 元</div>
+        <button class="recharge-btn" @click="chongzhi(100)">充值 ¥100</button>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    count: localStorage.getItem('count') || 100
+                }
+            },
+            methods: {
+                buy(price) {
+                    if (this.count >= price) {
+                        this.count = this.count - price
+                        localStorage.setItem('count', this.count)
+                    } else {
+                        alert('余额不足！')
+                    }
+                },
+                chongzhi(price) {
+                    this.count = +this.count + +price
+                    localStorage.setItem('count', this.count)
+                    alert('充值成功！')
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>
