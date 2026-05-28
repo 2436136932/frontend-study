@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind指令</title>
+</head>
+<body>
+    <div id="app">
+        <img v-bind:src="imgUrl" v-bind:title="msg" alt="">
+        <img :src="imgUrl" :title="msg" alt="">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue
+        createApp({
+            data() {
+                return {
+                    imgUrl: 'https://picsum.photos/200/300',
+                    msg: 'hello 波仔'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

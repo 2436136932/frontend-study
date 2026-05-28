@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind指令</title>
+</head>
+<body>
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.5s ease;
+        }
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+    <div id="app">
+        <div> 
+            <button @click="click('0')">上一张</button>
+            <Transition name="fade" mode="out-in">
+                <img :key="index" :src="list[index].imgUrl" :title="list[index].msg" alt="">
+            </Transition>
+            <button @click="click('1')">下一张</button>
+        </div>
+       
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue
+        createApp({
+            data() {
+                return {
+                    index: 0,
+                    list: [
+                        {
+                            imgUrl: 'https://picsum.photos/200/300',
+                            msg: '图片1',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/301',
+                            msg: '图片2',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/303',
+                            msg: '图片3',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/304',
+                            msg: '图片4',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/305',
+                            msg: '图片5',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/306',
+                            msg: '图片6',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/307',
+                            msg: '图片7',
+                        },
+                        {
+                            imgUrl: 'https://picsum.photos/200/308',
+                            msg: '图片8',
+                        },
+                    ]
+                }
+            },
+            methods: {
+                click(index) {
+                    if (index === '0') {
+                        this.index = this.index - 1
+                        if (this.index < 0) {
+                            this.index = this.list.length - 1
+                        }
+                    } else {
+                        this.index = this.index + 1
+                        if (this.index >= this.list.length) {
+                            this.index = 0
+                        }
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
