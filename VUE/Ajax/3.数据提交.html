@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据提交</title>
+</head>
+
+<body>
+    <!-- 需求:通过axios提交用户名和密码，完成注册功能注册用户 URL 地址:http:// hmajax.itheima.net/api/register请求方法:POST
+参数名:
+username用户名(中英文和数字组成，最少8位)password密码(最少6位) -->
+    <div id="app">
+        <div class="container">
+            <h1>注册</h1>
+            <input type="text" placeholder="请输入用户名" v-model="uname">
+            <input type="password" placeholder="请输入密码" v-model="pwd">
+            <button @click="Register">注册</button>
+        </div>
+        <div class="container">
+            <h1>登录</h1>
+            <input type="text" v-model="username">
+            <input type="password" v-model="password">
+            <button @click="Login">登录</button>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    uname: '',
+                    pwd: '',
+                    username: '',
+                    password: ''
+                }
+            },
+            methods: {
+                Register() {
+                    axios.post('http://hmajax.itheima.net/api/register',
+                        {
+                            username: this.uname,
+                            password: this.pwd
+                        }).then(res => {
+                            alert(res.data.message);
+                            this.uname = '';
+                            this.pwd = '';
+                            console.log(res);
+                        }).catch(err => {
+                            // err 本身只显示概括信息（如 "Request failed with status code 400"）
+                            // 详细信息在 err.response 里
+                            console.log(err.response.status);   // 状态码，如 400
+                            console.log(err.response);     // 后端返回的数据，含具体错误
+                            alert(err.response.data.message);
+                        })
+                },
+                Login() {
+                    axios.post('http://hmajax.itheima.net/api/login',
+                        {
+                            username: this.username,//424gjgjt
+                            password: this.password//123456
+                        }).then(res => {
+                            console.log(res.data);
+                            alert(res.data.message);
+                            this.username = '';
+                            this.password = '';
+                        }).catch(err => {
+                            // err 本身只显示概括信息（如 "Request failed with status code 400"）
+                            // 详细信息在 err.response 里
+                            console.log(err.response.status);   // 状态码，如 400
+                            console.log(err.response);     // 后端返回的数据，含具体错误
+                            alert(err.response.data.message);
+                        })
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+
+
+</body>
+
+</html>

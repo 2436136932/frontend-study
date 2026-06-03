@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认识promise</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return{
+                    msg:'认识promise'
+                }
+            },
+            // 页面挂载后自动执行
+            mounted(){
+                // 1. 创建一个 Promise 对象
+                // Promise 接收一个函数，函数有两个参数：
+                //   resolve —— 成功时调用，把结果传给 .then()
+                //   reject  —— 失败时调用，把错误传给 .catch()
+                const p = new Promise((resolve,reject)=>{
+                    // 2. 用 setTimeout 模拟网络请求（延迟2秒）
+                    setTimeout(()=>{
+                        // 成功时调用 resolve，把数据传出去
+                        // resolve('模拟Ajax请求成功')
+
+                        // 失败时调用 reject，把错误传出去
+                        reject(new Error('模拟Ajax请求失败'))
+                    },2000)
+                })
+                console.log(p)//打印 Promise 对象
+
+                // 3. 处理 Promise 的结果
+                // .then() 接收 resolve 传出的数据（成功）
+                // .catch() 接收 reject 传出的错误（失败）
+                p.then(res=>{
+                    this.msg = res       // 成功：把结果显示到页面
+                    console.log(res)
+                }).catch(err=>{
+                    this.msg = err       // 失败：把错误信息显示到页面
+                    console.log(err)
+                })
+                
+                // 4. Promise 状态改变后，再调用 .then() 或 .catch() 也不会改变状态
+            }
+        })
+        app.mount('#app')
+    </script>
+
+    
+</body>
+</html>

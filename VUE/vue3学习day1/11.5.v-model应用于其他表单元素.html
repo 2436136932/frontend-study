@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-model应用于其他表单元素</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 600px;
+            background-color: #fff;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .item {
+            margin-bottom: 20px;
+        }
+
+        .item label {
+            display: inline-block;
+            margin-right: 12px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .result {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <h2>v-model 应用于其他表单元素</h2>
+
+            <div class="item">
+                <p>1. 文本框</p>
+                <input type="text" v-model="username" placeholder="请输入用户名">
+            </div>
+
+            <div class="item">
+                <p>2. 单选框</p>
+                <label><input type="radio" value="男" v-model="gender"> 男</label>
+                <label><input type="radio" value="女" v-model="gender"> 女</label>
+            </div>
+
+            <div class="item">
+                <p>3. 复选框</p>
+                <label><input type="checkbox" value="篮球" v-model="hobby"> 篮球</label>
+                <label><input type="checkbox" value="足球" v-model="hobby"> 足球</label>
+                <label><input type="checkbox" value="羽毛球" v-model="hobby"> 羽毛球</label>
+            </div>
+
+            <div class="item">
+                <p>4. 下拉框</p>
+                <select v-model="city">
+                    <option value="">请选择城市</option>
+                    <option value="北京">北京</option>
+                    <option value="上海">上海</option>
+                    <option value="广州">广州</option>
+                    <option value="深圳">深圳</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <p>5. 多行文本框</p>
+                <textarea v-model="desc" placeholder="请输入个人介绍"></textarea>
+            </div>
+
+            <div class="result">
+                <p>用户名：{{ username }}</p>
+                <p>性别：{{ gender }}</p>
+                <p>爱好：{{ hobby.join('、') }}</p>
+                <p>城市：{{ city }}</p>
+                <p>简介：{{ desc }}</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    username: '',
+                    gender: '男',
+                    hobby: [],
+                    city: '',
+                    desc: ''
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>

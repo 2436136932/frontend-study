@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记账清单</title>
+    <style>
+        /* ========== 全局重置样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ========== 页面整体样式 ========== */
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            color: #333;
+            background: #f4f4f4;
+        }
+
+        /* ========== Vue 应用根容器 ========== */
+        #app {
+            width: 640px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+        }
+
+        /* ========== 标题样式 ========== */
+        h2 {
+            padding: 18px 24px 8px;
+            font-size: 22px;
+        }
+
+        /* ========== 添加区域：包含输入框和按钮 ========== */
+        .add-bar {
+            margin: 12px 24px 18px;
+            padding: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: #fafafa;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        /* ========== 输入框样式 ========== */
+        .search-input {
+            flex: 1;
+            height: 38px;
+            padding: 0 12px;
+            border: 1px solid #d8d8d8;
+            border-radius: 8px;
+            outline: none;
+            color: #333;
+            background: #fff;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        /* 输入框聚焦时的样式 */
+        .search-input:focus {
+            border-color: #1e74b7;
+            box-shadow: 0 0 0 3px rgba(30, 116, 183, 0.12);
+        }
+
+        /* ========== 添加按钮样式 ========== */
+        .add-btn {
+            height: 38px;
+            padding: 0 20px;
+            border-radius: 8px;
+            color: #fff;
+            background: #1e74b7;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: all 0.2s, transform 0.2s;
+        }
+
+        /* 按钮悬停效果 */
+        .add-btn:hover {
+            color: #fff;
+            background: #155f98;
+            transform: translateY(-1px);
+        }
+
+        /* ========== 数据表格样式 ========== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th,
+        td {
+            width: 120px;
+            height: 42px;
+            padding: 0 24px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            font-weight: 700;
+            color: #222;
+        }
+
+        /* ========== 价格样式 ========== */
+        .price {
+            font-weight: 700;
+        }
+
+        /* 价格大于300时显示红色 */
+        .price.red {
+            color: #c0392b;
+        }
+
+        /* ========== 删除按钮样式 ========== */
+        button {
+            border: none;
+            color: #1e74b7;
+            background: transparent;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            color: #c0392b;
+        }
+
+        /* ========== 消费总计区域 ========== */
+        .total {
+            height: 44px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-top: 1px solid #ddd;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .total span {
+            color: #222;
+        }
+
+        /* ========== ECharts 图表容器样式 ========== */
+        .echarts-box {
+            width: calc(100% - 48px);
+            height: 320px;
+            margin: 18px 24px 24px;
+            padding: 16px;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 24px rgba(30, 116, 183, 0.08);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 页面标题 -->
+        <h2>记账清单</h2>
+
+        <!-- 添加消费区域：名称输入框 + 价格输入框 + 添加按钮 -->
+        <div class="add-bar">
+            <input class="search-input" type="text" v-model="searchName" placeholder="请输入消费名称">
+            <input class="search-input" type="number" v-model="searchPrice" placeholder="请输入消费价格">
+            <button class="add-btn" @click="add">添加</button>
+        </div>
+
+        <!-- 消费列表表格 -->
+        <table>
+            <tr>
+                <th>编号</th>
+                <th>消费名称</th>
+                <th>消费价格</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <!-- 遍历消费列表，index 用于显示编号，item.id 作为唯一标识 -->
+            <tr v-for="(item,index) in items" :key="item.id">
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <!-- 价格大于300时添加 red 类，显示红色 -->
+                <td class="price" :class="{red: item.money > 300}">{{ item.money.toFixed(2) }}</td>
+                <td>{{ item.create_time }}</td>
+                <td>
+                    <button @click="del(item.id)">删除</button>
+                </td>
+            </tr>
+        </table>
+
+        <!-- 消费总计 -->
+        <div class="total">
+            <strong>消费总计：</strong>
+            <span>{{ totalMoney.toFixed(2) }}</span>
+        </div>
+
+        <!-- ECharts 图表容器 -->
+        <div class="echarts-box" id="main"></div>
+    </div>
+
+    <!-- ========== 引入第三方库 ========== -->
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Axios 用于发送 HTTP 请求 -->
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
+    <!-- ECharts 用于绘制图表 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+
+    <script>
+        // ========== 创建 Vue 应用实例 ==========
+        const app = Vue.createApp({
+            // ========== 数据定义 ==========
+            data() {
+                return {
+                    items: [],           // 消费列表，存储所有消费记录
+                    searchName: '',      // 消费名称输入框绑定的数据
+                    searchPrice: '',     // 消费价格输入框绑定的数据
+                    chart: null          // ECharts 实例，用于后续更新图表
+                }
+            },
+
+            // ========== 计算属性 ==========
+            computed: {
+                /**
+                 * 计算消费总计
+                 * 使用 reduce 累加所有消费的金额
+                 * 当 items 变化时会自动重新计算
+                 */
+                totalMoney() {
+                    return this.items.reduce((sum, item) => sum + item.money, 0)
+                }
+            },
+
+            // ========== 生命周期：created ==========
+            // Vue 实例创建完成后调用，适合发送请求获取初始数据
+            created() {
+                this.getList()
+            },
+
+            // ========== 生命周期：mounted ==========
+            // DOM 挂载完成后调用，适合操作 DOM（如初始化 ECharts）
+            mounted() {
+                // 初始化 ECharts 实例，绑定到 id 为 main 的 DOM 元素
+                this.chart = echarts.init(document.getElementById('main'))
+                // 渲染图表
+                this.updateChart()
+            },
+
+            // ========== 方法定义 ==========
+            methods: {
+                /**
+                 * 更新 ECharts 图表
+                 * 将 items 数据转换成 ECharts 需要的格式，然后重新渲染图表
+                 */
+                updateChart() {
+                    // 将消费列表转换成 ECharts 饼图需要的数据格式
+                    const data = this.items.map(item => ({
+                        value: item.money,   // 扇区大小（消费金额）
+                        name: item.name      // 扇区名称（消费名称）
+                    }))
+
+                    // 设置图表配置
+                    this.chart.setOption({
+                        title: {
+                            text: '消费分布',
+                            subtext: '根据消费价格分布',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            top: '5%',
+                            left: 'center'
+                        },
+                        series: [
+                            {
+                                name: '消费价格',
+                                type: 'pie',              // 饼图类型
+                                radius: ['40%', '70%'],   // 环形图：内半径40%，外半径70%
+                                avoidLabelOverlap: false,
+                                padAngle: 5,
+                                itemStyle: {
+                                    borderRadius: 10
+                                },
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: 20,
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                data: data   // 动态数据，来自 items
+                            }
+                        ]
+                    })
+                },
+
+                /**
+                 * 获取消费列表
+                 * 从服务器获取购物车数据，转换成前端需要的格式
+                 */
+                async getList() {
+                    const res = await axios.get('https://applet-base-api-t.itheima.net/api/cart', {
+                        params: {
+                            creator: 'admin'
+                        }
+                    })
+                    // 将后端返回的数据转换成前端需要的格式
+                    this.items = res.data.list.map(item => {
+                        return {
+                            id: item.goods_id,
+                            name: item.goods_name,
+                            money: item.goods_price * item.goods_count,
+                            create_time: new Date().toLocaleString()
+                        }
+                    })
+                    // 等 DOM 更新完成后，再更新图表
+                    this.$nextTick(() => {
+                        this.updateChart()
+                    })
+                },
+
+                /**
+                 * 删除消费记录
+                 * @param {number} id - 要删除的消费记录 id
+                 */
+                async del(id) {
+                    // 过滤掉要删除的项，保留其他项
+                    this.items = this.items.filter(item => item.id !== id)
+                    // 删除后更新图表
+                    this.updateChart()
+                },
+
+                /**
+                 * 添加消费记录
+                 * 1. 验证表单
+                 * 2. 发送 POST 请求到服务器
+                 * 3. 将返回的数据添加到本地列表
+                 * 4. 清空输入框
+                 * 5. 更新图表
+                 */
+                async add() {
+                    // 表单验证：名称和价格不能为空
+                    if (!this.searchName.trim() || !this.searchPrice) {
+                        alert('不能为空')
+                        return
+                    }
+
+                    // 发送 POST 请求，添加消费记录
+                    const res = await axios.post('https://applet-base-api-t.itheima.net/api/post', {
+                        goods_name: this.searchName.trim(),
+                        goods_price: Number(this.searchPrice),   // 将字符串转成数字
+                    })
+
+                    // 将返回的数据添加到本地列表
+                    this.items.push({
+                        id: Date.now(),   // 使用时间戳作为唯一 id
+                        name: res.data.data.goods_name,
+                        money: res.data.data.goods_price,
+                        create_time: new Date().toLocaleString()
+                    })
+
+                    // 清空输入框，方便继续添加
+                    this.searchName = ''
+                    this.searchPrice = ''
+
+                    // 添加后更新图表
+                    this.updateChart()
+                }
+            }
+        })
+
+        // 将 Vue 应用挂载到 id 为 app 的 DOM 元素上
+        app.mount('#app')
+    </script>
+</body>
+
+</html>

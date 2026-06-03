@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mounted应用.vue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            padding: 40px;
+            color: #222;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: 520px;
+            background: #fff;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .item {
+            margin-bottom: 20px;
+        }
+
+        .item label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .item input {
+            width: 100%;
+            height: 44px;
+            padding: 0 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .item input:focus {
+            border-color: #0b79a6;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <h2>mounted 应用示例</h2>
+            <div class="item">
+                <label>搜索：</label>
+                <input type="text" id="inp" v-model="words" placeholder="请输入搜索内容">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    words: ''
+                }
+            },
+            // mounted 是 Vue 的生命周期钩子
+            // 在 Vue 实例挂载到 DOM 后自动执行
+            // 此时页面元素已经渲染完成，可以操作 DOM
+            mounted() {
+                // 获取 id 为 inp 的输入框元素
+                // 并让它自动获取焦点
+                document.querySelector('#inp').focus()
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>

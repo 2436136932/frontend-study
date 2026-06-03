@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async和await使用</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 省份下拉框 -->
+        <select v-model="selectedProvince">
+            <option value="">请选择省份</option>
+            <option v-for="item in provinceList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 城市下拉框 -->
+        <select v-model="selectedCity" :disabled="!selectedProvince">
+            <option value="">请选择城市</option>
+            <option v-for="item in cityList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 地区下拉框 -->
+        <select v-model="selectedArea" :disabled="!selectedCity">
+            <option value="">请选择地区</option>
+            <option v-for="item in areaList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <p v-if="selectedArea">你选择了：{{ selectedProvince }} - {{ selectedCity }} - {{ selectedArea }}</p>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        /*
+         * ============================================================
+         * async / await 用法（对比 Promise 链式调用）
+         * ============================================================
+         *
+         * 【Promise 链式调用写法】
+         *   axios.get(省份)
+         *     .then(res => {
+         *         this.provinceList = res.data.list
+         *         return axios.get(城市)
+         *     })
+         *     .then(res => {
+         *         this.cityList = res.data.list
+         *     })
+         *     .catch(err => { console.log(err) })
+         *
+         * 【async / await 写法】
+         *   async function getData() {
+         *       const res1 = await axios.get(省份)    // 等待请求完成
+         *       this.provinceList = res1.data.list
+         *
+         *       const res2 = await axios.get(城市)    // 等待请求完成
+         *       this.cityList = res2.data.list
+         *   }
+         *
+         * 【区别】
+         *   - .then() 是回调写法，结果在回调函数里
+         *   - await 是同步写法，结果直接赋值给变量
+         *   - await 只能在 async 函数里使用
+         *   - await 会暂停执行，等请求完成后才继续下一行
+         *
+         * 【错误处理】
+         *   - .then() 用 .catch() 捕获错误
+         *   - await 用 try {} catch(err) {} 捕获错误
+         */
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    provinceList: [],
+                    cityList: [],
+                    areaList: [],
+                    selectedProvince: '',
+                    selectedCity: '',
+                    selectedArea: ''
+                }
+            },
+
+            // 页面加载时请求省份列表
+            async mounted() {
+                try {
+                    const res = await axios.get('http://hmajax.itheima.net/api/province')
+                    this.provinceList = res.data.list
+                    console.log('拿到省份：', res.data.list)
+                } catch (err) {
+                    console.log('省份请求失败：', err)
+                }
+            },
+
+            watch: {
+                // 监听省份变化，请求城市列表
+                async selectedProvince(newVal) {
+                    this.selectedCity = ''
+                    this.selectedArea = ''
+                    this.cityList = []
+                    this.areaList = []
+
+                    if (newVal) {
+                        try {
+                            const res = await axios.get('http://hmajax.itheima.net/api/city', {
+                                params: { pname: newVal }
+                            })
+                            this.cityList = res.data.list
+                            console.log('拿到城市：', res.data.list)
+                        } catch (err) {
+                            console.log('城市请求失败：', err)
+                        }
+                    }
+                },
+
+                // 监听城市变化，请求地区列表
+                async selectedCity(newVal) {
+                    this.selectedArea = ''
+                    this.areaList = []
+
+                    if (newVal) {
+                        try {
+                            const res = await axios.get('http://hmajax.itheima.net/api/area', {
+                                params: {
+                                    pname: this.selectedProvince,
+                                    cname: newVal
+                                }
+                            })
+                            this.areaList = res.data.list
+                            console.log('拿到地区：', res.data.list)
+                        } catch (err) {
+                            console.log('地区请求失败：', err)
+                        }
+                    }
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>

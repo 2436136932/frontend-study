@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr>
+                <th>水果</th>
+                <th>个数</th>
+            </tr>
+            <tr v-for="item in fruits" :key="item.id">
+                <td>{{ item.name }}</td>
+                <td>{{ item.count }}</td>
+            </tr>
+        </table>
+        <div>总数：{{ totalCount }}</div>
+        <div class="progress-box">
+            <div class="progress-track">
+                <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+            </div>
+            <div class="progress-text">{{ progress }}</div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    fruits: [
+                        { id: 1, name: '苹果', count: 100 },
+                        { id: 2, name: '香蕉', count: 200 },
+                        { id: 3, name: '橙子', count: 300 }
+                    ]
+                }
+            },
+            computed: {
+                totalCount() {
+                    let totalCount = this.fruits.reduce((total, item) => total + item.count, 0)
+                    return totalCount
+                }
+            },
+            
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>

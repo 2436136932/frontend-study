@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>created应用.vue</title>
+</head>
+<body>
+    <div id="app">
+        <h2>created 应用示例</h2>
+        <ul>
+            <li v-for="(item, index) in list" :key="item.id">
+                {{ item.title }}——{{ item.source }}
+                <br>
+                {{ item.time }}
+                <br>
+            </li>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // 接口地址:http://hmajax.itheima.net/api/news
+        // 请求方式:get
+        const app = Vue.createApp({
+            data() {
+                return {
+                    list: []
+                }
+            },
+            // created 是 Vue 的生命周期钩子
+            // 在 Vue 实例创建完成后立即自动执行
+            // 适合在这里发送请求获取数据
+            async created() {
+                // 使用 axios 发送 get 请求获取新闻数据
+                // await 表示等待请求完成后再继续执行
+                const res = await axios.get('http://hmajax.itheima.net/api/news')
+                // res.data.data 是接口返回的新闻列表数据
+                // 将数据赋值给 this.list，页面会自动渲染
+                this.list = res.data.data
+            }
+        }) 
+        app.mount('#app')
+    </script>
+</body>
+</html>

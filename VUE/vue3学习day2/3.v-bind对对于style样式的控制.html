@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.v-bind对对于style样式的控制</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            padding: 20px;
+            margin: 20px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <div class="box" v-for="(item, index) in boxStyleList" :key="index" @click="activeIndex = index" :style="index === activeIndex ? item : {}"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    activeIndex: 0,
+                    boxStyleList: [
+                        {
+                            color: 'red',
+                            backgroundColor: 'yellow'
+                        },
+                        {
+                            color: 'green',
+                            backgroundColor: 'red'
+                        }
+                    ]
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+</html>

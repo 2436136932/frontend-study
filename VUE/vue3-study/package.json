@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "day1": "vite day1",
+    "day2": "vite day2",
+    "build:day1": "vite build day1",
+    "build:day2": "vite build day2",
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli ."
   },
   "dependencies": {
     "pinia": "^3.0.4",

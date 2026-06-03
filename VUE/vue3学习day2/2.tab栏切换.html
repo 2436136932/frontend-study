@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tab栏切换</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 48px20px;
+            background: linear-gradient(180deg, #f7f7f7, #ececec);
+            color: #222;
+        }
+
+        #app {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tab-box {
+            width: 420px;
+            background: #ffffff;
+            border: 1px solid #d9d9d9;
+            box-shadow: 010px24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .tab-nav {
+            min-height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #e7e7e7;
+            background: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            color: #333333;
+            cursor: pointer;
+            transition: all0.2s ease;
+        }
+
+        .tab-nav:hover {
+            background: #fff4f4;
+            color: #d91c1c;
+        }
+
+        .tab-nav.active {
+            background: #f40000;
+            color: #ffffff;
+        }
+
+        .tab-content {
+            width: 420px;
+            background: #ffffff;
+            border: 1px solid #d9d9d9;
+            border-top: none;
+            box-shadow: 014px26px rgba(0, 0, 0, 0.06);
+            padding: 22px24px;
+        }
+
+        .panel {
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 14px16px;
+            border-radius: 10px;
+            background: #fafafa;
+            color: #444444;
+            font-size: 15px;
+            line-height: 1.7;
+            border: 1px solid #efefef;
+        }
+
+        .panel.active {
+            border-color: #f40000;
+            background: #fff7f7;
+            color: #d91c1c;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        a.active {
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="tab-box">
+            <div class="tab-nav" v-for="(item, index) in tabList" :key="item.id" @click="activeIndex = index" :class="{ active: index === activeIndex }">
+                <a href="#" :class="{ active: index === activeIndex }">{{ item.name }}</a>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="panel" v-for="(item, index) in contentList" :key="item.id" :class="{ active: index === activeIndex }" v-show="index === activeIndex">
+                {{ item.name }}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    activeIndex: 0,
+                    tabList: [{
+                        id: 1,
+                        name: '京东秒杀',
+                    }, {
+                        id: 2,
+                        name: '每日特价',
+                    }, {
+                        id: 3,
+                        name: '品类秒杀',
+                    }],
+                    contentList: [{
+                        id: 1,
+                        name: '京东秒杀内容区域',
+                    }, {
+                        id: 2,
+                        name: '每日特价内容区域',
+                    }, {
+                        id: 3,
+                        name: '品类秒杀内容区域',
+                    }]
+                }
+            },
+            methods: {
+
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理案例</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in arr" :key="item.id">
+                {{item.name}}
+                {{item.price}}元
+                {{item.num}}本
+                <button @click="del(item.id)">删除</button>
+            </li>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    arr: [
+                        {
+                            id: 1,
+                            name: 'vue3指令学习',
+                            price: 100,
+                            num: 100
+                        },
+                        {
+                            id: 2,
+                            name: 'vue3指令学习2',
+                            price: 100,
+                            num: 100
+                        },
+                        {
+                            id: 3,
+                            name: 'vue3指令学习3',
+                            price: 100,
+                            num: 100
+                        },
+                        {
+                            id: 4,
+                            name: 'vue3指令学习4',
+                            price: 100,
+                            num: 100
+                        },
+                        {
+                            id: 5,
+                            name: 'vue3指令学习5',
+                            price: 100,
+                            num: 100
+                        },
+                    ]
+                }
+            },
+            methods: {
+                del(id) {
+                    this.arr = this.arr.filter(item => item.id !== id)
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>

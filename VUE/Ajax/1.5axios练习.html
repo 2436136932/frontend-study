@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios练习1</title>
+</head>
+<body>
+    <div id="app">
+        <span v-for="(item,index) in list" :key="item.id" style="display:block">{{item}}</span>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    list: []
+                }
+            },
+            mounted() {
+                axios.get('http://hmajax.itheima.net/api/area',{
+                    params: { pname: '安徽省', cname: '合肥市' }
+                }).then(res => {
+                    console.log(res);
+                    this.list = (res.data.data)
+                })
+            }
+        })
+        app.mount('#app')
+    </script>
+
+    
+</body>
+</html>

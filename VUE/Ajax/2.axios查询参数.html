@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios查询参数</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 省份下拉：v-model 双向绑定 selectedProvince，选中值会同步到数据 -->
+        <select v-model="selectedProvince">
+            <option value="">请选择省份</option>
+            <!-- 用 v-for 把 provinceList 数组渲染成 option 列表 -->
+            <option v-for="item in provinceList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 城市下拉：未选省份时禁用，避免空查询 -->
+        <select v-model="selectedCity" :disabled="!selectedProvince">
+            <option value="">请选择城市</option>
+            <option v-for="item in cityList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 只有选了城市才显示结果 -->
+        <p v-if="selectedCity">你选择了：{{ selectedProvince }} - {{ selectedCity }}</p>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        /*
+         * 省市联动步骤：
+         * 1. 准备数据：provinceList（省份）、cityList（城市）、selectedProvince、selectedCity
+         * 2. mounted 页面加载时请求省份列表，渲染省份下拉
+         * 3. 用 v-model 绑定省份下拉，选中值存入 selectedProvince
+         * 4. 用 watch 监听 selectedProvince 变化：
+         *    4.1 清空城市列表和已选城市
+         *    4.2 带上 pname 参数请求城市列表
+         *    4.3 把返回的城市列表赋值给 cityList，城市下拉自动更新
+         * 5. 用 v-model 绑定城市下拉，选中值存入 selectedCity
+         */
+        const app = Vue.createApp({
+            data() {
+                return {
+                    provinceList: [],    // 省份列表，从接口获取
+                    cityList: [],        // 城市列表，切换省份后更新
+                    selectedProvince: '', // 当前选中的省份
+                    selectedCity: ''     // 当前选中的城市
+                }
+            },
+            mounted() {
+                // 页面加载完成后请求省份列表
+                // mounted 是 Vue 生命周期钩子，此时 DOM 已挂载完毕
+                axios.get('http://hmajax.itheima.net/api/province').then(res => {
+                    this.provinceList = res.data.list
+                })
+            },
+            watch: {
+                // 监听 selectedProvince 的变化
+                // newVal 是用户新选的省份名，每次切换省份都会触发
+                selectedProvince(newVal) {
+                    // 切换省份时清空已选城市和城市列表，防止数据错乱
+                    this.selectedCity = ''
+                    this.cityList = []
+
+                    // 有选中值才发请求（排除选了"请选择省份"的情况）
+                    if (newVal) {
+                        // params 会拼接成 URL 查询参数：?pname=安徽省
+                        axios.get('http://hmajax.itheima.net/api/city', {
+                            params: { pname: newVal }
+                        }).then(res => {
+                            this.cityList = res.data.list
+                        })
+                    }
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+
+</body>
+
+</html>

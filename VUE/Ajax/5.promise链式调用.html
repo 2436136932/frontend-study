@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise链式调用 - 省市联动</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 省份下拉框：v-model 绑定 selectedProvince，@change 监听选中变化 -->
+        <select v-model="selectedProvince" @change="onProvinceChange">
+            <option value="">请选择省份</option>
+            <!-- v-for 遍历 provinceList，渲染省份选项 -->
+            <option v-for="item in provinceList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 城市下拉框：:disabled 当没选省份时禁用，防止空查询 -->
+        <select v-model="selectedCity" :disabled="!selectedProvince">
+            <option value="">请选择城市</option>
+            <option v-for="item in cityList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 地区下拉框：:disabled 当没选城市时禁用 -->
+        <select v-model="selectedArea" :disabled="!selectedCity">
+            <option value="">请选择地区</option>
+            <option v-for="item in areaList" :key="item" :value="item">{{ item }}</option>
+        </select>
+
+        <!-- 只有三个都选了才显示结果 -->
+        <p v-if="selectedArea">你选择了：{{ selectedProvince }} - {{ selectedCity }} - {{ selectedArea }}</p>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        const app = Vue.createApp({
+            // ==================== 数据 ====================
+            data() {
+                return {
+                    provinceList: [],     // 省份列表（从接口获取）
+                    cityList: [],         // 城市列表（切换省份后更新）
+                    areaList: [],         // 地区列表（切换城市后更新）
+                    selectedProvince: '', // 当前选中的省份
+                    selectedCity: '',     // 当前选中的城市
+                    selectedArea: ''      // 当前选中的地区
+                }
+            },
+
+            // ==================== 生命周期钩子 ====================
+            // mounted：页面加载完成后自动执行（DOM 已挂载）
+            mounted() {
+
+                // ========== 第一步：请求省份列表 ==========
+                // axios.get() 返回一个 Promise
+                // .then() 在请求成功时执行回调函数
+                axios.get('http://hmajax.itheima.net/api/province')
+                    .then(res => {
+                        // 拿到省份列表，赋值给 provinceList → 渲染省份下拉框
+                        this.provinceList = res.data.list
+
+                        // 默认选中第一个省份
+                        this.selectedProvince = res.data.list[0]
+                        console.log('第一步 - 拿到省份：', res.data.list[0])
+
+                        // 【关键】return 一个新的 axios 请求
+                        // 这个返回的 Promise 会传给下一个 .then()
+                        // 下一个 .then() 会等这个请求完成后才执行
+                        return axios.get('http://hmajax.itheima.net/api/city', {
+                            params: { pname: this.selectedProvince }
+                        })
+                    })
+
+                    // ========== 第二步：请求城市列表 ==========
+                    // 这里的 res 是上一个 .then() return 的 axios 请求的结果
+                    // 也就是城市接口返回的数据
+                    .then(res => {
+                        // 拿到城市列表，赋值给 cityList → 渲染城市下拉框
+                        this.cityList = res.data.list
+
+                        // 默认选中第一个城市
+                        this.selectedCity = res.data.list[0]
+                        console.log('第二步 - 拿到城市：', res.data.list[0])
+
+                        // 【关键】再 return 一个新的 axios 请求
+                        // 传给下一个 .then()
+                        return axios.get('http://hmajax.itheima.net/api/area', {
+                            params: {
+                                pname: this.selectedProvince,
+                                cname: this.selectedCity
+                            }
+                        })
+                    })
+
+                    // ========== 第三步：请求地区列表 ==========
+                    // 这里的 res 是上一个 .then() return 的 axios 请求的结果
+                    // 也就是地区接口返回的数据
+                    .then(res => {
+                        // 拿到地区列表，赋值给 areaList → 渲染地区下拉框
+                        this.areaList = res.data.list
+                        console.log('第三步 - 拿到地区：', res.data.list)
+                    })
+
+                    // ========== 错误处理 ==========
+                    // .catch() 捕获链条中任意一步的错误
+                    // 无论哪一步出错，都会跳到这里，后续 .then() 全部跳过
+                    .catch(err => {
+                        console.log('请求失败：', err)
+                    })
+            },
+
+            // ==================== 侦听器 ====================
+            watch: {
+                // 监听 selectedCity 变化，切换城市时自动请求地区
+                selectedCity(newCity, oldCity) {
+                    // 切换城市时清空地区数据
+                    this.selectedArea = ''
+                    this.areaList = []
+
+                    // 只有选了城市才发请求
+                    if (newCity) {
+                        axios.get('http://hmajax.itheima.net/api/area', {
+                            params: {
+                                pname: this.selectedProvince,
+                                cname: newCity
+                            }
+                        })
+                            .then(res => {
+                                this.areaList = res.data.list
+                                console.log('切换城市 - 拿到地区：', res.data.list)
+                            })
+                            .catch(err => {
+                                console.log('地区请求失败：', err)
+                            })
+                    }
+                }
+            },
+
+            // ==================== 方法 ====================
+            methods: {
+                // 切换省份时触发（@change 事件）
+                onProvinceChange() {
+                    // 先清空城市和地区的数据，防止显示旧数据
+                    this.selectedCity = ''
+                    this.selectedArea = ''
+                    this.cityList = []
+                    this.areaList = []
+
+                    // 只有选了省份才发请求（排除选了"请选择省份"的情况）
+                    if (this.selectedProvince) {
+                        axios.get('http://hmajax.itheima.net/api/city', {
+                            params: { pname: this.selectedProvince }
+                        })
+                            .then(res => {
+                                this.cityList = res.data.list
+                                console.log('切换省份 - 拿到城市：', res.data.list)
+                            })
+                            .catch(err => {
+                                console.log('城市请求失败：', err)
+                            })
+                    }
+                }
+            }
+        })
+
+        // 挂载 Vue 应用到 #app 元素
+        app.mount('#app')
+    </script>
+
+    <!--
+        ============================================================
+        本文件知识点总结
+        ============================================================
+
+        1. Promise 链式调用：
+           - .then() 返回一个新的 Promise，可以继续接 .then()
+           - .then() 里 return 的值会传给下一个 .then()
+           - 如果 return 的是 Promise（如 axios 请求），下一个 .then() 会等它完成
+
+        2. 链式调用的写法：
+           axios.get(请求1)
+               .then(res => {
+                   // 处理结果
+                   return axios.get(请求2)  // return 新的请求
+               })
+               .then(res => {
+                   // 这里拿到的是请求2的结果
+                   return axios.get(请求3)
+               })
+               .then(res => {
+                   // 这里拿到的是请求3的结果
+               })
+               .catch(err => {
+                   // 任意一步出错，都会跳到这里
+               })
+
+        3. vs 回调嵌套：
+           - 回调嵌套：axios.get(1, function(res1) { axios.get(2, function(res2) { ... }) })
+           - 链式调用：axios.get(1).then().then().then()
+           - 链式写法不嵌套，更清晰易读
+
+        4. .catch() 的作用：
+           - 捕获链条中任意一步的错误
+           - 无论哪一步出错，后续 .then() 全部跳过，直接走 .catch()
+
+        5. 本例的三级联动：
+           页面加载：
+             axios.get(省份)
+               .then(选第一个省份，请求城市)
+               .then(选第一个城市，请求地区)
+               .then(渲染地区列表)
+               .catch(捕获错误)
+
+           用户切换省份：
+             axios.get(城市)
+               .then(渲染城市列表)
+               .catch(捕获错误)
+    -->
+</body>
+
+</html>
