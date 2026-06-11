@@ -3,15 +3,7 @@
     "allow": [
       "WebSearch",
       "Bash(find \"D:\\\\前端\\\\frontend-study\" -maxdepth 3 -name \"package.json\" -type f 2>/dev/null | grep -v node_modules)",
-      "Bash(mkdir -p day1)",
-      "Bash(git mv *)",
-      "Bash(mv src *)",
-      "Bash(cp index.html day1/index.html)",
-      "Bash(timeout 25 npm run day1)",
-      "Bash(timeout 25 npm run day2)",
-      "Bash(timeout 22 npm run day1)",
-      "Read(//c/Users/俞伟杰/.codex/**)",
-      "Read(//c/Users/俞伟杰/.config/**)"
+      "Bash(npm list *)"
     ]
   }
 }
