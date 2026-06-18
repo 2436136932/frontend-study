@@ -1,28 +1,38 @@
-import { ref,computed } from 'vue'
 import { defineStore } from 'pinia'
-import { userGetInfoService } from '@/api/user'
+import { ref } from 'vue'
+import { userGetInfoService } from '../../api/user'
 
-export const useUserStore = defineStore('user', () => {
-  const token = ref('')
-  const user = ref({})
+// 用户模块 token setToken removeToken
+export const useUserStore = defineStore(
+  'big-user',
+  () => {
+    const token = ref('')
+    const setToken = (newToken) => {
+      token.value = newToken
+    }
+    const removeToken = () => {
+      token.value = ''
+    }
 
-  const setToken = (newToken) => {
-    token.value = newToken
+    const user = ref({})
+    const getUser = async () => {
+      const res = await userGetInfoService() // 请求获取数据
+      user.value = res.data.data
+    }
+    const setUser = (obj) => {
+      user.value = obj
+    }
+
+    return {
+      token,
+      setToken,
+      removeToken,
+      user,
+      getUser,
+      setUser
+    }
+  },
+  {
+    persist: true
   }
-  const removeToken = () => {
-    token.value = ''
-  }
-
-  const setUser = (obj) => {
-    user.value = obj
-  }
-
-  const getUser = async () => {
-    const res = await userGetInfoService()
-    user.value = res.data.data
-  }
-
-  return { token, user, setToken, removeToken, setUser, getUser }
-}, {
-  persist: true,
-})
+)

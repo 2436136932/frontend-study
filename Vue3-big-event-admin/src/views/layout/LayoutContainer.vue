@@ -94,7 +94,7 @@ const handleCommand = async (key) => {
     <el-container>
       <el-header>
         <div>
-          黑马程序员：<strong>{{
+          欢迎你：<strong>{{
             userStore.user.nickname || userStore.user.username
           }}</strong>
         </div>
@@ -127,7 +127,7 @@ const handleCommand = async (key) => {
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>大事件 ©2026 Created by ywj</el-footer>
+      <el-footer>事件发布管理平台 ©2026 Created by ywj</el-footer>
     </el-container>
   </el-container>
 </template>
