@@ -1665,9 +1665,9 @@
         replayFloatDanmaku(res.data);
       } else {
         // 降级到本地
-        const local = getLocalDanmaku();
-        renderDanmakuList(local);
-        replayFloatDanmaku(local);
+        const local = getLocalDanmaku();// 从本地获取弹幕列表
+        renderDanmakuList(local);// 渲染本地弹幕列表
+        replayFloatDanmaku(local);// 播放本地弹幕列表
       }
     }
 

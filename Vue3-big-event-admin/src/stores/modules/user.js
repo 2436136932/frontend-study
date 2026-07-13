@@ -29,10 +29,10 @@ export const useUserStore = defineStore(
       removeToken,
       user,
       getUser,
-      setUser
+      setUser,
     }
   },
   {
-    persist: true
-  }
+    persist: true, // 开启持久化存储
+  },
 )

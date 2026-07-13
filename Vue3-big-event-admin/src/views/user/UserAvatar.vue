@@ -47,11 +47,7 @@ const onUpdateAvatar = async () => {
       size="large"
       >选择图片</el-button
     >
-    <el-button
-      @click="onUpdateAvatar"
-      type="success"
-      :icon="Upload"
-      size="large"
+    <el-button @click="onUpdateAvatar" type="success" :icon="Upload" size="large"
       >上传头像</el-button
     >
   </page-container>

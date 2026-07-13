@@ -60,10 +60,16 @@ const rules = {
 
 const register = async () => {
   // 注册成功之前，先进行校验，校验成功 → 请求，校验失败 → 自动提示
-  await form.value.validate()
-  await userRegisterService(formModel.value)
-  ElMessage.success('注册成功')
-  isRegister.value = false
+  try {
+    await form.value.validate()
+    await userRegisterService(formModel.value)
+    ElMessage.success('注册成功')
+    isRegister.value = false
+  } catch (error) {
+    // 统一处理错误信息
+    const msg = error?.message || error?.data?.message || '注册失败'
+    ElMessage.error(msg)
+  }
 }
 
 const userStore = useUserStore()

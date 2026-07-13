@@ -1,6 +1,6 @@
 <script setup>
 import PageContainer from '@/components/PageContainer.vue'
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores'
 import { userUpdateInfoService } from '@/api/user'
 
@@ -9,14 +9,14 @@ const formRef = ref()
 // 是在使用仓库中数据的初始值 (无需响应式) 解构无问题
 const {
   user: { email, id, nickname, username },
-  getUser
+  getUser,
 } = useUserStore()
 
 const form = ref({
   id,
   username,
   nickname,
-  email
+  email,
 })
 
 const rules = ref({
@@ -25,17 +25,17 @@ const rules = ref({
     {
       pattern: /^\S{2,10}/,
       message: '昵称长度在2-10个非空字符',
-      trigger: 'blur'
-    }
+      trigger: 'blur',
+    },
   ],
   email: [
     { required: true, message: '请输入用户邮箱', trigger: 'blur' },
     {
       type: 'email',
       message: '请输入正确的邮箱格式',
-      trigger: ['blur', 'change']
-    }
-  ]
+      trigger: ['blur', 'change'],
+    },
+  ],
 })
 
 const submitForm = async () => {
@@ -48,7 +48,19 @@ const submitForm = async () => {
   // 提示用户
   ElMessage.success('修改成功')
 }
+
+const time = ref('')
+time.value = new Date().toLocaleString()
+let timer = setInterval(() => {
+  time.value = new Date().toLocaleString()
+}, 1000)
+
+// 组件卸载时清除定时器，防止内存泄漏
+onUnmounted(() => {
+  clearInterval(timer)
+})
 </script>
+
 <template>
   <page-container title="基本资料">
     <!-- 表单部分 -->
@@ -66,5 +78,9 @@ const submitForm = async () => {
         <el-button type="primary" @click="submitForm">提交修改</el-button>
       </el-form-item>
     </el-form>
+    <!-- extra插槽额外内容 -->
+    <template #extra>
+      <span>当前时间：{{ time }}</span>
+    </template>
   </page-container>
 </template>
